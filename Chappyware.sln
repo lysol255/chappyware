@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Collector", "Collector\Chappyware.Collector.csproj", "{30F3F891-F267-4D31-A82D-D5A2A19D0650}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Data", "..\Data\Chappyware.Data.csproj", "{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Data", "Data\Chappyware.Data.csproj", "{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

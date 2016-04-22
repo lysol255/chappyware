@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\Chappyware.Data.csproj">
+    <ProjectReference Include="..\Data\Chappyware.Data.csproj">
       <Project>{4c3986d3-cf66-45cf-999e-4dd3a6f5500e}</Project>
       <Name>Chappyware.Data</Name>
     </ProjectReference>
