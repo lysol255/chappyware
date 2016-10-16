@@ -54,13 +54,13 @@ namespace Chappyware.Data
 
             player.Name = fields[NAME_INDEX];
             player.Team = fields[TEAM_INDEX];
-            player.GamesPlayed = Convert.ToInt32(fields[GP_INDEX]);
-            player.GoalsFor = Convert.ToInt32(fields[GF_INDEX]);
-            player.Goals = Convert.ToInt32(fields[GOALS_INDEX]);
-            player.Assists = Convert.ToInt32(fields[ASSISTS_INDEX]);
-            player.Shots = Convert.ToInt32(fields[SHOTS_INDEX]);
-            player.Fenwick = Convert.ToInt32(fields[FENWICK_INDEX]);
-            player.Corsi = Convert.ToInt32(fields[CORSI_INDEX]);
+            //player.GamesPlayed = Convert.ToInt32(fields[GP_INDEX]);
+            //player.GoalsFor = Convert.ToInt32(fields[GF_INDEX]);
+            //player.Goals = Convert.ToInt32(fields[GOALS_INDEX]);
+            //player.Assists = Convert.ToInt32(fields[ASSISTS_INDEX]);
+            //player.Shots = Convert.ToInt32(fields[SHOTS_INDEX]);
+            //player.Fenwick = Convert.ToInt32(fields[FENWICK_INDEX]);
+            //player.Corsi = Convert.ToInt32(fields[CORSI_INDEX]);
 
             return player;
         }

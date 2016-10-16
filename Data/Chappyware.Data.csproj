@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HockeyReferenceDotComStatSource.cs" />
     <Compile Include="IStatSource.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PuckAnalyticsCsvDataSource.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="Team.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

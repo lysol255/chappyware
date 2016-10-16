@@ -11,7 +11,7 @@ namespace Collector
     {
         static void Main(string[] args)
         {
-            IStatSource csvSource = new PuckAnalyticsCsvDataSource();
+            IStatSource csvSource = new HockeyReferenceDotComStatSource();
             csvSource.Initialize();
             List<Player> players = csvSource.LoadPlayers();
 
