@@ -12,5 +12,6 @@ namespace Chappyware.Data
         public int GamesPlayed { get; set; }
         public int Assists { get; set; }
         public DateTime RecordDate { get; set; }
+        public string AvgTOI { get; set; }
     }
 }

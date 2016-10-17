@@ -8,8 +8,8 @@ namespace Chappyware.Data
 {
     public class Player
     {
-        public string Name { get; internal set; }
-        public string Team { get; internal set; }
+        public string Name { get; set; }
+        public string Team { get; set; }
 
         public List<Statistics> Stats { get; set;}
 

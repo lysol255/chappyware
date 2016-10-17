@@ -98,12 +98,18 @@ namespace Chappyware.Data
                 case "games_played":
                     statistics.GamesPlayed = int.Parse(statValue);
                     break;
+                case "time_on_ice_avg":
+                    statistics.AvgTOI = statValue;
+                    break;
+                case "team_id":
+                    player.Team = statValue;
+                    break;
             }
         }
 
         public List<Player> LoadPlayers()
         {
-            throw new NotImplementedException();
+            return _Players;
         }
 
         public List<Team> LoadTeams()
