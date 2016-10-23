@@ -26,13 +26,25 @@ namespace Chappyware.Data.Storage
         public void UpdatedPersistedStatSource(List<Player> players)
         {
             IStatStorage storage = new JsonStorage();
-            storage.Save(players);
+            storage.SavePlayers(players);
         }
 
         public List<Player> LoadPersistedStatSource()
         {
             IStatStorage storage = new JsonStorage();
-            return storage.Load();
+            return storage.LoadPlayers();
+        }
+
+        public void UpdateFantasyTeams(List<FantasyLeague> leagues)
+        {
+            IStatStorage storage = new JsonStorage();
+            storage.SaveFantasyLeagues(leagues);
+        }
+
+        public List<FantasyLeague> LoadPersistedFantasyLeagues()
+        {
+            IStatStorage storage = new JsonStorage();
+            return storage.LoadFantasyLeagues();
         }
 
     }

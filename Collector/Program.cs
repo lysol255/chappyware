@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Chappyware.Data;
 using Chappyware.Data.Storage;
+using Chappyware.Business;
 
 namespace Collector
 {
@@ -16,11 +17,15 @@ namespace Collector
             IStatSource csvSource = new HockeyReferenceDotComStatSource();
             csvSource.Initialize();
 
-            List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
-            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
+            //List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
+            //StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
 
-            // persist them into json
-            StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
+            //// persist them into json
+            //StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
+
+            FantasyTeamManager manager = new FantasyTeamManager();
+            FantasyLeague league = manager.CreateLeague("Robs");
+            manager.UpdateLeagueRoster(league, "TeamImport.txt");
 
         }
     }

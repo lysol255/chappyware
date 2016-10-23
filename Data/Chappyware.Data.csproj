@@ -46,8 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSources\HockeyReferenceDotComStatSource.cs" />
+    <Compile Include="Factories\PlayerFactory.cs" />
+    <Compile Include="FantasyLeague.cs" />
+    <Compile Include="FantasyPlayer.cs" />
+    <Compile Include="FantasyTeam.cs" />
     <Compile Include="IStatStorage.cs" />
     <Compile Include="IStatSource.cs" />
+    <Compile Include="Owner.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataSources\PuckAnalyticsCsvDataSource.cs" />

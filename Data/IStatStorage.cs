@@ -8,8 +8,12 @@ namespace Chappyware.Data
 {
     public interface IStatStorage
     {
-        List<Player> Load();
+        List<Player> LoadPlayers();
 
-        void Save(List<Player> players);
+        void SavePlayers(List<Player> players);
+
+        List<FantasyLeague> LoadFantasyLeagues();
+
+        void SaveFantasyLeagues(List<FantasyLeague> fantasyLeagues);
     }
 }

@@ -1,0 +1,2 @@
+﻿Owner,Player,OwnedStartDate,OwnedEndDate
+DavidC,Connor McDavid,,
