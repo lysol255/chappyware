@@ -28,11 +28,12 @@ namespace Chappyware.Data.Factories
 
         }
 
-        public Player GetPlayerByName(string playerName)
+        public Player GetPlayer(string playerName, string teamName)
         {
             List<Player> players = StorageFactory.Instance.LoadPersistedStatSource();
-            //TODO handle duplicates
-            Player foundPlayer = players.SingleOrDefault(p => p.Name.Equals(playerName));
+            //TODO handle duplicates, maybe not an issue
+            Player foundPlayer = players.SingleOrDefault(p => p.Name.ToLowerInvariant().Equals(playerName.ToLowerInvariant())  
+                                                            && p.Team.ToLowerInvariant().Equals(teamName.ToLowerInvariant()));
             return foundPlayer;
         }
 

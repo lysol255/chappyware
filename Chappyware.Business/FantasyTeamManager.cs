@@ -38,6 +38,7 @@ namespace Chappyware.Business
                 string playerName = fields[1];
                 string ownedStartDate = fields[2];
                 string ownedEndDate = fields[3];
+                string teamName = string.Empty;
 
                 // header marker, skip this row
                 if (owner.Equals("Owner"))
@@ -45,6 +46,7 @@ namespace Chappyware.Business
                     continue;
                 }
 
+                // find the fantasy team and create it otherwise
                 FantasyTeam team = teams.SingleOrDefault(t => t.Owner.Name == owner);
                 if (team == null)
                 {
@@ -53,21 +55,33 @@ namespace Chappyware.Business
                     teams.Add(team);
                 }
 
-                FantasyPlayer player = new FantasyPlayer();
-                player.Player = PlayerFactory.Instance.GetPlayerByName(playerName);
+                // player and team name are included in the same cell
+                string[] playerAndTeam = playerName.Split(',');
+                if (playerAndTeam.Length == 2)
+                {
+                    playerName = playerAndTeam[0].Trim();
+                    teamName = playerAndTeam[1].Trim();
+                }
 
+                // find the player
+                FantasyPlayer player = new FantasyPlayer();
+                player.Player = PlayerFactory.Instance.GetPlayer(playerName, teamName);
+
+                // assign the start date to the start of the season if not defiend
                 if (string.IsNullOrEmpty(ownedStartDate))
                 {
                     ownedStartDate = Season.GetSeasonStartDate("2016").ToString();
                 }
                 player.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
 
+                // assign the end date to the end of the season if not defined
                 if (string.IsNullOrEmpty(ownedEndDate))
                 {
                     ownedEndDate = Season.GetSeasonEndDate("2017").ToString();
                 }
                 player.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 
+                // add it to the list of owned players
                 team.OwnedPlayers.Add(player);
 
             }

@@ -2,11 +2,10 @@
 {
     public class Owner
     {
-        private string owner;
 
         public Owner(string owner)
         {
-            this.owner = owner;
+            Name = owner;
         }
 
         public string Name { get; set; }

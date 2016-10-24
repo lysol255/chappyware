@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Data", "Data\Cha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Business", "Chappyware.Business\Chappyware.Business.csproj", "{5606C2F4-CB06-4236-8F27-364476053E43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Web", "Chappyware.Web\Chappyware.Web.csproj", "{FC6532EE-C653-40B9-A4B9-F1F0159E777F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5606C2F4-CB06-4236-8F27-364476053E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5606C2F4-CB06-4236-8F27-364476053E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5606C2F4-CB06-4236-8F27-364476053E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6532EE-C653-40B9-A4B9-F1F0159E777F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6532EE-C653-40B9-A4B9-F1F0159E777F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6532EE-C653-40B9-A4B9-F1F0159E777F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6532EE-C653-40B9-A4B9-F1F0159E777F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
