@@ -7,9 +7,27 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    @Scripts.Render("~/bundles/scripts")
     <title></title>
 </head>
 <body>
-    <a href="@Url.RouteUrl("teams")">Teams</a>
+    <div id="mainContent">
+        test
+    </div>
+    <div id="hidden" style="visibility:hidden">
+        <table class="team">
+            <tr class="heading">
+                <td>Name</td>
+                <td>Goals</td>
+                <td>Assists</td>
+                <td>Points</td>
+                <td>ATOI</td>
+                <td>GP</td>
+                <td>PPG</td>
+            </tr>
+            <tr class="player">
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

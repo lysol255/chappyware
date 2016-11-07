@@ -1,6 +1,7 @@
 ﻿using Chappyware.Business;
 using Chappyware.Data;
 using Chappyware.Data.Storage;
+using Chappyware.Web.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,57 @@ namespace Chappyware.Web.Controllers
             FantasyTeamManager manager = new FantasyTeamManager();
             FantasyLeague league = manager.CreateLeague("Robs");
             manager.UpdateLeagueRoster(league, "TeamImport.txt");
+
+            List<TeamModel> teams = ConvertToModelObjects(league.Teams);
+            
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = JsonConvert.SerializeObject(league.Teams);
+            result.Data = JsonConvert.SerializeObject(teams);
             return result;
+        }
+
+        private List<TeamModel> ConvertToModelObjects(List<FantasyTeam> teams)
+        {
+            List<TeamModel> teamModels = new List<TeamModel>();
+            foreach(FantasyTeam team in teams)
+            {
+                TeamModel newTeam = new TeamModel();
+                newTeam.OwnerName = team.Owner.Name;
+
+                foreach (FantasyPlayer player in team.OwnedPlayers)
+                {
+                    PlayerStatsModel newPlayer = new PlayerStatsModel();
+                    if (player.Player == null)
+                    {
+                        continue;
+                    }
+                    newPlayer.Name = player.Player.Name;
+
+                    Statistics mostRecentStat = GetMostRecentOwnedStatistic(player);
+
+                    newPlayer.Goals = mostRecentStat.Goals;
+                    newPlayer.Assists = mostRecentStat.Assists;
+                    newPlayer.Points = mostRecentStat.Goals + mostRecentStat.Assists;
+
+                    newTeam.Players.Add(newPlayer);
+                }
+
+                teamModels.Add(newTeam);
+            }
+            return teamModels;
+        }
+
+        private Statistics GetMostRecentOwnedStatistic(FantasyPlayer player)
+        {
+            Statistics mostRecentStat = null;
+            var currentStat = from statistic in player.Player.Stats
+                              where statistic.RecordDate >= player.OwnedStartDate && statistic.RecordDate < player.OwnedEndDate
+                              select statistic;
+            if (currentStat.Count() > 0)
+            {
+                mostRecentStat = currentStat.First();
+            }
+            return mostRecentStat;
         }
 
         [Route(_UpdateTeamRoute)]
