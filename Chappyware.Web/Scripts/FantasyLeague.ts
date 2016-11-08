@@ -9,7 +9,10 @@
 
     export interface IFantasyTeam {
         Players: IFantasyPlayer[];
-        Owner: string;
+        OwnerName: string;
+        TotalGoals: number;
+        TotalAssists: number;
+        TotalPoints: number;
     }
 
     export interface IFantasyLeague {
@@ -37,37 +40,64 @@
         private render() {
             // grab the main content div
             var $mainContent = $('#mainContent');
+            
+            // iterate over the teams and build up the points table
+            _.each(this.teams, (team: IFantasyTeam) => {
+
+                // render the player statistics
+                this.RenderPlayerTable(team, $mainContent);
+
+                var $ownerTable = $mainContent.find('.owners');
+
+                // render the team toals
+                this.RenderTeamTotalTable(team, $ownerTable);
+            });
+        }
+
+        private RenderTeamTotalTable(team: IFantasyTeam, $ownerTable: JQuery) {
+
+            // clone an owner row
+            var $ownerRow = $('#hidden').find('.owner').clone();
+
+            // add the columns
+            $ownerRow.append('<td>' + team.OwnerName + '</td>');
+            $ownerRow.append('<td>' + team.TotalGoals + '</td>');
+            $ownerRow.append('<td>' + team.TotalAssists + '</td>');
+            $ownerRow.append('<td>' + team.TotalPoints + '</td>');
+
+            // append to the container
+            $ownerTable.append($ownerRow);
+        }
+
+        private RenderPlayerTable(team: IFantasyTeam, $container: JQuery) {
 
             // grab the team table template
             var $teamTableTemplate = $('#hidden').find('.team');
 
-            // iterate over the teams and build up the points table
-            _.each(this.teams, (team: IFantasyTeam) => {
-                var $teamTable = $teamTableTemplate.clone();
+            var $teamTable = $teamTableTemplate.clone();
 
-                var $headingRow = $teamTable.find('.heading');
+            var $headingRow = $teamTable.find('.heading');
 
-                _.each(team.Players, (player: IFantasyPlayer) => {
+            _.each(team.Players, (player: IFantasyPlayer) => {
 
-                    // get the player row template
-                    var $playerRow = $teamTableTemplate.find('.player').clone();
+                // get the player row template
+                var $playerRow = $teamTableTemplate.find('.player').clone();
 
-                    // append columns
-                    $playerRow.append('<td>' + player.Name + '</td>');
-                    $playerRow.append('<td>' + player.Goals + '</td>');
-                    $playerRow.append('<td>' + player.Assists + '</td>');
-                    $playerRow.append('<td>' + player.Points + '</td>');
-                    $playerRow.append('<td>' +  + '</td>');
-                    $playerRow.append('<td>' +  + '</td>');
-                    $playerRow.append('<td>' + + '</td>');
+                // append columns
+                $playerRow.append('<td>' + player.Name + '</td>');
+                $playerRow.append('<td>' + player.Goals + '</td>');
+                $playerRow.append('<td>' + player.Assists + '</td>');
+                $playerRow.append('<td>' + player.Points + '</td>');
+                $playerRow.append('<td>' + + '</td>');
+                $playerRow.append('<td>' + + '</td>');
+                $playerRow.append('<td>' + + '</td>');
 
-                    $teamTable.append($playerRow);
-                });
-
-
-                $mainContent.append('<div>' + team.Owner + '</div>');
-                $mainContent.append($teamTable);
+                $teamTable.append($playerRow);
             });
+
+
+            $container.append('<div>' + team.OwnerName + ',' + team.Players.length + '</div>');
+            $container.append($teamTable);
         }
 
         private FetchTeams(callback: any) {

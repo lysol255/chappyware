@@ -75,10 +75,9 @@ namespace Chappyware.Web.Controllers
             var currentStat = from statistic in player.Player.Stats
                               where statistic.RecordDate >= player.OwnedStartDate && statistic.RecordDate < player.OwnedEndDate
                               select statistic;
-            if (currentStat.Count() > 0)
-            {
-                mostRecentStat = currentStat.First();
-            }
+            DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
+            mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
+            
             return mostRecentStat;
         }
 
