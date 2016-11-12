@@ -5,6 +5,9 @@
         Goals: number;
         Assists: number;
         Points: number;
+        GamesPlayed: number;
+        AvgTimeOnIce: string;
+        PointsPerGame: number;
     }
 
     export interface IFantasyTeam {
@@ -88,9 +91,9 @@
                 $playerRow.append('<td>' + player.Goals + '</td>');
                 $playerRow.append('<td>' + player.Assists + '</td>');
                 $playerRow.append('<td>' + player.Points + '</td>');
-                $playerRow.append('<td>' + + '</td>');
-                $playerRow.append('<td>' + + '</td>');
-                $playerRow.append('<td>' + + '</td>');
+                $playerRow.append('<td>' + player.AvgTimeOnIce + '</td>');
+                $playerRow.append('<td>' + player.GamesPlayed + '</td>');
+                $playerRow.append('<td>' + player.PointsPerGame.toFixed(2) + '</td>');
 
                 $teamTable.append($playerRow);
             });

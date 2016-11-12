@@ -60,6 +60,15 @@ namespace Chappyware.Web.Controllers
                     newPlayer.Goals = mostRecentStat.Goals;
                     newPlayer.Assists = mostRecentStat.Assists;
                     newPlayer.Points = mostRecentStat.Goals + mostRecentStat.Assists;
+                    newPlayer.GamesPlayed = mostRecentStat.GamesPlayed;
+                    newPlayer.AvgTimeOnIce = mostRecentStat.AvgTOI;
+
+                    // handle zero games played
+                    newPlayer.PointsPerGame = 0;
+                    if (newPlayer.GamesPlayed > 0)
+                    {
+                        newPlayer.PointsPerGame = (double)newPlayer.Points / (double)newPlayer.GamesPlayed;
+                    }
 
                     newTeam.Players.Add(newPlayer);
                 }
@@ -75,9 +84,16 @@ namespace Chappyware.Web.Controllers
             var currentStat = from statistic in player.Player.Stats
                               where statistic.RecordDate >= player.OwnedStartDate && statistic.RecordDate < player.OwnedEndDate
                               select statistic;
-            DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
-            mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
-            
+            if (currentStat.Count() > 0)
+            {
+                DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
+                mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
+            }
+            else
+            {
+                mostRecentStat = new Statistics();
+            }
+
             return mostRecentStat;
         }
 

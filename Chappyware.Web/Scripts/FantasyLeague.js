@@ -47,9 +47,9 @@ var FantasyPoolApp;
                 $playerRow.append('<td>' + player.Goals + '</td>');
                 $playerRow.append('<td>' + player.Assists + '</td>');
                 $playerRow.append('<td>' + player.Points + '</td>');
-                $playerRow.append('<td>' + +'</td>');
-                $playerRow.append('<td>' + +'</td>');
-                $playerRow.append('<td>' + +'</td>');
+                $playerRow.append('<td>' + player.AvgTimeOnIce + '</td>');
+                $playerRow.append('<td>' + player.GamesPlayed + '</td>');
+                $playerRow.append('<td>' + player.PointsPerGame.toFixed(2) + '</td>');
                 $teamTable.append($playerRow);
             });
             $container.append('<div>' + team.OwnerName + ',' + team.Players.length + '</div>');
@@ -72,4 +72,3 @@ var FantasyPoolApp;
 })(FantasyPoolApp || (FantasyPoolApp = {}));
 var league = new FantasyPoolApp.League();
 league.initializae();
-//# sourceMappingURL=FantasyLeague.js.map

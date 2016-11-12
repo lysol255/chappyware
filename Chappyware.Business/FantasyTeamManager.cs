@@ -67,6 +67,15 @@ namespace Chappyware.Business
                 FantasyPlayer player = new FantasyPlayer();
                 player.Player = PlayerFactory.Instance.GetPlayer(playerName, teamName);
 
+                // create empty player if the player has no points/can't be found
+                if (player.Player == null)
+                {
+                    player.Player = new Player();
+                    player.Player.Name = playerName;
+                    player.Player.Stats = new List<Statistics>();
+                    player.Player.Team = teamName;
+                }
+
                 // assign the start date to the start of the season if not defiend
                 if (string.IsNullOrEmpty(ownedStartDate))
                 {
