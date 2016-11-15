@@ -117,12 +117,18 @@
     <Content Include="Content\FantasyTeams.html" />
     <Content Include="Global.asax" />
     <None Include="Scripts\third-party\jQuery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\third-party\dataTables\dataTables.material.js" />
+    <Content Include="Scripts\third-party\dataTables\jquery.dataTables.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.min.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\third-party\underscore\underscore.js" />
     <Content Include="Scripts\third-party\underscore\underscore.min.js" />
+    <Content Include="Styles\Chappyware.css" />
+    <Content Include="Styles\third-party\dataTables\dataTables.material.css" />
+    <Content Include="Styles\third-party\dataTables\jquery.dataTables.css" />
+    <Content Include="Styles\third-party\dataTables\material.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,7 @@
     <TypeScriptCompile Include="Scripts\App.ts" />
     <TypeScriptCompile Include="Scripts\FantasyLeague.ts" />
     <TypeScriptCompile Include="typings\jquery.d.ts" />
+    <TypeScriptCompile Include="typings\jquery.dataTables.d.ts" />
     <TypeScriptCompile Include="typings\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>

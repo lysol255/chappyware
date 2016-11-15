@@ -43,33 +43,36 @@
         private render() {
             // grab the main content div
             var $mainContent = $('#mainContent');
-            
+
+            var teamTableArray = [];
+
+            var $ownerTable = $mainContent.find('.owners')
+
             // iterate over the teams and build up the points table
             _.each(this.teams, (team: IFantasyTeam) => {
 
                 // render the player statistics
                 this.RenderPlayerTable(team, $mainContent);
-
-                var $ownerTable = $mainContent.find('.owners');
-
-                // render the team toals
-                this.RenderTeamTotalTable(team, $ownerTable);
+                
+                // add a new row of team totals
+                teamTableArray.push([team.OwnerName, team.TotalGoals, team.TotalAssists, team.TotalPoints]);
+                
             });
-        }
 
-        private RenderTeamTotalTable(team: IFantasyTeam, $ownerTable: JQuery) {
-
-            // clone an owner row
-            var $ownerRow = $('#hidden').find('.owner').clone();
-
-            // add the columns
-            $ownerRow.append('<td>' + team.OwnerName + '</td>');
-            $ownerRow.append('<td>' + team.TotalGoals + '</td>');
-            $ownerRow.append('<td>' + team.TotalAssists + '</td>');
-            $ownerRow.append('<td>' + team.TotalPoints + '</td>');
-
-            // append to the container
-            $ownerTable.append($ownerRow);
+            // create the team data table
+            $ownerTable.DataTable(
+                {
+                    data: teamTableArray,
+                    paging: false,
+                    info: false,
+                    searching: false,
+                    columns: [
+                        { title: "Name" },
+                        { title: "Goals" },
+                        { title: "Assits" },
+                        { title: "Points" }
+                    ]
+                });
         }
 
         private RenderPlayerTable(team: IFantasyTeam, $container: JQuery) {
@@ -79,25 +82,33 @@
 
             var $teamTable = $teamTableTemplate.clone();
 
-            var $headingRow = $teamTable.find('.heading');
+            // create player array
+            var playerStatArray = [];
 
             _.each(team.Players, (player: IFantasyPlayer) => {
 
                 // get the player row template
                 var $playerRow = $teamTableTemplate.find('.player').clone();
 
-                // append columns
-                $playerRow.append('<td>' + player.Name + '</td>');
-                $playerRow.append('<td>' + player.Goals + '</td>');
-                $playerRow.append('<td>' + player.Assists + '</td>');
-                $playerRow.append('<td>' + player.Points + '</td>');
-                $playerRow.append('<td>' + player.AvgTimeOnIce + '</td>');
-                $playerRow.append('<td>' + player.GamesPlayed + '</td>');
-                $playerRow.append('<td>' + player.PointsPerGame.toFixed(2) + '</td>');
+                playerStatArray.push([player.Name, player.Goals, player.Assists, player.Points, player.AvgTimeOnIce, player.GamesPlayed, player.PointsPerGame.toFixed(2)]);
 
-                $teamTable.append($playerRow);
             });
 
+            // create the data table
+            $teamTable.DataTable(
+                {
+                    data: playerStatArray,
+                    paging: false,
+                    columns: [
+                        { title: "Name" },
+                        { title: "Goals" },
+                        { title: "Assits" },
+                        { title: "Points" },
+                        { title: "Avg TOI " },
+                        { title: "Games Played" },
+                        { title: "PPG" }
+                    ]
+                });
 
             $container.append('<div>' + team.OwnerName + ',' + team.Players.length + '</div>');
             $container.append($teamTable);
