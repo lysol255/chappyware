@@ -29,46 +29,49 @@ var FantasyPoolApp;
                 paging: false,
                 info: false,
                 searching: false,
+                order: [[3, "desc"]],
                 columns: [
                     { title: "Name" },
                     { title: "Goals" },
-                    { title: "Assits" },
+                    { title: "Assists" },
                     { title: "Points" }
                 ]
             });
         };
         League.prototype.RenderPlayerTable = function (team, $container) {
             // grab the team table template
-            var $teamTableTemplate = $('#hidden').find('.team');
-            var $teamTable = $teamTableTemplate.clone();
+            var $teamContent = $('#hidden').find('.teamContent').clone();
+            var $teamTitle = $teamContent.find('.teamTitle');
+            $teamTitle.append('<p>' + team.OwnerName + ',' + team.Players.length + '</p>');
+            var $teamTable = $teamContent.find('.team');
             // create player array
             var playerStatArray = [];
             _.each(team.Players, function (player) {
-                // get the player row template
-                var $playerRow = $teamTableTemplate.find('.player').clone();
                 playerStatArray.push([player.Name, player.Goals, player.Assists, player.Points, player.AvgTimeOnIce, player.GamesPlayed, player.PointsPerGame.toFixed(2)]);
             });
             // create the data table
             $teamTable.DataTable({
                 data: playerStatArray,
                 paging: false,
+                info: false,
+                searching: false,
+                order: [[3, "desc"]],
                 columns: [
                     { title: "Name" },
                     { title: "Goals" },
-                    { title: "Assits" },
+                    { title: "Assists" },
                     { title: "Points" },
                     { title: "Avg TOI " },
                     { title: "Games Played" },
                     { title: "PPG" }
                 ]
             });
-            $container.append('<div>' + team.OwnerName + ',' + team.Players.length + '</div>');
-            $container.append($teamTable);
+            $container.append($teamContent);
         };
         League.prototype.FetchTeams = function (callback) {
             var _this = this;
             $.ajax({
-                url: "/teams",
+                url: "teams",
                 type: "GET",
                 success: function (fetchedTeams) {
                     _this.teams = JSON.parse(fetchedTeams);

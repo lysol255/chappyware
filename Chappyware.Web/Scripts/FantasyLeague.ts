@@ -66,10 +66,11 @@
                     paging: false,
                     info: false,
                     searching: false,
+                    order: [[3, "desc"]],
                     columns: [
                         { title: "Name" },
                         { title: "Goals" },
-                        { title: "Assits" },
+                        { title: "Assists" },
                         { title: "Points" }
                     ]
                 });
@@ -78,17 +79,17 @@
         private RenderPlayerTable(team: IFantasyTeam, $container: JQuery) {
 
             // grab the team table template
-            var $teamTableTemplate = $('#hidden').find('.team');
+            var $teamContent = $('#hidden').find('.teamContent').clone();
 
-            var $teamTable = $teamTableTemplate.clone();
+            var $teamTitle = $teamContent.find('.teamTitle');
+            $teamTitle.append('<p>' + team.OwnerName + ',' + team.Players.length + '</p>');
+
+            var $teamTable = $teamContent.find('.team');
 
             // create player array
             var playerStatArray = [];
 
             _.each(team.Players, (player: IFantasyPlayer) => {
-
-                // get the player row template
-                var $playerRow = $teamTableTemplate.find('.player').clone();
 
                 playerStatArray.push([player.Name, player.Goals, player.Assists, player.Points, player.AvgTimeOnIce, player.GamesPlayed, player.PointsPerGame.toFixed(2)]);
 
@@ -99,25 +100,27 @@
                 {
                     data: playerStatArray,
                     paging: false,
+                    info: false,
+                    searching: false,
+                    order: [[3, "desc"]],
                     columns: [
                         { title: "Name" },
                         { title: "Goals" },
-                        { title: "Assits" },
+                        { title: "Assists" },
                         { title: "Points" },
                         { title: "Avg TOI " },
                         { title: "Games Played" },
                         { title: "PPG" }
                     ]
                 });
-
-            $container.append('<div>' + team.OwnerName + ',' + team.Players.length + '</div>');
-            $container.append($teamTable);
+                        
+            $container.append($teamContent);
         }
 
         private FetchTeams(callback: any) {
 
             $.ajax({
-                url: "/teams",
+                url: "teams",
                 type: "GET",
                 success: (fetchedTeams: any) => {
                     this.teams = <IFantasyTeam[]>JSON.parse(fetchedTeams);

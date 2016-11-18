@@ -28,7 +28,7 @@ namespace Chappyware.Web.Controllers
         {
             FantasyTeamManager manager = new FantasyTeamManager();
             FantasyLeague league = manager.CreateLeague("Robs");
-            manager.UpdateLeagueRoster(league, "TeamImport.txt");
+            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
 
             List<TeamModel> teams = ConvertToModelObjects(league.Teams);
             

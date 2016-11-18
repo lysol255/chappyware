@@ -10,7 +10,21 @@
   color: #fff;
 }
 
-.team
+#mainContent{
+    display: block;
+    margin: auto;
+    width: 60%;
+}
+
+.leagueSummary {
+    width: 100%;
+}
+
+.teamTable{
+    width: 100%;
+}
+
+.teamTitle
 {
-    float: left;
+    text-align: center;
 }
