@@ -16,6 +16,15 @@
     width: 60%;
 }
 
+.controls {
+    display: block;
+    background-color: #90CAF9;
+}
+
+.control{
+    background-color: white;
+}
+
 .leagueSummary {
     width: 100%;
 }

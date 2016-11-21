@@ -8,6 +8,7 @@
         GamesPlayed: number;
         AvgTimeOnIce: string;
         PointsPerGame: number;
+        DraftRound: number;
     }
 
     export interface IFantasyTeam {
@@ -16,6 +17,9 @@
         TotalGoals: number;
         TotalAssists: number;
         TotalPoints: number;
+        TotalGamesPlayed: number;
+        TeamPointsPerGame: number;
+        PointsBehindLeader: number;
     }
 
     export interface IFantasyLeague {
@@ -35,27 +39,45 @@
 
         public initializae() {
 
+
             this.FetchTeams(() => {
+                // initialize controls
+                this.InitializeControls();
+                
                 this.render();
             });
         }
 
         private render() {
+
             // grab the main content div
             var $mainContent = $('#mainContent');
 
+            var $leagueSummary = $mainContent.find('.leagueSummary');
+
+            // empty contents in prepartion of redraw
+            $leagueSummary.empty();
+
             var teamTableArray = [];
 
-            var $ownerTable = $mainContent.find('.owners')
+            var $ownerTable = $('#hidden').find('.owners').clone();
+            $leagueSummary.append($ownerTable);
 
             // iterate over the teams and build up the points table
             _.each(this.teams, (team: IFantasyTeam) => {
 
                 // render the player statistics
-                this.RenderPlayerTable(team, $mainContent);
+                this.RenderPlayerTable(team, $leagueSummary);
                 
                 // add a new row of team totals
-                teamTableArray.push([team.OwnerName, team.TotalGoals, team.TotalAssists, team.TotalPoints]);
+                teamTableArray.push([team.OwnerName,
+                    team.TotalGoals,
+                    team.TotalAssists,
+                    team.TotalPoints,
+                    team.TotalGamesPlayed,
+                    team.TeamPointsPerGame.toFixed(2),
+                    team.PointsBehindLeader
+                ]);
                 
             });
 
@@ -71,9 +93,25 @@
                         { title: "Name" },
                         { title: "Goals" },
                         { title: "Assists" },
-                        { title: "Points" }
+                        { title: "Points" },
+                        { title: "Games Played" },
+                        { title: "Points Per Game" },
+                        { title: "Points Behind Leader" }
                     ]
                 });
+        }
+
+        private InitializeControls() {
+
+            // initialize update control
+            var $updateButton = $('.controls').find('.updatestats');
+
+            $updateButton.click(() => {
+
+                $updateButton.text("Updating...");
+
+                this.UpdateStats();
+            });
         }
 
         private RenderPlayerTable(team: IFantasyTeam, $container: JQuery) {
@@ -91,7 +129,15 @@
 
             _.each(team.Players, (player: IFantasyPlayer) => {
 
-                playerStatArray.push([player.Name, player.Goals, player.Assists, player.Points, player.AvgTimeOnIce, player.GamesPlayed, player.PointsPerGame.toFixed(2)]);
+                playerStatArray.push([
+                    player.DraftRound,
+                    player.Name,
+                    player.Goals,
+                    player.Assists,
+                    player.Points,
+                    player.AvgTimeOnIce,
+                    player.GamesPlayed,
+                    player.PointsPerGame.toFixed(2)]);
 
             });
 
@@ -102,8 +148,9 @@
                     paging: false,
                     info: false,
                     searching: false,
-                    order: [[3, "desc"]],
+                    order: [[4, "desc"]],
                     columns: [
+                        { title: "Round" },
                         { title: "Name" },
                         { title: "Goals" },
                         { title: "Assists" },
@@ -115,6 +162,20 @@
                 });
                         
             $container.append($teamContent);
+        }
+
+        private UpdateStats(callback?: any) {
+            $.ajax({
+                url: "stats/update",
+                type: "GET",
+                success: () => {
+                    $('.controls').find('.updatestats').text("Update");
+                    this.initializae();
+                    if (callback) {
+                        callback();
+                    }
+                }
+            });
         }
 
         private FetchTeams(callback: any) {

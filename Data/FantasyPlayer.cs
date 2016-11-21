@@ -14,6 +14,8 @@ namespace Chappyware.Data
         public DateTime OwnedStartDate { get; set; }
 
         public DateTime OwnedEndDate { get; set; }
+
+        public int DraftRound { get; set; }
         
     }
 }

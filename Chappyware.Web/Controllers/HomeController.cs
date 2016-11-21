@@ -15,7 +15,7 @@ namespace Chappyware.Web.Controllers
     {
 
         private const string _GetTeamRoute = "~/teams";
-        private const string _UpdateTeamRoute = "~/teams/update";
+        private const string _UpdateStatsRoute = "~/stats/update";
 
         // GET: Home
         public ActionResult Index()
@@ -24,6 +24,7 @@ namespace Chappyware.Web.Controllers
         }
 
         [Route(_GetTeamRoute, Name ="teams")]
+        [HttpGet]
         public ActionResult GetTeams()
         {
             FantasyTeamManager manager = new FantasyTeamManager();
@@ -41,6 +42,9 @@ namespace Chappyware.Web.Controllers
         private List<TeamModel> ConvertToModelObjects(List<FantasyTeam> teams)
         {
             List<TeamModel> teamModels = new List<TeamModel>();
+
+            int pointLeader = 0;
+
             foreach(FantasyTeam team in teams)
             {
                 TeamModel newTeam = new TeamModel();
@@ -70,11 +74,29 @@ namespace Chappyware.Web.Controllers
                         newPlayer.PointsPerGame = (double)newPlayer.Points / (double)newPlayer.GamesPlayed;
                     }
 
+                    newPlayer.DraftRound = player.DraftRound;
+
                     newTeam.Players.Add(newPlayer);
+                }
+
+                // make a point leader
+                if (newTeam.TotalPoints > pointLeader)
+                {
+                    pointLeader = newTeam.TotalPoints;
                 }
 
                 teamModels.Add(newTeam);
             }
+
+            // calculate a how far a team is behind the leader
+            foreach(TeamModel teamModel in teamModels)
+            {
+                if (teamModel.TotalPoints < pointLeader)
+                {
+                    teamModel.PointsBehindLeader = pointLeader - teamModel.TotalPoints;
+                }
+            }
+            
             return teamModels;
         }
 
@@ -97,7 +119,8 @@ namespace Chappyware.Web.Controllers
             return mostRecentStat;
         }
 
-        [Route(_UpdateTeamRoute)]
+        [Route(_UpdateStatsRoute)]
+        [HttpGet]
         public ActionResult UpdateTeams()
         {
             // get the current stats and load them into memory
@@ -110,7 +133,10 @@ namespace Chappyware.Web.Controllers
             // persist them into json
             StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
 
-            return View();
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            result.Data = JsonConvert.SerializeObject(currentPlayerStats);
+            return result;
         }
     }
 }

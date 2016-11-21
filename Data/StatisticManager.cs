@@ -12,6 +12,26 @@ namespace Chappyware.Business
 
         public static void UpdatePlayerStatistics(List<Player> currentPlayerStats, IStatSource newStats)
         {
+            // determine if the new stats have already been recorded today
+            Player newStatSourcePlayer = newStats.LoadPlayers().FirstOrDefault();
+            Player existingStatSourcePlayer = currentPlayerStats.FirstOrDefault();
+
+            if (newStatSourcePlayer != null
+                && existingStatSourcePlayer != null)
+            {
+                // if the new stats have the same day as the most recent exisitng stat source
+                // they have already been recorded
+                Statistics stats = newStatSourcePlayer.Stats.FirstOrDefault();
+                DateTime latestStatRecordDate = existingStatSourcePlayer.Stats.Max(s => s.RecordDate);
+
+                if (stats != null
+                    && stats.RecordDate.DayOfYear == latestStatRecordDate.DayOfYear
+                    && stats.RecordDate.Year == latestStatRecordDate.Year)
+                {
+                    return;
+                }
+            }
+
             foreach (Player player in newStats.LoadPlayers())
             {
                 // find the player if it already has stats saved

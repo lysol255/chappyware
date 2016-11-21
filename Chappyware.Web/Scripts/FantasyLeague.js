@@ -7,6 +7,8 @@ var FantasyPoolApp;
         League.prototype.initializae = function () {
             var _this = this;
             this.FetchTeams(function () {
+                // initialize controls
+                _this.InitializeControls();
                 _this.render();
             });
         };
@@ -14,14 +16,25 @@ var FantasyPoolApp;
             var _this = this;
             // grab the main content div
             var $mainContent = $('#mainContent');
+            var $leagueSummary = $mainContent.find('.leagueSummary');
+            // empty contents in prepartion of redraw
+            $leagueSummary.empty();
             var teamTableArray = [];
-            var $ownerTable = $mainContent.find('.owners');
+            var $ownerTable = $('#hidden').find('.owners').clone();
+            $leagueSummary.append($ownerTable);
             // iterate over the teams and build up the points table
             _.each(this.teams, function (team) {
                 // render the player statistics
-                _this.RenderPlayerTable(team, $mainContent);
+                _this.RenderPlayerTable(team, $leagueSummary);
                 // add a new row of team totals
-                teamTableArray.push([team.OwnerName, team.TotalGoals, team.TotalAssists, team.TotalPoints]);
+                teamTableArray.push([team.OwnerName,
+                    team.TotalGoals,
+                    team.TotalAssists,
+                    team.TotalPoints,
+                    team.TotalGamesPlayed,
+                    team.TeamPointsPerGame.toFixed(2),
+                    team.PointsBehindLeader
+                ]);
             });
             // create the team data table
             $ownerTable.DataTable({
@@ -34,8 +47,20 @@ var FantasyPoolApp;
                     { title: "Name" },
                     { title: "Goals" },
                     { title: "Assists" },
-                    { title: "Points" }
+                    { title: "Points" },
+                    { title: "Games Played" },
+                    { title: "Points Per Game" },
+                    { title: "Points Behind Leader" }
                 ]
+            });
+        };
+        League.prototype.InitializeControls = function () {
+            var _this = this;
+            // initialize update control
+            var $updateButton = $('.controls').find('.updatestats');
+            $updateButton.click(function () {
+                $updateButton.text("Updating...");
+                _this.UpdateStats();
             });
         };
         League.prototype.RenderPlayerTable = function (team, $container) {
@@ -47,7 +72,15 @@ var FantasyPoolApp;
             // create player array
             var playerStatArray = [];
             _.each(team.Players, function (player) {
-                playerStatArray.push([player.Name, player.Goals, player.Assists, player.Points, player.AvgTimeOnIce, player.GamesPlayed, player.PointsPerGame.toFixed(2)]);
+                playerStatArray.push([
+                    player.DraftRound,
+                    player.Name,
+                    player.Goals,
+                    player.Assists,
+                    player.Points,
+                    player.AvgTimeOnIce,
+                    player.GamesPlayed,
+                    player.PointsPerGame.toFixed(2)]);
             });
             // create the data table
             $teamTable.DataTable({
@@ -55,8 +88,9 @@ var FantasyPoolApp;
                 paging: false,
                 info: false,
                 searching: false,
-                order: [[3, "desc"]],
+                order: [[4, "desc"]],
                 columns: [
+                    { title: "Round" },
                     { title: "Name" },
                     { title: "Goals" },
                     { title: "Assists" },
@@ -67,6 +101,20 @@ var FantasyPoolApp;
                 ]
             });
             $container.append($teamContent);
+        };
+        League.prototype.UpdateStats = function (callback) {
+            var _this = this;
+            $.ajax({
+                url: "stats/update",
+                type: "GET",
+                success: function () {
+                    $('.controls').find('.updatestats').text("Update");
+                    _this.initializae();
+                    if (callback) {
+                        callback();
+                    }
+                }
+            });
         };
         League.prototype.FetchTeams = function (callback) {
             var _this = this;

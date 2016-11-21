@@ -90,6 +90,9 @@ namespace Chappyware.Business
                 }
                 player.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 
+                // assign the draft round
+                player.DraftRound = team.OwnedPlayers.Count + 1;
+
                 // add it to the list of owned players
                 team.OwnedPlayers.Add(player);
 

@@ -14,5 +14,6 @@ namespace Chappyware.Web.Models
         public int GamesPlayed { get; set; }
         public string AvgTimeOnIce { get; set; }
         public double PointsPerGame { get; set; }
+        public int DraftRound { get; set; }
     }
 }

@@ -54,5 +54,29 @@ namespace Chappyware.Web.Models
             }
         }
 
+        public int TotalGamesPlayed
+        {
+            get
+            {
+                int totalGamesPlayed = 0;
+                foreach(PlayerStatsModel player in Players)
+                {
+                    totalGamesPlayed = totalGamesPlayed + player.GamesPlayed;
+                }
+                return totalGamesPlayed;
+            }
+        }
+
+        public double TeamPointsPerGame
+        {
+            get
+            {
+                double ppg = 0;
+                ppg = (double)TotalPoints / (double)TotalGamesPlayed;
+                return ppg;
+            }
+        }
+
+        public int PointsBehindLeader { get; internal set; }
     }
 }
