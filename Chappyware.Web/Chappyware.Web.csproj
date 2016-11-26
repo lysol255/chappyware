@@ -124,6 +124,7 @@
     <Content Include="Scripts\third-party\underscore\underscore.js" />
     <Content Include="Scripts\third-party\underscore\underscore.min.js" />
     <Content Include="Styles\Chappyware.css" />
+    <Content Include="Styles\LoadingSpinner.css" />
     <Content Include="Styles\third-party\dataTables\dataTables.material.css" />
     <Content Include="Styles\third-party\dataTables\jquery.dataTables.css" />
     <Content Include="Styles\third-party\dataTables\material.css" />
@@ -136,7 +137,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LeagueModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
+    <Compile Include="Models\HistoricalStatisticModel.cs" />
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -168,7 +171,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App.ts" />
-    <TypeScriptCompile Include="Scripts\FantasyLeague.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\FantasyTeam.ts" />
     <TypeScriptCompile Include="typings\jquery.d.ts" />
     <TypeScriptCompile Include="typings\jquery.dataTables.d.ts" />
     <TypeScriptCompile Include="typings\underscore.d.ts" />

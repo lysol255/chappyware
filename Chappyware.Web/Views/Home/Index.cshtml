@@ -17,10 +17,16 @@
         <a class="control updatestats mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Update</a>
     </div>
     <div id="mainContent">
-        <div class="leagueSummary">
+        <div class="leagueSummary hidden"></div>
+        <div class="leagueSummary-loading">
+            <div class="loader">
+                <svg class="circular">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                </svg>
+            </div>
         </div>
     </div>
-    <div id="hidden" style="visibility:hidden">
+    <div id="hidden" class="hidden">
         <table class="owners mdl-data-table"></table>
         <div class="teamContent">
             <div class="teamTitle"></div>

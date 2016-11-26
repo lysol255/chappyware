@@ -15,13 +15,13 @@ namespace Chappyware.Web.App_Start
                         , "~/Scripts/third-party/underscore/underscore.js"
                         , "~/Scripts/third-party/dataTables/jquery.dataTables.js"
                         , "~/Scripts/third-party/dataTables/dataTables.material.js"
-                        , "~/Scripts/FantasyLeague.js"));
+                        , "~/Scripts/typescript/*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/styles").Include(
                         "~/Styles/third-party/dataTables/jquery.datatables.css"
                         , "~/Styles/third-party/dataTables/material.css"
                         , "~/Styles/third-party/dataTables/dataTables.material.css"
-                        , "~/Styles/Chappyware.css"
+                        , "~/Styles/*.css"
                 ));
         }
 

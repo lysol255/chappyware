@@ -16,7 +16,9 @@ var FantasyPoolApp;
             var _this = this;
             // grab the main content div
             var $mainContent = $('#mainContent');
+            this.ShowLoading($mainContent);
             var $leagueSummary = $mainContent.find('.leagueSummary');
+            var $leagueSummaryLoading = $mainContent.find('.leagueSummary-loading');
             var teamTableArray = [];
             var $ownerTable = $('#hidden').find('.owners').clone();
             $leagueSummary.append($ownerTable);
@@ -51,6 +53,8 @@ var FantasyPoolApp;
                     { title: "Points Behind Leader" }
                 ]
             });
+            // control visibility
+            this.ShowLeagueSummary($mainContent);
         };
         League.prototype.InitializeControls = function () {
             var _this = this;
@@ -58,6 +62,7 @@ var FantasyPoolApp;
             // initialize update control
             var $updateButton = $controls.find('.updatestats');
             $updateButton.click(function () {
+                _this.ShowLoading($('#mainContent'));
                 $updateButton.text("Updating...");
                 _this.UpdateStats();
             });
@@ -92,6 +97,14 @@ var FantasyPoolApp;
                     callback();
                 }
             });
+        };
+        League.prototype.ShowLoading = function ($container) {
+            $container.find('.leagueSummary').addClass('hidden');
+            $container.find('.leagueSummary-loading').removeClass('hidden');
+        };
+        League.prototype.ShowLeagueSummary = function ($container) {
+            $container.find('.leagueSummary').removeClass('hidden');
+            $container.find('.leagueSummary-loading').addClass('hidden');
         };
         return League;
     }());

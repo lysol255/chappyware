@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
-    public class Statistics
+    public class Statistic
     {
         public int Goals { get; set; }
         public int GamesPlayed { get; set; }

@@ -12,8 +12,15 @@ namespace Chappyware.Web.Models
         public int Points { get; set; }
         public string Name { get; set; }
         public int GamesPlayed { get; set; }
-        public string AvgTimeOnIce { get; set; }
+        public string AverageTimeOnIce { get; set; }
         public double PointsPerGame { get; set; }
         public int DraftRound { get; set; }
+
+        public List<HistoricalStatisticModel> HistoricalStats { get; set; }
+
+        public PlayerStatsModel()
+        {
+            HistoricalStats = new List<HistoricalStatisticModel>();
+        }
     }
 }

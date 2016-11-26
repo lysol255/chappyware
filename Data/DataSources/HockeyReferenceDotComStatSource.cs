@@ -55,7 +55,7 @@ namespace Chappyware.Data
                     MatchCollection playerStats = playerStatSearch.Matches(playerMatch.Value);
 
                     Player newPlayer = new Player();
-                    Statistics newStats = new Statistics();
+                    Statistic newStats = new Statistic();
                     newStats.RecordDate = initalzationDate;
 
                     foreach(Match playerStatMatch in playerStats)
@@ -82,7 +82,7 @@ namespace Chappyware.Data
 
         }
 
-        private void ProcessStat(string statName, string statValue, Player player,  Statistics statistics)
+        private void ProcessStat(string statName, string statValue, Player player,  Statistic statistics)
         {
             switch(statName)
             {

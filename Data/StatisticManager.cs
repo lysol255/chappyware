@@ -1,4 +1,5 @@
 ﻿using Chappyware.Data;
+using Chappyware.Data.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace Chappyware.Business
 {
     public class StatisticManager
     {
+        public List<Player> GetPlayerStatistics()
+        {
+            List<Player> currentPlayers = StorageFactory.Instance.LoadPersistedStatSource();
+            return currentPlayers;
+        }
 
         public static void UpdatePlayerStatistics(List<Player> currentPlayerStats, IStatSource newStats)
         {
@@ -21,7 +27,7 @@ namespace Chappyware.Business
             {
                 // if the new stats have the same day as the most recent exisitng stat source
                 // they have already been recorded
-                Statistics stats = newStatSourcePlayer.Stats.FirstOrDefault();
+                Statistic stats = newStatSourcePlayer.Stats.FirstOrDefault();
                 DateTime latestStatRecordDate = existingStatSourcePlayer.Stats.Max(s => s.RecordDate);
 
                 if (stats != null

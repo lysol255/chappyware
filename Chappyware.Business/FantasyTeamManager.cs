@@ -72,7 +72,7 @@ namespace Chappyware.Business
                 {
                     player.Player = new Player();
                     player.Player.Name = playerName;
-                    player.Player.Stats = new List<Statistics>();
+                    player.Player.Stats = new List<Statistic>();
                     player.Player.Team = teamName;
                 }
 

@@ -16,12 +16,31 @@ namespace Chappyware.Web.Controllers
 
         private const string _GetTeamRoute = "~/teams";
         private const string _UpdateStatsRoute = "~/stats/update";
+        private const string _GetStatsRoute = "~/stats";
+        private const string _GetLeagueRoute = "~/league";
 
         // GET: Home
         public ActionResult Index()
         {
             return View();
         }
+
+        [Route(_GetLeagueRoute, Name = "league")]
+        [HttpGet]
+        public ActionResult GetLeague()
+        {
+            FantasyTeamManager manager = new FantasyTeamManager();
+            FantasyLeague league = manager.CreateLeague("Robs");
+            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
+
+            LeagueModel leagueModel = new LeagueModel(league);
+
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            result.Data = JsonConvert.SerializeObject(leagueModel);
+            return result;
+        }
+
 
         [Route(_GetTeamRoute, Name ="teams")]
         [HttpGet]
@@ -31,93 +50,38 @@ namespace Chappyware.Web.Controllers
             FantasyLeague league = manager.CreateLeague("Robs");
             manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
 
-            List<TeamModel> teams = ConvertToModelObjects(league.Teams);
+            //List<TeamModel> teams = ConvertToModelObjects(league.Teams);
             
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = JsonConvert.SerializeObject(teams);
+            result.Data = JsonConvert.SerializeObject(null);
             return result;
         }
 
-        private List<TeamModel> ConvertToModelObjects(List<FantasyTeam> teams)
-        {
-            List<TeamModel> teamModels = new List<TeamModel>();
+        //[Route(_GetStatsRoute, Name = "stats")]
+        //[HttpGet]
+        //public ActionResult GetStats()
+        //{
+        //    StatisticManager statManager = new StatisticManager();
+        //    List<Player> currentPlayers = statManager.GetPlayerStatistics();
 
-            int pointLeader = 0;
+        //    List<TeamModel> teams = ConvertToPlayerStatsModels(currentPlayers);
 
-            foreach(FantasyTeam team in teams)
-            {
-                TeamModel newTeam = new TeamModel();
-                newTeam.OwnerName = team.Owner.Name;
+        //    JsonResult result = new JsonResult();
+        //    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+        //    result.Data = JsonConvert.SerializeObject(teams);
+        //    return result;
+        //}
 
-                foreach (FantasyPlayer player in team.OwnedPlayers)
-                {
-                    PlayerStatsModel newPlayer = new PlayerStatsModel();
-                    if (player.Player == null)
-                    {
-                        continue;
-                    }
-                    newPlayer.Name = player.Player.Name;
+        //private List<HistoricalStatisticModel> ConvertToPlayerStatsModels(List<Player> players)
+        //{
+        //    foreach(Player player in players)
+        //    {
 
-                    Statistics mostRecentStat = GetMostRecentOwnedStatistic(player);
+        //    }
+        //}      
 
-                    newPlayer.Goals = mostRecentStat.Goals;
-                    newPlayer.Assists = mostRecentStat.Assists;
-                    newPlayer.Points = mostRecentStat.Goals + mostRecentStat.Assists;
-                    newPlayer.GamesPlayed = mostRecentStat.GamesPlayed;
-                    newPlayer.AvgTimeOnIce = mostRecentStat.AvgTOI;
-
-                    // handle zero games played
-                    newPlayer.PointsPerGame = 0;
-                    if (newPlayer.GamesPlayed > 0)
-                    {
-                        newPlayer.PointsPerGame = (double)newPlayer.Points / (double)newPlayer.GamesPlayed;
-                    }
-
-                    newPlayer.DraftRound = player.DraftRound;
-
-                    newTeam.Players.Add(newPlayer);
-                }
-
-                // make a point leader
-                if (newTeam.TotalPoints > pointLeader)
-                {
-                    pointLeader = newTeam.TotalPoints;
-                }
-
-                teamModels.Add(newTeam);
-            }
-
-            // calculate a how far a team is behind the leader
-            foreach(TeamModel teamModel in teamModels)
-            {
-                if (teamModel.TotalPoints < pointLeader)
-                {
-                    teamModel.PointsBehindLeader = pointLeader - teamModel.TotalPoints;
-                }
-            }
-            
-            return teamModels;
-        }
-
-        private Statistics GetMostRecentOwnedStatistic(FantasyPlayer player)
-        {
-            Statistics mostRecentStat = null;
-            var currentStat = from statistic in player.Player.Stats
-                              where statistic.RecordDate >= player.OwnedStartDate && statistic.RecordDate < player.OwnedEndDate
-                              select statistic;
-            if (currentStat.Count() > 0)
-            {
-                DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
-                mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
-            }
-            else
-            {
-                mostRecentStat = new Statistics();
-            }
-
-            return mostRecentStat;
-        }
+        
 
         [Route(_UpdateStatsRoute)]
         [HttpGet]

@@ -36,4 +36,9 @@
 .teamTitle
 {
     text-align: center;
+    font-size: 16pt;
+}
+
+.hidden{
+    visibility:hidden;
 }
