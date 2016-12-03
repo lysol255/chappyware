@@ -10,7 +10,7 @@ namespace Chappyware.Business
 {
     public class StatisticManager
     {
-        public List<Player> GetPlayerStatistics()
+        public List<Player> GetHistorialPlayerStatistics()
         {
             List<Player> currentPlayers = StorageFactory.Instance.LoadPersistedStatSource();
             return currentPlayers;

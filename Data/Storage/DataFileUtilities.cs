@@ -21,7 +21,7 @@ namespace Chappyware.Data.Storage
         {
             string currentDirectory = GetCurrentDirectory();
 
-            return Path.Combine(currentDirectory, _DefaultStatFileName);
+            return Path.Combine(currentDirectory, "App_Data", _DefaultStatFileName);
 
         }
 

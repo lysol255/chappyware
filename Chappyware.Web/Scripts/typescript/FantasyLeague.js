@@ -43,6 +43,12 @@ var FantasyPoolApp;
                 info: false,
                 searching: false,
                 order: [[3, "desc"]],
+                columnDefs: [{
+                        targets: 0,
+                        render: function (data, type, row) {
+                            return '<a href="#' + data + '">' + data + '</a>';
+                        }
+                    }],
                 columns: [
                     { title: "Name" },
                     { title: "Goals" },
@@ -112,3 +118,4 @@ var FantasyPoolApp;
 })(FantasyPoolApp || (FantasyPoolApp = {}));
 var league = new FantasyPoolApp.League();
 league.initializae();
+//# sourceMappingURL=FantasyLeague.js.map

@@ -64,37 +64,38 @@ namespace Chappyware.Business
                 }
 
                 // find the player
-                FantasyPlayer player = new FantasyPlayer();
-                player.Player = PlayerFactory.Instance.GetPlayer(playerName, teamName);
+                Player player = PlayerFactory.Instance.GetPlayer(playerName, teamName);
 
                 // create empty player if the player has no points/can't be found
-                if (player.Player == null)
+                if (player == null)
                 {
-                    player.Player = new Player();
-                    player.Player.Name = playerName;
-                    player.Player.Stats = new List<Statistic>();
-                    player.Player.Team = teamName;
+                    player = new Player();
+                    player.Name = playerName;
+                    player.Stats = new List<Statistic>();
+                    player.Team = teamName;
                 }
+
+                FantasyPlayer fantasyPlayer = new FantasyPlayer(player);
 
                 // assign the start date to the start of the season if not defiend
                 if (string.IsNullOrEmpty(ownedStartDate))
                 {
                     ownedStartDate = Season.GetSeasonStartDate("2016").ToString();
                 }
-                player.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
+                fantasyPlayer.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
 
                 // assign the end date to the end of the season if not defined
                 if (string.IsNullOrEmpty(ownedEndDate))
                 {
                     ownedEndDate = Season.GetSeasonEndDate("2017").ToString();
                 }
-                player.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
+                fantasyPlayer.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 
                 // assign the draft round
-                player.DraftRound = team.OwnedPlayers.Count + 1;
+                fantasyPlayer.DraftRound = team.OwnedPlayers.Count + 1;
 
                 // add it to the list of owned players
-                team.OwnedPlayers.Add(player);
+                team.OwnedPlayers.Add(fantasyPlayer);
 
             }
 

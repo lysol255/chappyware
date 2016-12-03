@@ -14,7 +14,7 @@
             var $teamContent = $('#hidden').find('.teamContent').clone();
 
             var $teamTitle = $teamContent.find('.teamTitle');
-            $teamTitle.text(this.team.OwnerName);
+            $teamTitle.append('<a id=' + this.team.OwnerName + '>' + this.team.OwnerName + '</>');
 
             var $teamTable = $teamContent.find('.team');
 

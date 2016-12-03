@@ -29,9 +29,7 @@ namespace Chappyware.Web.Controllers
         [HttpGet]
         public ActionResult GetLeague()
         {
-            FantasyTeamManager manager = new FantasyTeamManager();
-            FantasyLeague league = manager.CreateLeague("Robs");
-            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
+            FantasyLeague league = LoadLeague();
 
             LeagueModel leagueModel = new LeagueModel(league);
 
@@ -41,47 +39,26 @@ namespace Chappyware.Web.Controllers
             return result;
         }
 
-
-        [Route(_GetTeamRoute, Name ="teams")]
+        [Route(_GetStatsRoute, Name ="stats")]
         [HttpGet]
-        public ActionResult GetTeams()
+        public ActionResult GetStats()
         {
-            FantasyTeamManager manager = new FantasyTeamManager();
-            FantasyLeague league = manager.CreateLeague("Robs");
-            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
+            StatisticManager manager = new StatisticManager();
+            List<Player> playerStats = manager.GetHistorialPlayerStatistics();
 
-            //List<TeamModel> teams = ConvertToModelObjects(league.Teams);
-            
+            List<PlayerModel> playerModels = new List<PlayerModel>();
+            foreach(Player player in playerStats)
+            {
+                PlayerModel newPlayerModel = new PlayerModel(player.Stats);
+                newPlayerModel.Name = player.Name;
+                playerModels.Add(newPlayerModel);
+            }
+
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = JsonConvert.SerializeObject(null);
+            result.Data = JsonConvert.SerializeObject(playerModels);
             return result;
-        }
-
-        //[Route(_GetStatsRoute, Name = "stats")]
-        //[HttpGet]
-        //public ActionResult GetStats()
-        //{
-        //    StatisticManager statManager = new StatisticManager();
-        //    List<Player> currentPlayers = statManager.GetPlayerStatistics();
-
-        //    List<TeamModel> teams = ConvertToPlayerStatsModels(currentPlayers);
-
-        //    JsonResult result = new JsonResult();
-        //    result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-        //    result.Data = JsonConvert.SerializeObject(teams);
-        //    return result;
-        //}
-
-        //private List<HistoricalStatisticModel> ConvertToPlayerStatsModels(List<Player> players)
-        //{
-        //    foreach(Player player in players)
-        //    {
-
-        //    }
-        //}      
-
-        
+        }        
 
         [Route(_UpdateStatsRoute)]
         [HttpGet]
@@ -101,6 +78,14 @@ namespace Chappyware.Web.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             result.Data = JsonConvert.SerializeObject(currentPlayerStats);
             return result;
+        }
+
+        private static FantasyLeague LoadLeague()
+        {
+            FantasyTeamManager manager = new FantasyTeamManager();
+            FantasyLeague league = manager.CreateLeague("Robs");
+            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
+            return league;
         }
     }
 }

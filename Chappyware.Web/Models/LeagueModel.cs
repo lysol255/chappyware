@@ -38,7 +38,7 @@ namespace Chappyware.Web.Models
 
                 foreach (FantasyPlayer fantasyPlayer in team.OwnedPlayers)
                 {
-                    PlayerStatsModel playerModel = new PlayerStatsModel();
+                    PlayerModel playerModel = new PlayerModel();
                     if (fantasyPlayer.Player == null)
                     {
                         continue;
@@ -46,7 +46,7 @@ namespace Chappyware.Web.Models
                     playerModel.Name = fantasyPlayer.Player.Name;
 
                     SetMostRecentStatsForPlayer(fantasyPlayer, playerModel);
-                    SetHistoricalStatisticsForPlayer(fantasyPlayer, playerModel);
+ //                   SetHistoricalStatisticsForPlayer(fantasyPlayer, playerModel);
 
                     playerModel.DraftRound = fantasyPlayer.DraftRound;
 
@@ -74,7 +74,7 @@ namespace Chappyware.Web.Models
             return teamModels;
         }
 
-        private void SetHistoricalStatisticsForPlayer(FantasyPlayer fantasyPlayer, PlayerStatsModel playerModel)
+        private void SetHistoricalStatisticsForPlayer(FantasyPlayer fantasyPlayer, PlayerModel playerModel)
         {
             foreach (Statistic stat in fantasyPlayer.Player.Stats)
             {
@@ -83,16 +83,16 @@ namespace Chappyware.Web.Models
             }
         }
 
-        private void SetMostRecentStatsForPlayer(FantasyPlayer player, PlayerStatsModel newPlayer)
+        private void SetMostRecentStatsForPlayer(FantasyPlayer player, PlayerModel newPlayer)
         {
-            Statistic mostRecentStat = GetMostRecentOwnedStatistic(player);
-
+            Statistic mostRecentStat = player.GetCurrentStats();
+            
             newPlayer.Goals = mostRecentStat.Goals;
             newPlayer.Assists = mostRecentStat.Assists;
-            newPlayer.Points = mostRecentStat.Goals + mostRecentStat.Assists;
+            newPlayer.Points = (mostRecentStat.Goals + mostRecentStat.Assists);
             newPlayer.GamesPlayed = mostRecentStat.GamesPlayed;
             newPlayer.AverageTimeOnIce = mostRecentStat.AvgTOI;
-
+            
             // handle zero games played
             newPlayer.PointsPerGame = 0;
             if (newPlayer.GamesPlayed > 0)
@@ -101,23 +101,8 @@ namespace Chappyware.Web.Models
             }
         }
 
-        private Statistic GetMostRecentOwnedStatistic(FantasyPlayer player)
-        {
-            Statistic mostRecentStat = null;
-            var currentStat = from statistic in player.Player.Stats
-                              where statistic.RecordDate >= player.OwnedStartDate && statistic.RecordDate < player.OwnedEndDate
-                              select statistic;
-            if (currentStat.Count() > 0)
-            {
-                DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
-                mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
-            }
-            else
-            {
-                mostRecentStat = new Statistic();
-            }
+        
 
-            return mostRecentStat;
-        }
+        
     }
 }

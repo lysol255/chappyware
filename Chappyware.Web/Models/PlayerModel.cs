@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Chappyware.Data;
 
 namespace Chappyware.Web.Models
 {
-    public class PlayerStatsModel
+    public class PlayerModel
     {
         public int Goals { get; set; }
         public int Assists { get; set; }
@@ -18,9 +19,17 @@ namespace Chappyware.Web.Models
 
         public List<HistoricalStatisticModel> HistoricalStats { get; set; }
 
-        public PlayerStatsModel()
+        public PlayerModel()
         {
             HistoricalStats = new List<HistoricalStatisticModel>();
+        }
+
+        public PlayerModel(List<Statistic> stats)
+        {
+            foreach (Statistic stat in stats)
+            {
+                HistoricalStats.Add(new HistoricalStatisticModel(stat));
+            }
         }
     }
 }
