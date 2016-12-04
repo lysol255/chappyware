@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Chappyware.Web/.bin/node.cmd
+/Chappyware.Web/Chappystats.txt.bak.txt
