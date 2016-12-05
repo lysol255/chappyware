@@ -45,7 +45,7 @@ namespace Chappyware.Data
                 Regex playerRowSearch = new Regex("<tr >.*?</tr>");
                 MatchCollection playersCollection = playerRowSearch.Matches(dataTable.Value);
 
-                DateTime initalzationDate = DateTime.Now;
+                DateTime initalzationDate = DateTime.Today.ToUniversalTime();
 
                 foreach(Match playerMatch in playersCollection)
                 {

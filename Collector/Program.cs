@@ -18,11 +18,27 @@ namespace Collector
             csvSource.Initialize();
 
             List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
-            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
+
+            foreach(Player player in currentPlayerStats)
+            {
+                foreach(Statistic stat in player.Stats)
+                {
+                    stat.RecordDate = stat.RecordDate.AddHours(stat.RecordDate.Hour * -1);
+                    stat.RecordDate = stat.RecordDate.AddMinutes(stat.RecordDate.Minute * -1);
+                    stat.RecordDate = stat.RecordDate.AddSeconds(stat.RecordDate.Second * -1);
+                    stat.RecordDate = stat.RecordDate.AddMilliseconds(stat.RecordDate.Millisecond* -1);
+                    
+                    stat.RecordDate = stat.RecordDate.ToUniversalTime();
+                }
+            }
+
 
             //// persist them into json
             StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
 
+            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
+
+            
             FantasyTeamManager manager = new FantasyTeamManager();
             FantasyLeague league = manager.CreateLeague("Robs");
             manager.UpdateLeagueRoster(league, "TeamImport.txt");
