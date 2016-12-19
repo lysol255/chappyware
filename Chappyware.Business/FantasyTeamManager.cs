@@ -1,5 +1,6 @@
 ﻿using Chappyware.Data;
 using Chappyware.Data.Factories;
+using Chappyware.Data.Storage;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,48 @@ namespace Chappyware.Business
     public class FantasyTeamManager
     {
 
-        public FantasyLeague CreateLeague(string name)
+        private static FantasyTeamManager _Instance;
+                
+        private List<FantasyLeague> _LeagueCache;
+
+        public static FantasyTeamManager Insance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new FantasyTeamManager();
+                }
+                return _Instance;
+            }
+        }
+
+        private FantasyTeamManager()
+        {
+            _LeagueCache = new List<FantasyLeague>();
+        }
+
+        private FantasyLeague CreateLeague(string name)
         {
             FantasyLeague league = new FantasyLeague();
             league.Name = name;
             return league;
         }
 
-        public void UpdateLeagueRoster(FantasyLeague league, string fileToImport)
+        public FantasyLeague GetLeague(string leagueName)
+        {
+            FantasyLeague league = _LeagueCache.SingleOrDefault(l=>l.Name == leagueName);
+
+            if (league == null)
+            {
+                league = CreateLeague(leagueName);
+                InsertTeamsIntoLeague(league, DataFileUtilities.GetLeagueFileName());
+                _LeagueCache.Add(league);
+            }
+            return league;
+        }
+
+        public void InsertTeamsIntoLeague(FantasyLeague league, string fileToImport)
         {
             league.Teams = ImportTeamFromCsv(fileToImport);
         }

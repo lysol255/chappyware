@@ -116,6 +116,8 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\chappyware-hockeypool.pubxml" />
     <None Include="Scripts\third-party\jQuery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\third-party\canvasjs\canvasjs.min.js" />
+    <Content Include="Scripts\third-party\canvasjs\jquery.canvasjs.min.js" />
     <Content Include="Scripts\third-party\dataTables\dataTables.material.js" />
     <Content Include="Scripts\third-party\dataTables\jquery.dataTables.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.js" />
@@ -173,16 +175,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\App.ts" />
     <TypeScriptCompile Include="Scripts\typescript\Analytics.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyTeam.ts" />
-    <TypeScriptCompile Include="typings\jquery.d.ts" />
-    <TypeScriptCompile Include="typings\jquery.dataTables.d.ts" />
-    <TypeScriptCompile Include="typings\underscore.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\canvasjs\canvasjs.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.dataTables.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="typings\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

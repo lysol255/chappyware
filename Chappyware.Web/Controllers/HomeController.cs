@@ -64,27 +64,18 @@ namespace Chappyware.Web.Controllers
         [HttpGet]
         public ActionResult UpdateTeams()
         {
-            // get the current stats and load them into memory
-            IStatSource csvSource = new HockeyReferenceDotComStatSource();
-            csvSource.Initialize();
-
-            List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
-            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
-
-            // persist them into json
-            StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
+            FantasyTeamManager.Insance.GetLeague("Robs").UpdateLeague();
 
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            result.Data = JsonConvert.SerializeObject(currentPlayerStats);
+            result.Data = JsonConvert.SerializeObject("");
             return result;
         }
 
         private static FantasyLeague LoadLeague()
         {
-            FantasyTeamManager manager = new FantasyTeamManager();
-            FantasyLeague league = manager.CreateLeague("Robs");
-            manager.UpdateLeagueRoster(league, DataFileUtilities.GetLeagueFileName());
+            FantasyTeamManager manager = FantasyTeamManager.Insance;
+            FantasyLeague league = manager.GetLeague("Robs");
             return league;
         }
     }

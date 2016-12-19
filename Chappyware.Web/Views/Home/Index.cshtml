@@ -14,18 +14,23 @@
 </head>
 <body>
     <div class="controls">
+        <a class="control teamsbutton mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Teams</a>
+        <a class="control analyticsbutton mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Analytics</a>
         <a class="control updatestats mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Update</a>
     </div>
     <div id="mainContent">
         <div class="leagueSummary hidden"></div>
-        <div class="leagueSummary-loading">
+        <div class="analytics hidden">
+            <div id="statchart"></div>
+        </div>
+        <div class="loading">
             <div class="loader">
                 <svg class="circular">
                     <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
                 </svg>
             </div>
         </div>
-    </div>
+        </div>
     <div id="hidden" class="hidden">
         <table class="owners mdl-data-table"></table>
         <div class="teamContent">

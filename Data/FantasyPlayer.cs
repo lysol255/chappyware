@@ -1,4 +1,5 @@
 ﻿using Chappyware.Data;
+using Chappyware.Data.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,25 @@ namespace Chappyware.Data
 {
     public class FantasyPlayer
     {
+        private string _PlayerName;
+        private string _TeamName;
+
         public FantasyPlayer(Player player)
         {
-            Player = player;
-
- 
-
-
+            _PlayerName = player.Name;
+            _TeamName = player.Team;
         }
 
-        public Player Player { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Player Player {
+            get
+            {
+                return PlayerFactory.Instance.GetPlayer(_PlayerName, _TeamName);
+            }
+
+        }
 
         public DateTime OwnedStartDate { get; set; }
 

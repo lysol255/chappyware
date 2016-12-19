@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chappyware.Business;
+using Chappyware.Data.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,19 @@ namespace Chappyware.Data
         public FantasyLeague()
         {
             Teams = new List<FantasyTeam>();
+        }
+
+        public void UpdateLeague()
+        {
+            // get the current stats and load them into memory
+            IStatSource csvSource = new HockeyReferenceDotComStatSource();
+            csvSource.Initialize();
+
+            List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
+            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
+
+            // persist them into json
+            StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
         }
 
     }

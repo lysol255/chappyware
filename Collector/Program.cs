@@ -38,10 +38,10 @@ namespace Collector
 
             StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
 
-            
-            FantasyTeamManager manager = new FantasyTeamManager();
-            FantasyLeague league = manager.CreateLeague("Robs");
-            manager.UpdateLeagueRoster(league, "TeamImport.txt");
+
+            FantasyTeamManager manager = FantasyTeamManager.Insance;
+            FantasyLeague league = manager.GetLeague("Robs");
+            manager.InsertTeamsIntoLeague(league, "TeamImport.txt");
 
         }
     }

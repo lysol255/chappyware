@@ -11,20 +11,27 @@ namespace Chappyware.Data.Storage
 {
     public class JsonStorage : IStatStorage
     {
-
+        private List<Player> _PlayerStats;
+        private List<FantasyLeague> _Leagues;
 
         public List<FantasyLeague> LoadFantasyLeagues()
         {
-            string seralizedleagues = File.ReadAllText(DataFileUtilities.GetLeagueFileName());
-            List<FantasyLeague> leagues = JsonConvert.DeserializeObject<List<FantasyLeague>>(seralizedleagues);
-            return leagues;
+            if (_Leagues == null)
+            {
+                string seralizedleagues = File.ReadAllText(DataFileUtilities.GetLeagueFileName());
+                _Leagues = JsonConvert.DeserializeObject<List<FantasyLeague>>(seralizedleagues);
+            }
+            return _Leagues;
         }
 
         public List<Player> LoadPlayers()
         {
-            string seralizedPlayerStats = File.ReadAllText(DataFileUtilities.GetStatFileName());
-            List<Player> playerStats = JsonConvert.DeserializeObject< List<Player>>(seralizedPlayerStats);
-            return playerStats;
+            if (_PlayerStats == null)
+            {
+                string seralizedPlayerStats = File.ReadAllText(DataFileUtilities.GetStatFileName());
+                _PlayerStats = JsonConvert.DeserializeObject<List<Player>>(seralizedPlayerStats);
+            }
+            return _PlayerStats;
         }
 
         public void SaveFantasyLeagues(List<FantasyLeague> fantasyLeagues)

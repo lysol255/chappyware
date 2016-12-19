@@ -65,8 +65,7 @@
             this.ShowLoading($mainContent);
 
             var $leagueSummary = $mainContent.find('.leagueSummary');
-
-            var $leagueSummaryLoading = $mainContent.find('.leagueSummary-loading');
+            var $analytics = $mainContent.find('.analytics');
             
             var teamTableArray = [];
 
@@ -118,23 +117,36 @@
 
             // control visibility
             this.ShowLeagueSummary($mainContent);
-
         }
 
         private InitializeControls() {
 
             var $controls = $('.controls');
+            var $mainContent = $('#mainContent');
 
             // initialize update control
             var $updateButton = $controls.find('.updatestats');
+            var $analyticsButton = $controls.find('.analyticsbutton');
+            var $teamsButton = $controls.find('.teamsbutton');
             
             $updateButton.click(() => {
 
-                this.ShowLoading($('#mainContent'));
+                this.ShowLoading($mainContent);
 
                 $updateButton.text("Updating...");
 
                 this.UpdateStats();
+            });
+
+            $analyticsButton.click(() => {
+
+                var lineChart = new Analytics.Analytics($mainContent.find('.analytics'), this.league.Teams[0]);
+
+                this.ShowAnalytics($mainContent);
+            });
+
+            $teamsButton.click(() => {
+                this.ShowLeagueSummary($mainContent);
             });
 
             var $lastUpdated = $controls.find('.lastupdated');
@@ -173,13 +185,25 @@
         }
 
         private ShowLoading($container: JQuery) {
-            $container.find('.leagueSummary').addClass('hidden');
-            $container.find('.leagueSummary-loading').removeClass('hidden');
+            this.HideAll($container);
+            $container.find('.loading').removeClass('hidden');
         }
 
+        private HideAll($container: JQuery) {
+            $container.find('.leagueSummary').addClass('hidden');
+            $container.find('.analytics').addClass('hidden');
+        }
+        
         private ShowLeagueSummary($container: JQuery) {
+            this.HideAll($container);
             $container.find('.leagueSummary').removeClass('hidden');
-            $container.find('.leagueSummary-loading').addClass('hidden');
+            $container.find('.loading').addClass('hidden');
+        }
+
+        private ShowAnalytics($container: JQuery) {
+            this.HideAll($container);
+            $container.find('.analytics').removeClass('hidden');
+            $container.find('.loading').addClass('hidden');
         }
     }
 }

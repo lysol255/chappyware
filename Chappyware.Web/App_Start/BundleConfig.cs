@@ -15,6 +15,8 @@ namespace Chappyware.Web.App_Start
                         , "~/Scripts/third-party/underscore/underscore.js"
                         , "~/Scripts/third-party/dataTables/jquery.dataTables.js"
                         , "~/Scripts/third-party/dataTables/dataTables.material.js"
+                        , "~/Scripts/third-party/canvasjs/canvasjs.min.js"
+                        , "~/Scripts/third-party/canvasjs/jquery.canvasjs.min.js"
                         , "~/Scripts/typescript/*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/styles").Include(

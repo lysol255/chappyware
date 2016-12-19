@@ -18,7 +18,7 @@ var FantasyPoolApp;
             var $mainContent = $('#mainContent');
             this.ShowLoading($mainContent);
             var $leagueSummary = $mainContent.find('.leagueSummary');
-            var $leagueSummaryLoading = $mainContent.find('.leagueSummary-loading');
+            var $analytics = $mainContent.find('.analytics');
             var teamTableArray = [];
             var $ownerTable = $('#hidden').find('.owners').clone();
             $leagueSummary.append($ownerTable);
@@ -65,12 +65,22 @@ var FantasyPoolApp;
         League.prototype.InitializeControls = function () {
             var _this = this;
             var $controls = $('.controls');
+            var $mainContent = $('#mainContent');
             // initialize update control
             var $updateButton = $controls.find('.updatestats');
+            var $analyticsButton = $controls.find('.analyticsbutton');
+            var $teamsButton = $controls.find('.teamsbutton');
             $updateButton.click(function () {
-                _this.ShowLoading($('#mainContent'));
+                _this.ShowLoading($mainContent);
                 $updateButton.text("Updating...");
                 _this.UpdateStats();
+            });
+            $analyticsButton.click(function () {
+                var lineChart = new FantasyPoolApp.Analytics.Analytics($mainContent.find('.analytics'), _this.league.Teams[0]);
+                _this.ShowAnalytics($mainContent);
+            });
+            $teamsButton.click(function () {
+                _this.ShowLeagueSummary($mainContent);
             });
             var $lastUpdated = $controls.find('.lastupdated');
         };
@@ -105,12 +115,22 @@ var FantasyPoolApp;
             });
         };
         League.prototype.ShowLoading = function ($container) {
+            this.HideAll($container);
+            $container.find('.loading').removeClass('hidden');
+        };
+        League.prototype.HideAll = function ($container) {
             $container.find('.leagueSummary').addClass('hidden');
-            $container.find('.leagueSummary-loading').removeClass('hidden');
+            $container.find('.analytics').addClass('hidden');
         };
         League.prototype.ShowLeagueSummary = function ($container) {
+            this.HideAll($container);
             $container.find('.leagueSummary').removeClass('hidden');
-            $container.find('.leagueSummary-loading').addClass('hidden');
+            $container.find('.loading').addClass('hidden');
+        };
+        League.prototype.ShowAnalytics = function ($container) {
+            this.HideAll($container);
+            $container.find('.analytics').removeClass('hidden');
+            $container.find('.loading').addClass('hidden');
         };
         return League;
     }());

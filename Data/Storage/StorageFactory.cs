@@ -9,6 +9,8 @@ namespace Chappyware.Data.Storage
     public class StorageFactory
     {
 
+        private IStatStorage _Storage;
+
         private static StorageFactory _Instance;
 
         public static StorageFactory Instance
@@ -23,28 +25,30 @@ namespace Chappyware.Data.Storage
             }
         }
 
+        private StorageFactory()
+        {
+            _Storage = new JsonStorage();
+
+        }
+
         public void UpdatedPersistedStatSource(List<Player> players)
         {
-            IStatStorage storage = new JsonStorage();
-            storage.SavePlayers(players);
+            _Storage.SavePlayers(players);
         }
 
         public List<Player> LoadPersistedStatSource()
         {
-            IStatStorage storage = new JsonStorage();
-            return storage.LoadPlayers();
+            return _Storage.LoadPlayers();
         }
 
         public void UpdateFantasyTeams(List<FantasyLeague> leagues)
         {
-            IStatStorage storage = new JsonStorage();
-            storage.SaveFantasyLeagues(leagues);
+            _Storage.SaveFantasyLeagues(leagues);
         }
 
         public List<FantasyLeague> LoadPersistedFantasyLeagues()
         {
-            IStatStorage storage = new JsonStorage();
-            return storage.LoadFantasyLeagues();
+            return _Storage.LoadFantasyLeagues();
         }
 
     }
