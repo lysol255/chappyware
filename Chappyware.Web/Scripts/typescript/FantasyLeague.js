@@ -70,6 +70,7 @@ var FantasyPoolApp;
             var $updateButton = $controls.find('.updatestats');
             var $analyticsButton = $controls.find('.analyticsbutton');
             var $teamsButton = $controls.find('.teamsbutton');
+            var $allPlayersView = $controls.find('.playerstatsbutton');
             $updateButton.click(function () {
                 _this.ShowLoading($mainContent);
                 $updateButton.text("Updating...");
@@ -81,6 +82,9 @@ var FantasyPoolApp;
             });
             $teamsButton.click(function () {
                 _this.ShowLeagueSummary($mainContent);
+            });
+            $allPlayersView.click(function () {
+                _this.ShowAllPlayers($mainContent);
             });
             var $lastUpdated = $controls.find('.lastupdated');
         };
@@ -121,6 +125,7 @@ var FantasyPoolApp;
         League.prototype.HideAll = function ($container) {
             $container.find('.leagueSummary').addClass('hidden');
             $container.find('.analytics').addClass('hidden');
+            $container.find('.playersview').addClass('hidden');
         };
         League.prototype.ShowLeagueSummary = function ($container) {
             this.HideAll($container);
@@ -130,6 +135,11 @@ var FantasyPoolApp;
         League.prototype.ShowAnalytics = function ($container) {
             this.HideAll($container);
             $container.find('.analytics').removeClass('hidden');
+            $container.find('.loading').addClass('hidden');
+        };
+        League.prototype.ShowAllPlayers = function ($container) {
+            this.HideAll($container);
+            $container.find('.playersview').removeClass('hidden');
             $container.find('.loading').addClass('hidden');
         };
         return League;

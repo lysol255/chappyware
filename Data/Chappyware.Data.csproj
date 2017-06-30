@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSources\HockeyReferenceRequest.cs" />
+    <Compile Include="GameStats.cs" />
     <Compile Include="DataSources\HockeyReferenceDotComStatSource.cs" />
+    <Compile Include="DataSources\HockeyReferenceGameStatSource.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="FantasyLeague.cs" />
     <Compile Include="FantasyPlayer.cs" />

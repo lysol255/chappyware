@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Chappyware.Data.DataSources;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Chappyware.Data
@@ -23,19 +20,8 @@ namespace Chappyware.Data
                 // create a list of players
                 _Players = new List<Player>();
 
-                // configure the request to go to hockey reference
-                HttpWebRequest request = WebRequest.Create("http://www.hockey-reference.com/leagues/NHL_2017_skaters.html") as HttpWebRequest;
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
                 // read the html as a string
-                string responseText = null;
-                using (var reader = new StreamReader(response.GetResponseStream()))
-                {
-                    while(!reader.EndOfStream)
-                    {
-                        responseText += reader.ReadLine().Trim();
-                    }
-                }
+                string responseText = HockeyReferenceRequest.MakeRequest("http://www.hockey-reference.com/leagues/NHL_2017_skaters.html");
 
                 // find the player table
                 Regex dataTableSearch = new Regex("<table class=\"sortable stats_table\" id=\"stats\".*</table>");

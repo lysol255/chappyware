@@ -1,11 +1,5 @@
-﻿using System;
+﻿using Chappyware.Data.DataSources;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Chappyware.Data;
-using Chappyware.Data.Storage;
-using Chappyware.Business;
 
 namespace Collector
 {
@@ -13,6 +7,12 @@ namespace Collector
     {
         static void Main(string[] args)
         {
+
+            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource();
+            List<GameStats> stats = source.GetLatestGameStats();
+
+
+            /*
             // get the current stats and load them into memory
             IStatSource csvSource = new HockeyReferenceDotComStatSource();
             csvSource.Initialize();
@@ -42,6 +42,7 @@ namespace Collector
             FantasyTeamManager manager = FantasyTeamManager.Insance;
             FantasyLeague league = manager.GetLeague("Robs");
             manager.InsertTeamsIntoLeague(league, "TeamImport.txt");
+            */
 
         }
     }

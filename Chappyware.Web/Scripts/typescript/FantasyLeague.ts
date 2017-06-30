@@ -128,6 +128,7 @@
             var $updateButton = $controls.find('.updatestats');
             var $analyticsButton = $controls.find('.analyticsbutton');
             var $teamsButton = $controls.find('.teamsbutton');
+            var $allPlayersView = $controls.find('.playerstatsbutton');
             
             $updateButton.click(() => {
 
@@ -147,6 +148,10 @@
 
             $teamsButton.click(() => {
                 this.ShowLeagueSummary($mainContent);
+            });
+
+            $allPlayersView.click(() => {
+                this.ShowAllPlayers($mainContent);
             });
 
             var $lastUpdated = $controls.find('.lastupdated');
@@ -192,6 +197,7 @@
         private HideAll($container: JQuery) {
             $container.find('.leagueSummary').addClass('hidden');
             $container.find('.analytics').addClass('hidden');
+            $container.find('.playersview').addClass('hidden');
         }
         
         private ShowLeagueSummary($container: JQuery) {
@@ -203,6 +209,12 @@
         private ShowAnalytics($container: JQuery) {
             this.HideAll($container);
             $container.find('.analytics').removeClass('hidden');
+            $container.find('.loading').addClass('hidden');
+        }
+
+        private ShowAllPlayers($container: JQuery) {
+            this.HideAll($container);
+            $container.find('.playersview').removeClass('hidden');
             $container.find('.loading').addClass('hidden');
         }
     }
