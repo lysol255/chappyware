@@ -12,21 +12,30 @@ namespace Chappyware.Data.DataSources
     {
         public static string MakeRequest(string requestUrl)
         {
-            // configure the request to go to hockey reference
-            HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-
-            // read the html as a string
             string responseText = null;
-            using (var reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                while (!reader.EndOfStream)
-                {
-                    responseText += reader.ReadLine().Trim();
-                }
-            }
+                // configure the request to go to hockey reference
+                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
 
+                // read the html as a string
+
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        responseText += reader.ReadLine().Trim();
+                    }
+                }
+
+            }
+            catch(Exception)
+            {
+                
+            }
             return responseText;
+
         }
 
     }

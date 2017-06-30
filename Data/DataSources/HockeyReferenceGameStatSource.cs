@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Chappyware.Data.DataSources
 {
@@ -14,7 +15,9 @@ namespace Chappyware.Data.DataSources
         private const string GameTableRegex = "id=\"div_games\".*?</div>";
         private const string GameURLRegex = "href=\"\\/boxscores\\/.*?html\"";
         private const string AllSkatersDivRegex = "div_.{3}_skaters.*?</table></div>";
+        private const string TeamCodeRegex = "div_.{3}_skaters";
         private const string PlayerRowRegex = "<tr ><th scope=\"row\" class=\"right \" data-stat=\"ranker\".*?<\\/tr>";
+        private const string StatLineRegex = "<td .*?</td>";
 
 
 
@@ -50,18 +53,42 @@ namespace Chappyware.Data.DataSources
             Regex teamTableSearch = new Regex(AllSkatersDivRegex);
             MatchCollection teamTableColelction = teamTableSearch.Matches(gamePageHtml);
 
-            // get team code (3 letters, eg. CHI)
-
+            // get team code (3 letters, eg. CHI) 
+            gameStats.HomeTeamCode = GetHomeTeamCode(gameUrl);
+            gameStats.AwayTeamCode = GetAwayTeamCode(teamTableColelction, gameStats.HomeTeamCode);
+             
             // iterate over each team table
             foreach(Match teamTable in teamTableColelction)
             {
                 Regex playerRowRegex = new Regex(PlayerRowRegex);
                 MatchCollection playerRows = playerRowRegex.Matches(teamTable.Value);
 
+                string teamCode = GetTeamCode(teamTable.Value);
+
                 foreach(Match playerStat in playerRows)
                 {
+
+                    PlayerGameStats playerGameStats = new PlayerGameStats();
+
                     // read out the stats
+                    Regex statLineRegex = new Regex(StatLineRegex);
+                    MatchCollection statRows = statLineRegex.Matches(playerStat.Value);
+
+                    foreach(Match statRow in statRows)
+                    {
+                        // read out the name and value of a stat
+                        XDocument statDoc = XDocument.Parse(statRow.Value);
+                        string statName = statDoc.Root.Attribute("data-stat").Value;
+                        string statValue = statDoc.Root.Value;
+
+                        // handle assigning the stat
+                        ProcessStat(statName, statValue, playerGameStats);
+                    }
+
+                    AddPlayerGameStat(teamCode, gameStats, playerGameStats);
+
                 }
+
 
             }
 
@@ -69,6 +96,73 @@ namespace Chappyware.Data.DataSources
             Rest();
 
             return gameStats;
+        }
+
+        private void AddPlayerGameStat(string teamCode, GameStats gameStats, PlayerGameStats playerGameStats)
+        {
+            if(teamCode == gameStats.HomeTeamCode)
+            {
+                gameStats.HomeTeamPlayerStats.Add(playerGameStats);
+            }
+            else
+            {
+                gameStats.AwayTeamPlayerStats.Add(playerGameStats);
+            }
+        }
+
+        private string GetAwayTeamCode(MatchCollection teamTableColelction, string homeTeamCode)
+        {
+            string awayTeamCode = null;
+            foreach (Match teamTable in teamTableColelction)
+            {
+                string teamCode = GetTeamCode(teamTable.Value);
+                if (teamCode != homeTeamCode)
+                {
+                    awayTeamCode = teamCode;
+                }
+            }
+            return awayTeamCode;
+        }
+
+        private string GetTeamCode(string value)
+        {
+            Regex teamCodeRegex = new Regex(TeamCodeRegex);
+            Match teamCodeMatch = teamCodeRegex.Match(value);
+
+            string teamCode = teamCodeMatch.Value;
+            // eg all_STL_skaters
+            teamCode = teamCode.Substring(teamCode.Length - 11, teamCode.Length - 12);
+            return teamCode;
+        }
+
+        private string GetHomeTeamCode(string gameUrl)
+        {
+            // home team code is always the last 3 characters before the .html
+            //http://www.hockey-reference.com/boxscores/201610120CHI.html
+            string homeTeamCOde = gameUrl.Substring(gameUrl.Length-8, 3);
+            return homeTeamCOde;
+        }
+
+        private void ProcessStat(string statName, string statValue, PlayerGameStats player)
+        {
+            switch (statName)
+            {
+                case "player":
+                    player.Name = statValue;
+                    break;
+                case "goals":
+                    player.Goals = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    break;
+                case "plus_minus":
+                    player.PlusMinus = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    break;
+                case "pen_min":
+                    player.PenaltyMin = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    break;
+                case "time_on_ice":
+                    player.TOI = statValue;
+                    break;
+            }
         }
 
         private List<string> GetGameUrls()

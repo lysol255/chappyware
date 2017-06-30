@@ -61,7 +61,7 @@ namespace Chappyware.Data
 
 
             }
-            catch(Exception e)
+            catch(Exception)
             {
 
             }
