@@ -1,4 +1,5 @@
 ﻿using Chappyware.Data.DataSources;
+using Chappyware.Data.Storage;
 using System.Collections.Generic;
 
 namespace Collector
@@ -8,9 +9,19 @@ namespace Collector
         static void Main(string[] args)
         {
 
-            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource();
-            List<GameStats> stats = source.GetLatestGameStats();
+            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource(new Dictionary<string, GameStats>());
+            Dictionary<string, GameStats> stats = source.UpdateHistoricalStats();
 
+            GameStatStore store = new GameStatStore();
+            store.HistoricalGames = stats;
+
+            store.Save();
+
+            stats = null;
+
+            store.Load();
+
+            stats = store.HistoricalGames;
 
             /*
             // get the current stats and load them into memory

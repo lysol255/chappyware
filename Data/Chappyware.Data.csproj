@@ -63,6 +63,7 @@
     <Compile Include="StatisticManager.cs" />
     <Compile Include="Statistic.cs" />
     <Compile Include="Storage\DataFileUtilities.cs" />
+    <Compile Include="Storage\GameStatStore.cs" />
     <Compile Include="Storage\JsonStorage.cs" />
     <Compile Include="Storage\StorageFactory.cs" />
     <Compile Include="Team.cs" />

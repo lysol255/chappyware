@@ -19,33 +19,64 @@ namespace Chappyware.Data.DataSources
         private const string PlayerRowRegex = "<tr ><th scope=\"row\" class=\"right \" data-stat=\"ranker\".*?<\\/tr>";
         private const string StatLineRegex = "<td .*?</td>";
 
+        // game url is the key
+        private Dictionary<string, GameStats> _HistoricalStats;
 
+        public HockeyReferenceGameStatSource(Dictionary<string, GameStats> historicalGameStats)
+        {
+            _HistoricalStats = historicalGameStats;
+        }
 
         // Urls
         private const string BaseURL = "http://www.hockey-reference.com";
-        
+        private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2017_games.html";
 
-        public List<GameStats> GetLatestGameStats()
+        /// <summary>
+        /// Updates the internal historical stats that this data source was constructed with.  Returns
+        /// the dictionary with any new entries.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, GameStats> UpdateHistoricalStats()
         {
-
             // get game urls
             //List<string> gameUrls = GetGameUrls();
 
             List<string> gameUrls = new List<string> { "http://www.hockey-reference.com/boxscores/201610120CHI.html" };
 
-            string gameUrl = gameUrls.First();
 
-            // create game stats
-            GameStats gameStat = GetGameStats(gameUrl);
+            foreach(string gameUrl in gameUrls)
+            {
+                GameStats gameStat = null;
+                
+                // has this game already been recorded
+                if (_HistoricalStats.ContainsKey(gameUrl))
+                {
+                    continue;
+                }
 
-            return new List<GameStats>();
+                // create game stats
+                gameStat = GetGameStats(gameUrl);
+
+                // add the game if it processed correctly
+                if (gameStat != null)
+                {
+                    _HistoricalStats.Add(gameUrl, gameStat);
+                }
+                else
+                {
+                    //throw new Exce
+                }
+            }
+
+            return _HistoricalStats;
 
         }
 
         private GameStats GetGameStats(string gameUrl)
         {
             GameStats gameStats = new GameStats();
-            
+            gameStats.GameUrl = gameUrl;
+
             // request the game data
             string gamePageHtml = HockeyReferenceRequest.MakeRequest(gameUrl);
 
@@ -69,6 +100,7 @@ namespace Chappyware.Data.DataSources
                 {
 
                     PlayerGameStats playerGameStats = new PlayerGameStats();
+                    playerGameStats.TeamCode = teamCode;
 
                     // read out the stats
                     Regex statLineRegex = new Regex(StatLineRegex);
@@ -98,6 +130,12 @@ namespace Chappyware.Data.DataSources
             return gameStats;
         }
 
+        /// <summary>
+        /// Just adds the player's stats to the correct team's list of gamestats
+        /// </summary>
+        /// <param name="teamCode"></param>
+        /// <param name="gameStats"></param>
+        /// <param name="playerGameStats"></param>
         private void AddPlayerGameStat(string teamCode, GameStats gameStats, PlayerGameStats playerGameStats)
         {
             if(teamCode == gameStats.HomeTeamCode)
@@ -124,6 +162,13 @@ namespace Chappyware.Data.DataSources
             return awayTeamCode;
         }
 
+
+        /// <summary>
+        /// Gets the team code by reading the specific div id from the skater table
+        /// something like div_.{3}_skaters
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private string GetTeamCode(string value)
         {
             Regex teamCodeRegex = new Regex(TeamCodeRegex);
@@ -135,6 +180,12 @@ namespace Chappyware.Data.DataSources
             return teamCode;
         }
 
+        /// <summary>
+        /// Parses the home team code from the url of the page.  Home team will always be a
+        /// suffix of the game stats page.  Eg. 201610120CHI.html
+        /// </summary>
+        /// <param name="gameUrl"></param>
+        /// <returns></returns>
         private string GetHomeTeamCode(string gameUrl)
         {
             // home team code is always the last 3 characters before the .html
@@ -151,13 +202,40 @@ namespace Chappyware.Data.DataSources
                     player.Name = statValue;
                     break;
                 case "goals":
-                    player.Goals = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    player.Goals = ParseNumericStat(statValue);
                     break;
                 case "plus_minus":
-                    player.PlusMinus = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    player.PlusMinus = ParseNumericStat(statValue);
                     break;
                 case "pen_min":
-                    player.PenaltyMin = !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+                    player.PenaltyMin = ParseNumericStat(statValue);
+                    break;
+                case "goals_ev":
+                    player.EvenGoals = ParseNumericStat(statValue);
+                    break;
+                case "goals_pp":
+                    player.PowerPlayGoals = ParseNumericStat(statValue);
+                    break;
+                case "goals_sh":
+                    player.ShortHandedGoals = ParseNumericStat(statValue);
+                    break;
+                case "goals_gw":
+                    player.GameWinningGoals = ParseNumericStat(statValue);
+                    break;
+                case "assists_ev":
+                    player.EventAssists = ParseNumericStat(statValue);
+                    break;
+                case "shots":
+                    player.Shots = ParseNumericStat(statValue);
+                    break;
+                case "assists_pp":
+                    player.PowerPlayAssists = ParseNumericStat(statValue);
+                    break;
+                case "assists_sh":
+                    player.ShortHandedAssists = ParseNumericStat(statValue);
+                    break;
+                case "shifts":
+                    player.Shifts = ParseNumericStat(statValue);
                     break;
                 case "time_on_ice":
                     player.TOI = statValue;
@@ -165,13 +243,16 @@ namespace Chappyware.Data.DataSources
             }
         }
 
+        private int ParseNumericStat(string statValue)
+        {
+            return !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
+        }
+
         private List<string> GetGameUrls()
         {
             List<string> gameUrls = new List<string>();
 
-            string allGamesPageHtml = HockeyReferenceRequest.MakeRequest("http://www.hockey-reference.com/leagues/NHL_2017_games.html");
-
-            // start to parse out each game url
+            string allGamesPageHtml = HockeyReferenceRequest.MakeRequest(AllGamesUrl);
 
             // find the player table
             Regex gameTableSearch = new Regex(GameTableRegex);
