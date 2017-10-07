@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\GameStatCollection.cs" />
+    <Compile Include="DataObjects\PlayerGameStatCollection.cs" />
     <Compile Include="DataSources\HockeyReferenceRequest.cs" />
-    <Compile Include="DataObjects\GameStats.cs" />
+    <Compile Include="DataObjects\GameStat.cs" />
     <Compile Include="DataSources\HockeyReferenceDotComStatSource.cs" />
     <Compile Include="DataSources\HockeyReferenceGameStatSource.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
@@ -57,7 +59,8 @@
     <Compile Include="IStatSource.cs" />
     <Compile Include="Owner.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="DataObjects\PlayerGameStats.cs" />
+    <Compile Include="DataObjects\PlayerGameStat.cs" />
+    <Compile Include="Factories\GameStatFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataSources\PuckAnalyticsCsvDataSource.cs" />
     <Compile Include="StatisticManager.cs" />

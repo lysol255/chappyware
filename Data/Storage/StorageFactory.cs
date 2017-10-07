@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chappyware.Data.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,11 @@ namespace Chappyware.Data.Storage
         public List<Player> LoadPersistedStatSource()
         {
             return _Storage.LoadPlayers();
+        }
+
+        public Dictionary<string, GameStat> LoadPersistedGameStats()
+        {
+            return _Storage.LoadGameStats();
         }
 
         public void UpdateFantasyTeams(List<FantasyLeague> leagues)

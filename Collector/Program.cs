@@ -1,4 +1,7 @@
-﻿using Chappyware.Data.DataSources;
+﻿using Chappyware.Data;
+using Chappyware.Data.DataObjects;
+using Chappyware.Data.DataSources;
+using Chappyware.Data.Factories;
 using Chappyware.Data.Storage;
 using System.Collections.Generic;
 
@@ -8,20 +11,31 @@ namespace Collector
     {
         static void Main(string[] args)
         {
-
-            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource(new Dictionary<string, GameStats>());
-            Dictionary<string, GameStats> stats = source.UpdateHistoricalStats();
-
             GameStatStore store = new GameStatStore();
+            store.Load();
+
+            //store.HistoricalGames.Remove("http://www.hockey-reference.com/boxscores/201710050OTT.html");
+
+            if (store.HistoricalGames == null)
+            {
+                store.HistoricalGames = new Dictionary<string, GameStat>();
+            }
+
+            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource(store.HistoricalGames);
+            Dictionary<string, GameStat> stats = source.UpdateHistoricalStats();
+
             store.HistoricalGames = stats;
 
             store.Save();
 
             stats = null;
-
-            store.Load();
-
+            
             stats = store.HistoricalGames;
+
+            PlayerFactory playerGameStatManager = PlayerFactory.Instance;
+
+            Player p = playerGameStatManager.GetPlayer("Connor McDavid", "EDM");
+
 
             /*
             // get the current stats and load them into memory

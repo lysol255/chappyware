@@ -1,4 +1,5 @@
-﻿using Chappyware.Data.DataSources;
+﻿using Chappyware.Data.DataObjects;
+using Chappyware.Data.DataSources;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -8,14 +9,14 @@ namespace Chappyware.Data.Storage
     public class GameStatStore
     {
 
-        public Dictionary<string, GameStats> HistoricalGames { get; set; }
+        public Dictionary<string, GameStat> HistoricalGames { get; set; }
 
         public void Load()
         {
             if (HistoricalGames == null)
             {
                 string historicalGameStats = File.ReadAllText(DataFileUtilities.GetGameStatFileName());
-                HistoricalGames = JsonConvert.DeserializeObject<Dictionary<string, GameStats>>(historicalGameStats);
+                HistoricalGames = JsonConvert.DeserializeObject<Dictionary<string, GameStat>>(historicalGameStats);
             }
 
         }

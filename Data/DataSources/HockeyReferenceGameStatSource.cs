@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Linq;
+using Chappyware.Data.DataObjects;
 
 namespace Chappyware.Data.DataSources
 {
@@ -20,33 +18,34 @@ namespace Chappyware.Data.DataSources
         private const string StatLineRegex = "<td .*?</td>";
 
         // game url is the key
-        private Dictionary<string, GameStats> _HistoricalStats;
+        private Dictionary<string, GameStat> _HistoricalStats;
 
-        public HockeyReferenceGameStatSource(Dictionary<string, GameStats> historicalGameStats)
+        public HockeyReferenceGameStatSource(Dictionary<string, GameStat> historicalGameStats)
         {
             _HistoricalStats = historicalGameStats;
         }
 
         // Urls
         private const string BaseURL = "http://www.hockey-reference.com";
-        private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2017_games.html";
+        private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2018_games.html";
 
         /// <summary>
         /// Updates the internal historical stats that this data source was constructed with.  Returns
         /// the dictionary with any new entries.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, GameStats> UpdateHistoricalStats()
+        public Dictionary<string, GameStat> UpdateHistoricalStats()
         {
             // get game urls
-            //List<string> gameUrls = GetGameUrls();
+            List<string> allGameUrls = GetGameUrls();
 
-            List<string> gameUrls = new List<string> { "http://www.hockey-reference.com/boxscores/201610120CHI.html" };
+            // only process new game Urls
+            List<string> newGameUrls = FilterOutAlreadyStoredGames(allGameUrls);
 
 
-            foreach(string gameUrl in gameUrls)
+            foreach(string gameUrl in newGameUrls)
             {
-                GameStats gameStat = null;
+                GameStat gameStat = null;
                 
                 // has this game already been recorded
                 if (_HistoricalStats.ContainsKey(gameUrl))
@@ -72,9 +71,16 @@ namespace Chappyware.Data.DataSources
 
         }
 
-        private GameStats GetGameStats(string gameUrl)
+        private List<string> FilterOutAlreadyStoredGames(List<string> allGameUrls)
         {
-            GameStats gameStats = new GameStats();
+
+            var newGameUrls = allGameUrls.Where(url => !_HistoricalStats.Keys.Any(exitingUrl => exitingUrl.Equals(url)));
+            return newGameUrls.ToList();
+        }
+
+        private GameStat GetGameStats(string gameUrl)
+        {
+            GameStat gameStats = new GameStat();
             gameStats.GameUrl = gameUrl;
 
             // request the game data
@@ -99,7 +105,7 @@ namespace Chappyware.Data.DataSources
                 foreach(Match playerStat in playerRows)
                 {
 
-                    PlayerGameStats playerGameStats = new PlayerGameStats();
+                    PlayerGameStat playerGameStats = new PlayerGameStat();
                     playerGameStats.TeamCode = teamCode;
 
                     // read out the stats
@@ -136,15 +142,15 @@ namespace Chappyware.Data.DataSources
         /// <param name="teamCode"></param>
         /// <param name="gameStats"></param>
         /// <param name="playerGameStats"></param>
-        private void AddPlayerGameStat(string teamCode, GameStats gameStats, PlayerGameStats playerGameStats)
+        private void AddPlayerGameStat(string teamCode, GameStat gameStats, PlayerGameStat playerGameStats)
         {
             if(teamCode == gameStats.HomeTeamCode)
             {
-                gameStats.HomeTeamPlayerStats.Add(playerGameStats);
+                gameStats.HomeTeamPlayerStats.Add(playerGameStats.Name, playerGameStats);
             }
             else
             {
-                gameStats.AwayTeamPlayerStats.Add(playerGameStats);
+                gameStats.AwayTeamPlayerStats.Add(playerGameStats.Name, playerGameStats);
             }
         }
 
@@ -194,7 +200,7 @@ namespace Chappyware.Data.DataSources
             return homeTeamCOde;
         }
 
-        private void ProcessStat(string statName, string statValue, PlayerGameStats player)
+        private void ProcessStat(string statName, string statValue, PlayerGameStat player)
         {
             switch (statName)
             {
@@ -280,7 +286,7 @@ namespace Chappyware.Data.DataSources
 
             return gameUrls;
         }
-
+        
         private void Rest()
         {
             //Thread.Sleep(1000);
