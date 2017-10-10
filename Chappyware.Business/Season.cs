@@ -10,12 +10,12 @@ namespace Chappyware.Business
     {
         public static DateTime GetSeasonStartDate(string year)
         {
-            return new DateTime(2016, 10, 08);
+            return new DateTime(2017, 10, 01);
         }
 
         public static DateTime GetSeasonEndDate(string year)
         {
-            return new DateTime(2017, 04, 04);
+            return new DateTime(2018, 05, 04);
         }
     }
 }

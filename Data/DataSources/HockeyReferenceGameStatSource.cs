@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Linq;
 using Chappyware.Data.DataObjects;
+using System.Threading;
 
 namespace Chappyware.Data.DataSources
 {
@@ -42,8 +43,10 @@ namespace Chappyware.Data.DataSources
             // only process new game Urls
             List<string> newGameUrls = FilterOutAlreadyStoredGames(allGameUrls);
 
+            //List<string> newGameUrls = new List<string> { "https://www.hockey-reference.com/boxscores/201710040WPG.html"};
 
-            foreach(string gameUrl in newGameUrls)
+
+            foreach (string gameUrl in newGameUrls)
             {
                 GameStat gameStat = null;
                 
@@ -210,6 +213,9 @@ namespace Chappyware.Data.DataSources
                 case "goals":
                     player.Goals = ParseNumericStat(statValue);
                     break;
+                case "assists":
+                    player.Assists = ParseNumericStat(statValue);
+                    break;
                 case "plus_minus":
                     player.PlusMinus = ParseNumericStat(statValue);
                     break;
@@ -289,7 +295,7 @@ namespace Chappyware.Data.DataSources
         
         private void Rest()
         {
-            //Thread.Sleep(1000);
+            Thread.Sleep(1000);
         }
     }
 }

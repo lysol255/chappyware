@@ -36,6 +36,15 @@ namespace Chappyware.Data
 
         public int DraftRound { get; set; }
 
+        // Must fix this later and make it relative to draft dates
+        public int GamesPlayed
+        {
+            get
+            {
+                return Player.GameStats.PlayerStats.Count();
+            }
+        }
+
         public Statistic GetCurrentStats()
         {
             // get the record for the player's owned date

@@ -1,4 +1,5 @@
-﻿using Chappyware.Data;
+﻿using Chappyware.Business;
+using Chappyware.Data;
 using Chappyware.Data.DataObjects;
 using Chappyware.Data.DataSources;
 using Chappyware.Data.Factories;
@@ -35,6 +36,9 @@ namespace Collector
             PlayerFactory playerGameStatManager = PlayerFactory.Instance;
 
             Player p = playerGameStatManager.GetPlayer("Connor McDavid", "EDM");
+
+            FantasyTeamManager teamManager = FantasyTeamManager.Insance;
+            FantasyLeague league = teamManager.GetLeague("Robs");
 
 
             /*

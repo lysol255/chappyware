@@ -72,7 +72,10 @@ namespace Chappyware.Web.Models
             get
             {
                 double ppg = 0;
-                ppg = (double)TotalPoints / (double)TotalGamesPlayed;
+                if(TotalGamesPlayed != 0)
+                {
+                    ppg = (double)TotalPoints / (double)TotalGamesPlayed;
+                }
                 return ppg;
             }
         }

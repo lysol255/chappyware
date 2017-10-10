@@ -71,9 +71,9 @@ namespace Chappyware.Business
                 string[] fields = parser.ReadFields();
                 string owner = fields[0];
                 string playerName = fields[1];
-                string ownedStartDate = fields[2];
-                string ownedEndDate = fields[3];
-                string teamName = string.Empty;
+                string teamCode = fields[2];
+                string ownedStartDate = fields[3];
+                string ownedEndDate = fields[4];
 
                 // header marker, skip this row
                 if (owner.Equals("Owner"))
@@ -90,16 +90,8 @@ namespace Chappyware.Business
                     teams.Add(team);
                 }
 
-                // player and team name are included in the same cell
-                string[] playerAndTeam = playerName.Split(',');
-                if (playerAndTeam.Length == 2)
-                {
-                    playerName = playerAndTeam[0].Trim();
-                    teamName = playerAndTeam[1].Trim();
-                }
-
                 // find the player
-                Player player = PlayerFactory.Instance.GetPlayer(playerName, teamName);
+                Player player = PlayerFactory.Instance.GetPlayer(playerName, teamCode);
 
                 // create empty player if the player has no points/can't be found
                 if (player == null)
@@ -107,7 +99,7 @@ namespace Chappyware.Business
                     player = new Player();
                     player.Name = playerName;
                     player.Stats = new List<Statistic>();
-                    player.Team = teamName;
+                    player.Team = teamCode;
                 }
 
                 FantasyPlayer fantasyPlayer = new FantasyPlayer(player);

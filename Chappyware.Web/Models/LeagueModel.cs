@@ -87,11 +87,11 @@ namespace Chappyware.Web.Models
         {
             Statistic mostRecentStat = player.GetCurrentStats();
             
-            newPlayer.Goals = mostRecentStat.Goals;
-            newPlayer.Assists = mostRecentStat.Assists;
-            newPlayer.Points = (mostRecentStat.Goals + mostRecentStat.Assists);
-            newPlayer.GamesPlayed = mostRecentStat.GamesPlayed;
-            newPlayer.AverageTimeOnIce = mostRecentStat.AvgTOI;
+            newPlayer.Goals = player.Player.Goals;
+            newPlayer.Assists = player.Player.Assists;
+            newPlayer.Points = (player.Player.Goals + player.Player.Assists);
+            newPlayer.GamesPlayed = player.GamesPlayed;
+            newPlayer.AverageTimeOnIce = player.Player.TOI;
             
             // handle zero games played
             newPlayer.PointsPerGame = 0;

@@ -31,7 +31,12 @@ namespace Chappyware.Data
             get
             {
                 // need to fix
-                return GameStats.PlayerStats.Last().TOI;
+                string timeOnIce = "0:00";
+                if (GameStats.PlayerStats.Count > 0)
+                {
+                    timeOnIce = GameStats.PlayerStats.Last().TOI;
+                }
+                return timeOnIce;
             }
         }
         public int PlusMinus {

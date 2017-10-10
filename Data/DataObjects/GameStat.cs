@@ -31,11 +31,13 @@ namespace Chappyware.Data.DataObjects
         public PlayerGameStat GetPlayerGameStat(string playerName, string teamCode)
         {
             PlayerGameStat playerStat = null;
-            if(HomeTeamCode == teamCode)
-            {
+            if(HomeTeamCode == teamCode
+                &&
+                HomeTeamPlayerStats.ContainsKey(playerName))
+            {                
                 playerStat = HomeTeamPlayerStats[playerName];
             }
-            else
+            else if(AwayTeamPlayerStats.ContainsKey(playerName))
             {
                 playerStat = AwayTeamPlayerStats[playerName];
             }
