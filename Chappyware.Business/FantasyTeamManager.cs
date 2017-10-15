@@ -54,6 +54,11 @@ namespace Chappyware.Business
             return league;
         }
 
+        public void ResetLeagueCache(string leagueName)
+        {
+            _LeagueCache.RemoveAll(l => l.Name == leagueName);
+        }
+
         public void InsertTeamsIntoLeague(FantasyLeague league, string fileToImport)
         {
             league.Teams = ImportTeamFromCsv(fileToImport);

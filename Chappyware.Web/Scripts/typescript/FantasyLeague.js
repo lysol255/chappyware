@@ -46,7 +46,7 @@ var FantasyPoolApp;
                 columnDefs: [{
                         targets: 0,
                         render: function (data, type, row) {
-                            return '<a href="#' + data + '">' + data + '</a>';
+                            return '<a href="#' + data.replace(" ", "") + '">' + data + '</a>';
                         }
                     }],
                 columns: [

@@ -8,7 +8,7 @@ var FantasyPoolApp;
             // grab the team table template
             var $teamContent = $('#hidden').find('.teamContent').clone();
             var $teamTitle = $teamContent.find('.teamTitle');
-            $teamTitle.append('<a id=' + this.team.OwnerName + '>' + this.team.OwnerName + '</>');
+            $teamTitle.append('<a id=' + this.team.OwnerName.replace(" ", "") + '>' + this.team.OwnerName + '</>');
             var $teamTable = $teamContent.find('.team');
             // create player array
             var playerStatArray = [];

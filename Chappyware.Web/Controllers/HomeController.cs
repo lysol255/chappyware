@@ -64,7 +64,9 @@ namespace Chappyware.Web.Controllers
         [HttpGet]
         public ActionResult UpdateTeams()
         {
-            FantasyTeamManager.Insance.GetLeague("Robs").UpdateLeague();
+            FantasyTeamManager manager = FantasyTeamManager.Insance;
+            manager.GetLeague("Robs").UpdateLeague();
+            manager.ResetLeagueCache("Robs");
 
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;

@@ -1,4 +1,6 @@
 ﻿using Chappyware.Business;
+using Chappyware.Data.DataObjects;
+using Chappyware.Data.DataSources;
 using Chappyware.Data.Storage;
 using System;
 using System.Collections.Generic;
@@ -22,14 +24,21 @@ namespace Chappyware.Data
         public void UpdateLeague()
         {
             // get the current stats and load them into memory
-            IStatSource csvSource = new HockeyReferenceDotComStatSource();
-            csvSource.Initialize();
+            GameStatStore store = new GameStatStore();
+            store.Load();
 
-            List<Player> currentPlayerStats = StorageFactory.Instance.LoadPersistedStatSource();
-            StatisticManager.UpdatePlayerStatistics(currentPlayerStats, csvSource);
+            if (store.HistoricalGames == null)
+            {
+                store.HistoricalGames = new Dictionary<string, GameStat>();
+            }
 
-            // persist them into json
-            StorageFactory.Instance.UpdatedPersistedStatSource(currentPlayerStats);
+            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource(store.HistoricalGames);
+            Dictionary<string, GameStat> stats = source.UpdateHistoricalStats();
+
+            store.HistoricalGames = stats;
+
+            store.Save();
+
         }
 
     }

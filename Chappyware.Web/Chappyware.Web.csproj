@@ -113,6 +113,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\FantasyTeams.html" />
+    <Content Include="GameStats.txt" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\chappyware-hockeypool.pubxml" />
     <None Include="Scripts\third-party\jQuery\jquery-3.1.1.intellisense.js" />

@@ -100,8 +100,8 @@
                     order: [[3, "desc"]],
                     columnDefs: [{
                         targets: 0,
-                        render: (data, type, row) => {
-                            return '<a href="#' + data + '">' + data + '</a>';
+                        render: (data: string, type, row) => {
+                            return '<a href="#' + data.replace(" ","") + '">' + data + '</a>';
                         }
                     }],
                     columns: [
