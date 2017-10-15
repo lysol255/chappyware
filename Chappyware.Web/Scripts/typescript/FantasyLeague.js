@@ -7,8 +7,6 @@ var FantasyPoolApp;
         League.prototype.initializae = function () {
             var _this = this;
             this.FetchLeague(function () {
-                // initialize controls
-                _this.InitializeControls();
                 _this.render();
             });
         };
@@ -16,7 +14,11 @@ var FantasyPoolApp;
             var _this = this;
             // grab the main content div
             var $mainContent = $('#mainContent');
-            this.ShowLoading($mainContent);
+            var $bannerContent = $('.banner');
+            // initialize banner
+            var bannerActions = this.CreateBannerActions();
+            this.banner = new FantasyPoolApp.Banner($bannerContent, $mainContent, bannerActions);
+            this.banner.ShowLoading();
             var $leagueSummary = $mainContent.find('.leagueSummary');
             var $analytics = $mainContent.find('.analytics');
             var teamTableArray = [];
@@ -60,33 +62,7 @@ var FantasyPoolApp;
                 ]
             });
             // control visibility
-            this.ShowLeagueSummary($mainContent);
-        };
-        League.prototype.InitializeControls = function () {
-            var _this = this;
-            var $controls = $('.controls');
-            var $mainContent = $('#mainContent');
-            // initialize update control
-            var $updateButton = $controls.find('.updatestats');
-            var $analyticsButton = $controls.find('.analyticsbutton');
-            var $teamsButton = $controls.find('.teamsbutton');
-            var $allPlayersView = $controls.find('.playerstatsbutton');
-            $updateButton.click(function () {
-                _this.ShowLoading($mainContent);
-                $updateButton.text("Updating...");
-                _this.UpdateStats();
-            });
-            $analyticsButton.click(function () {
-                var lineChart = new FantasyPoolApp.Analytics.Analytics($mainContent.find('.analytics'), _this.league.Teams[0]);
-                _this.ShowAnalytics($mainContent);
-            });
-            $teamsButton.click(function () {
-                _this.ShowLeagueSummary($mainContent);
-            });
-            $allPlayersView.click(function () {
-                _this.ShowAllPlayers($mainContent);
-            });
-            var $lastUpdated = $controls.find('.lastupdated');
+            this.banner.ShowLeagueSummary();
         };
         League.prototype.RenderPlayerTable = function (team, $container) {
             var teamContent = new FantasyPoolApp.FantasyTeam(team);
@@ -118,29 +94,20 @@ var FantasyPoolApp;
                 }
             });
         };
-        League.prototype.ShowLoading = function ($container) {
-            this.HideAll($container);
-            $container.find('.loading').removeClass('hidden');
-        };
-        League.prototype.HideAll = function ($container) {
-            $container.find('.leagueSummary').addClass('hidden');
-            $container.find('.analytics').addClass('hidden');
-            $container.find('.playersview').addClass('hidden');
-        };
-        League.prototype.ShowLeagueSummary = function ($container) {
-            this.HideAll($container);
-            $container.find('.leagueSummary').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
-        };
-        League.prototype.ShowAnalytics = function ($container) {
-            this.HideAll($container);
-            $container.find('.analytics').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
-        };
-        League.prototype.ShowAllPlayers = function ($container) {
-            this.HideAll($container);
-            $container.find('.playersview').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
+        League.prototype.CreateBannerActions = function () {
+            var _this = this;
+            var bannerActions = [];
+            // update
+            var updateAction = {
+                Name: 'Update',
+                Selector: 'updatestats',
+                Action: function () {
+                    _this.UpdateStats();
+                }
+            };
+            bannerActions.push(updateAction);
+            // teams
+            return bannerActions;
         };
         return League;
     }());

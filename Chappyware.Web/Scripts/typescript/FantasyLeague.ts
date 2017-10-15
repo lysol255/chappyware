@@ -45,14 +45,12 @@
         leagueJson: JQuery;
         league: IFantasyLeague;
         name: string;
+        banner: Banner;
 
         private $fantasyTeamTemplate: JQuery;
 
         public initializae() {
-            this.FetchLeague(() => {
-                // initialize controls
-                this.InitializeControls();
-                
+            this.FetchLeague(() => {                
                 this.render();
             });
         }
@@ -61,8 +59,12 @@
 
             // grab the main content div
             var $mainContent = $('#mainContent');
+            var $bannerContent = $('.banner');
 
-            this.ShowLoading($mainContent);
+            // initialize banner
+            var bannerActions = this.CreateBannerActions();
+            this.banner = new Banner($bannerContent, $mainContent, bannerActions);
+            this.banner.ShowLoading();
 
             var $leagueSummary = $mainContent.find('.leagueSummary');
             var $analytics = $mainContent.find('.analytics');
@@ -116,45 +118,7 @@
                 });
 
             // control visibility
-            this.ShowLeagueSummary($mainContent);
-        }
-
-        private InitializeControls() {
-
-            var $controls = $('.controls');
-            var $mainContent = $('#mainContent');
-
-            // initialize update control
-            var $updateButton = $controls.find('.updatestats');
-            var $analyticsButton = $controls.find('.analyticsbutton');
-            var $teamsButton = $controls.find('.teamsbutton');
-            var $allPlayersView = $controls.find('.playerstatsbutton');
-            
-            $updateButton.click(() => {
-
-                this.ShowLoading($mainContent);
-
-                $updateButton.text("Updating...");
-
-                this.UpdateStats();
-            });
-
-            $analyticsButton.click(() => {
-
-                var lineChart = new Analytics.Analytics($mainContent.find('.analytics'), this.league.Teams[0]);
-
-                this.ShowAnalytics($mainContent);
-            });
-
-            $teamsButton.click(() => {
-                this.ShowLeagueSummary($mainContent);
-            });
-
-            $allPlayersView.click(() => {
-                this.ShowAllPlayers($mainContent);
-            });
-
-            var $lastUpdated = $controls.find('.lastupdated');
+            this.banner.ShowLeagueSummary();
         }
 
         private RenderPlayerTable(team: IFantasyTeam, $container: JQuery) {
@@ -189,33 +153,23 @@
             });
         }
 
-        private ShowLoading($container: JQuery) {
-            this.HideAll($container);
-            $container.find('.loading').removeClass('hidden');
-        }
+        private CreateBannerActions(): IBannerAction[] {
 
-        private HideAll($container: JQuery) {
-            $container.find('.leagueSummary').addClass('hidden');
-            $container.find('.analytics').addClass('hidden');
-            $container.find('.playersview').addClass('hidden');
-        }
-        
-        private ShowLeagueSummary($container: JQuery) {
-            this.HideAll($container);
-            $container.find('.leagueSummary').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
-        }
+            var bannerActions = [];
+            
+            // update
+            var updateAction: IBannerAction = {
+                Name: 'Update',
+                Selector: 'updatestats',
+                Action: () => {
+                    this.UpdateStats();
+                }
+            }
+            bannerActions.push(updateAction);
 
-        private ShowAnalytics($container: JQuery) {
-            this.HideAll($container);
-            $container.find('.analytics').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
-        }
+            // teams
 
-        private ShowAllPlayers($container: JQuery) {
-            this.HideAll($container);
-            $container.find('.playersview').removeClass('hidden');
-            $container.find('.loading').addClass('hidden');
+            return bannerActions;
         }
     }
 }

@@ -119,19 +119,18 @@
     <None Include="Scripts\third-party\jQuery\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\third-party\canvasjs\canvasjs.min.js" />
     <Content Include="Scripts\third-party\canvasjs\jquery.canvasjs.min.js" />
-    <Content Include="Scripts\third-party\dataTables\dataTables.material.js" />
     <Content Include="Scripts\third-party\dataTables\jquery.dataTables.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.min.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\third-party\material\material.js" />
     <Content Include="Scripts\third-party\underscore\underscore.js" />
     <Content Include="Scripts\third-party\underscore\underscore.min.js" />
     <Content Include="Styles\Chappyware.css" />
     <Content Include="Styles\LoadingSpinner.css" />
-    <Content Include="Styles\third-party\dataTables\dataTables.material.css" />
     <Content Include="Styles\third-party\dataTables\jquery.dataTables.css" />
-    <Content Include="Styles\third-party\dataTables\material.css" />
+    <Content Include="Styles\third-party\material\material.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\typescript\Analytics.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\Banner.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyPlayersView.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyTeam.ts" />
