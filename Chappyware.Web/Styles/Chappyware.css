@@ -1,19 +1,4 @@
-﻿.demo-card-wide.mdl-card {
-  width: 512px;
-}
-.demo-card-wide > .mdl-card__title {
-  color: #fff;
-  height: 176px;
-  background: url('../assets/demos/welcome_card.jpg') center / cover;
-}
-.demo-card-wide > .mdl-card__menu {
-  color: #fff;
-}
-
-#mainContent{
-    display: block;
-    margin: auto;
-    width: 60%;
+﻿#mainContent{
 }
 
 .controls {
@@ -26,11 +11,11 @@
 }
 
 .leagueSummary {
-    width: 100%;
+
 }
 
 .teamTable{
-    width: 100%;
+
 }
 
 .teamTitle
