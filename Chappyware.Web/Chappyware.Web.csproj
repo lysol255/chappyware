@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +181,7 @@
     <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyPlayersView.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyTeam.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\PlayerGameView.ts" />
     <TypeScriptCompile Include="Scripts\typings\canvasjs\canvasjs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery.dataTables.d.ts" />
@@ -190,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="typings\" />
+    <Folder Include="Views\Game\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -41,7 +41,14 @@ namespace Chappyware.Data
         {
             get
             {
-                return Player.GameStats.PlayerStats.Count();
+                var games = from gameStat in Player.GameStats.PlayerStats
+                            where gameStat.GameDate >= OwnedStartDate
+                            &&
+                            gameStat.GameDate < OwnedEndDate
+                            select gameStat;
+
+
+                return games.Count();
             }
         }
 

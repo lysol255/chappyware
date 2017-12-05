@@ -18,6 +18,8 @@ namespace Chappyware.Web.Controllers
         private const string _UpdateStatsRoute = "~/stats/update";
         private const string _GetStatsRoute = "~/stats";
         private const string _GetLeagueRoute = "~/league";
+        private const string _GetPlayerGameRoute = "~/games/{id?}";
+
 
         // GET: Home
         public ActionResult Index()

@@ -27,5 +27,7 @@ namespace Chappyware.Data
         public int ShortHandedGoals { get; internal set; }
         public int PowerPlayGoals { get; internal set; }
         public int EvenGoals { get; internal set; }
+
+        public DateTime GameDate { get; set; }
     }
 }

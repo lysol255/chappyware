@@ -5,6 +5,7 @@ var FantasyPoolApp;
             this.team = team;
         }
         FantasyTeam.prototype.render = function ($container) {
+            var _this = this;
             // grab the team table template
             var $teamContent = $('#hidden').find('.teamContent').clone();
             var $teamTitle = $teamContent.find('.teamTitle');
@@ -13,6 +14,7 @@ var FantasyPoolApp;
             // create player array
             var playerStatArray = [];
             _.each(this.team.Players, function (player) {
+                var playerStatLink = player.Name;
                 playerStatArray.push([
                     player.DraftRound,
                     player.Name,
@@ -24,7 +26,7 @@ var FantasyPoolApp;
                     player.PointsPerGame.toFixed(2)]);
             });
             // create the data table
-            $teamTable.DataTable({
+            var teamDataTable = $teamTable.DataTable({
                 data: playerStatArray,
                 paging: false,
                 info: false,
@@ -40,6 +42,13 @@ var FantasyPoolApp;
                     { title: "Games Played" },
                     { title: "PPG" }
                 ]
+            });
+            $teamTable.on('click', 'tr', function () {
+                var tr = $(_this).closest('tr');
+                var row = teamDataTable.row(tr);
+                var view = new FantasyPoolApp.PlayerGameView();
+                // send the name
+                view.render('sidneycrosby', $teamContent);
             });
             $container.append($teamContent);
         };

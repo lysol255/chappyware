@@ -1,10 +1,7 @@
 ﻿using Chappyware.Data.DataObjects;
 using Chappyware.Data.Storage;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
@@ -41,5 +38,58 @@ namespace Chappyware.Data
 
         }
 
+        public GameStatCollection GetGames()
+        {
+            return _AllGameStats;
+        }
+
+        public GameStat GetGame(string gameId)
+        {
+            GameStat gameStats = _AllGameStats.GameStats.SingleOrDefault(g => g.GameUrl == gameId);
+            return gameStats;
+        }
+
+        public List<GameStat> FindGamesForTeam(string teamCode)
+        {
+            var games = _AllGameStats.GameStats.Where(g => g.AwayTeamCode == teamCode
+                    ||
+                    g.HomeTeamCode == teamCode);
+            return games.ToList();
+        }
+
+        public List<GameStat> FindGamesForPlayer(string playerName)
+        {
+            List<GameStat> playerGames = new List<GameStat>();
+            string normalizedSearchPlayerName = playerName.ToLowerInvariant();
+
+            foreach (GameStat gameStat in _AllGameStats.GameStats)
+            {
+
+                if (gameStat.AwayTeamPlayerStats.Where(g=> NormalizePlayerName(g.Key) == normalizedSearchPlayerName).Count() > 0)
+                {
+                    playerGames.Add(gameStat);
+                }
+
+                if (gameStat.HomeTeamPlayerStats.Where(g => NormalizePlayerName(g.Key) == normalizedSearchPlayerName).Count() > 0)
+                {
+                    playerGames.Add(gameStat);
+                }
+            }
+
+            return playerGames;
+        }
+
+        /// <summary>
+        /// Takes a name with spaces and makes it into a single Key
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string NormalizePlayerName(string name)
+        {
+            string normalizedName = name.Replace(" ", "");
+            normalizedName = normalizedName.Trim();
+            normalizedName = normalizedName.ToLowerInvariant();
+            return normalizedName;
+        }
     }
 }

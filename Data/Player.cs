@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
@@ -15,18 +13,20 @@ namespace Chappyware.Data
         public List<Statistic> Stats { get; set; }
         public PlayerGameStatCollection GameStats { get; set; }
 
-        public int Goals {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.Goals);
-            }
+        public int GetGoals (DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s=>s.Goals);
         }
-        public int Assists {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.Assists);
-            }
+
+        public int GetAssists(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.Assists);
         }
+
         public string TOI {
             get
             {
@@ -39,76 +39,82 @@ namespace Chappyware.Data
                 return timeOnIce;
             }
         }
-        public int PlusMinus {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.PlusMinus);
-            }
-        }
-        public int PenaltyMin {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.PenaltyMin);
-            }
-        }
-        public int Shifts {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.Shifts);
-            }
-        }
-        public int ShortHandedAssists {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.ShortHandedAssists);
-            }
-        }
-        public int PowerPlayAssists {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.PowerPlayAssists);
-            }
-        }
-        public int Shots
+
+        public int GetPlusMinus(DateTime startDate, DateTime endDate)
         {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.Shots);
-            }
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.PlusMinus);
         }
-        public int EventAssists
+
+        public int GetPenaltyMin(DateTime startDate, DateTime endDate)
         {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.EventAssists);
-            }
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.PenaltyMin);
         }
-        public int GameWinningGoals {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.GameWinningGoals);
-            }
-        }
-        public int ShortHandedGoals
+
+        public int GetShifts(DateTime startDate, DateTime endDate)
         {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.ShortHandedGoals);
-            }
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.Shifts);
         }
-        public int PowerPlayGoals
+
+        public int GetShortHandedAssists(DateTime startDate, DateTime endDate)
         {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.PowerPlayGoals);
-            }
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.ShortHandedAssists);
         }
-        public int EvenGoals
+
+        public int GetPowerPlayAssists(DateTime startDate, DateTime endDate)
         {
-            get
-            {
-                return GameStats.PlayerStats.Sum(g => g.EvenGoals);
-            }
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.PowerPlayAssists);
+        }
+
+        public int GetShots(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.Shots);
+        }
+
+        public int GetEventAssists(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.EventAssists);
+        }
+
+        public int GetGameWinningGoals(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.GameWinningGoals);
+        }
+
+        public int GetShortHandedGoals(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.ShortHandedGoals);
+        }
+
+        public int GetPowerPlayGoals(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.PowerPlayGoals);
+        }
+
+        public int GetEvenGoals(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = GetPlayerStatsInRange(startDate, endDate);
+
+            return playerStats.Sum(s => s.EvenGoals);
         }
 
         public Player()
@@ -125,7 +131,15 @@ namespace Chappyware.Data
             GameStats.PlayerStats = playerGameStats;
         }
 
-
+        private List<PlayerGameStat> GetPlayerStatsInRange(DateTime startDate, DateTime endDate)
+        {
+            var playerStats = from playerStat in GameStats.PlayerStats
+                              where playerStat.GameDate >= startDate
+                                  &&
+                                  playerStat.GameDate < endDate
+                              select playerStat;
+            return playerStats.ToList();
+        }
 
     }
 }

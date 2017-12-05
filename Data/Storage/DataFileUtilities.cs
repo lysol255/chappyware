@@ -14,6 +14,8 @@ namespace Chappyware.Data.Storage
         private static string _DefaultStatFileName = "Chappystats.txt";
         private static string _DefaultLeagueFileName = "TeamImport.txt";
         private static string _DefaultGameStats = "GameStats.txt";
+        private static string _DefaultLog = "Log.txt";
+
 
         private string _StatFileName = string.Empty;
         private string _LeagueFileName = string.Empty;
@@ -23,6 +25,16 @@ namespace Chappyware.Data.Storage
             string currentDirectory = GetCurrentDirectory();
 
             currentDirectory = Path.Combine(currentDirectory, "..", _DefaultStatFileName);
+
+            return currentDirectory;
+
+        }
+
+        public static string GetLogFileName()
+        {
+            string currentDirectory = GetCurrentDirectory();
+
+            currentDirectory = Path.Combine(currentDirectory, "..", _DefaultLog);
 
             return currentDirectory;
 

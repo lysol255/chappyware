@@ -28,6 +28,7 @@ namespace Chappyware.Data.DataObjects
                 if (playerGameStat != null)
                 {
                     playerGameCollection.PlayerStats.Add(playerGameStat);
+                    playerGameStat.GameDate = game.GetGameDate();
                 }
             }
 

@@ -23,6 +23,8 @@
 
             _.each(this.team.Players, (player: IFantasyPlayer) => {
 
+                var playerStatLink = player.Name
+
                 playerStatArray.push([
                     player.DraftRound,
                     player.Name,
@@ -36,7 +38,7 @@
             });
 
             // create the data table
-            $teamTable.DataTable(
+            var teamDataTable = $teamTable.DataTable(
                 {
                     data: playerStatArray,
                     paging: false,
@@ -54,6 +56,16 @@
                         { title: "PPG" }
                     ]
                 });
+
+            $teamTable.on('click', 'tr', () => {
+
+                var tr = $(this).closest('tr');
+                var row = teamDataTable.row(tr);
+
+                var view = new PlayerGameView();
+                // send the name
+                view.render('sidneycrosby', $teamContent);
+            });
 
             $container.append($teamContent);
         }

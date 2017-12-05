@@ -5,6 +5,7 @@ using Chappyware.Data.DataSources;
 using Chappyware.Data.Factories;
 using Chappyware.Data.Storage;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Collector
 {
@@ -26,6 +27,31 @@ namespace Collector
             Dictionary<string, GameStat> stats = source.UpdateHistoricalStats();
 
             store.HistoricalGames = stats;
+
+            store.Save();
+
+            string[] games = new string[store.HistoricalGames.Keys.Count];
+
+            store.HistoricalGames.Keys.CopyTo(games,0);
+
+            foreach (string game in games)
+            {
+                if (store.HistoricalGames[game].AwayTeamCode == null
+                    ||
+                    store.HistoricalGames[game].HomeTeamCode == null)
+                {
+                    store.HistoricalGames.Remove(game);
+
+                    if (!File.Exists(DataFileUtilities.GetLogFileName()))
+                    {
+                        File.CreateText(DataFileUtilities.GetLogFileName());
+                    }
+
+                    string log = File.ReadAllText(DataFileUtilities.GetLogFileName());
+                    log = log + "\n" + "Error loading game, no away or home team : " + game;
+                    File.WriteAllText(DataFileUtilities.GetLogFileName(), log);
+                }
+            }
 
             store.Save();
 
