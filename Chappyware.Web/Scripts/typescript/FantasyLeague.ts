@@ -117,6 +117,10 @@
                     ]
                 });
 
+            var gamesView = new GameEditorView();
+            var $container = $('#mainContent').find('.gameslistview');
+            gamesView.initialize($container);
+
             // control visibility
             this.banner.ShowLeagueSummary();
         }
@@ -167,7 +171,17 @@
             }
             bannerActions.push(updateAction);
 
-            // teams
+            // games
+            var gamesAction: IBannerAction = {
+                Name: 'Games',
+                Selector: 'gameslistview',
+                Action: () => {
+
+                    this.banner.ShowGamesEditorView();
+
+                }
+            }
+            bannerActions.push(gamesAction);
 
             return bannerActions;
         }

@@ -1,5 +1,6 @@
 ﻿using Chappyware.Data;
 using Chappyware.Data.DataObjects;
+using Chappyware.Web.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Chappyware.Web.Controllers
     {
 
         private const string _GetPlayerGameRoute = "~/games/player/{id?}";
+        private const string _GetGamesRoute = "~/games";
+
 
 
         // GET: Game
@@ -22,7 +25,26 @@ namespace Chappyware.Web.Controllers
         }
 
         // GET: Game/Details/5
-        [Route(_GetPlayerGameRoute, Name = "games")]
+        [Route(_GetGamesRoute, Name = "games")]
+        [HttpGet]
+        public ActionResult GetGames()
+        {
+            JsonResult result = new JsonResult();
+
+            GameStatFactory factory = GameStatFactory.Instance;
+
+            GameStatCollection games = factory.GetGames();
+
+            List<GameModel> gameModels = GetGameModels(games);
+
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            result.Data = JsonConvert.SerializeObject(gameModels);
+
+            return result;
+        }
+
+        // GET: Game/Details/5
+        [Route(_GetPlayerGameRoute, Name = "playergames")]
         [HttpGet]
         public ActionResult GetGamesByPlayer(string id)
         {
@@ -102,6 +124,28 @@ namespace Chappyware.Web.Controllers
             {
                 return View();
             }
+        }
+
+
+        private List<GameModel> GetGameModels(GameStatCollection games)
+        {
+            List<GameModel> gameModels = new List<GameModel>();
+            foreach (GameStat game in games.GameStats )
+            {
+                GameModel model = new GameModel();
+                model.AwayTeam = game.AwayTeamCode;
+                model.AwayGoals = game.AwayTeamPlayerStats.Values.SingleOrDefault(p => p.Name == "TOTAL").Goals; 
+
+
+                model.HomeTeam = game.HomeTeamCode;
+                model.HomeGoals = game.HomeTeamPlayerStats.Values.SingleOrDefault(p => p.Name == "TOTAL").Goals;
+
+                model.RecordDate = game.GetGameDate();
+
+                gameModels.Add(model);
+            }
+
+            return gameModels;
         }
     }
 }

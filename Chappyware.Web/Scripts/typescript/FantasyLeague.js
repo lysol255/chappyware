@@ -61,6 +61,9 @@ var FantasyPoolApp;
                     { title: "Points Behind Leader" }
                 ]
             });
+            var gamesView = new FantasyPoolApp.GameEditorView();
+            var $container = $('#mainContent').find('.gameslistview');
+            gamesView.initialize($container);
             // control visibility
             this.banner.ShowLeagueSummary();
         };
@@ -106,7 +109,15 @@ var FantasyPoolApp;
                 }
             };
             bannerActions.push(updateAction);
-            // teams
+            // games
+            var gamesAction = {
+                Name: 'Games',
+                Selector: 'gameslistview',
+                Action: function () {
+                    _this.banner.ShowGamesEditorView();
+                }
+            };
+            bannerActions.push(gamesAction);
             return bannerActions;
         };
         return League;

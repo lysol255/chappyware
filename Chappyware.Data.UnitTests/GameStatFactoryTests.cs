@@ -1,4 +1,5 @@
 ﻿using Chappyware.Data;
+using System.Linq;
 using Chappyware.Data.DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -52,6 +53,21 @@ namespace Chappyware.Data.UnitTests
             List<GameStat> games = gameFactory.FindGamesForPlayer("SidneyCrosby");
 
             Assert.IsNotNull(games);
+        }
+
+        [TestMethod]
+        public void GetHomeTeamGoals()
+        {
+
+            GameStatFactory gameFactory = GameStatFactory.Instance;
+
+            GameStatCollection games = gameFactory.GetGames();
+
+            GameStat stat = games.GameStats.First();
+
+            int homeGoals = stat.HomeTeamPlayerStats.Values.SingleOrDefault(p => p.Name == "TOTAL").Goals;
+
+            Assert.IsNotNull(homeGoals);
         }
     }
 }

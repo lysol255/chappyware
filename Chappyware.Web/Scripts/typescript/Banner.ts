@@ -75,6 +75,7 @@
             this.$contentContainer.find('.leagueSummary').addClass('hidden');
             this.$contentContainer.find('.analytics').addClass('hidden');
             this.$contentContainer.find('.playersview').addClass('hidden');
+            this.$contentContainer.find('.gameslistview').addClass('hidden');
         }
 
         public ShowLeagueSummary() {
@@ -86,6 +87,12 @@
         private ShowAnalytics() {
             this.HideAll();
             this.$contentContainer.find('.analytics').removeClass('hidden');
+            this.$contentContainer.find('.loading').addClass('hidden');
+        }
+
+        public ShowGamesEditorView() {
+            this.HideAll();
+            this.$contentContainer.find('.gameslistview').removeClass('hidden');
             this.$contentContainer.find('.loading').addClass('hidden');
         }
 
