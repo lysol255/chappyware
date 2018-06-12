@@ -26,6 +26,10 @@ namespace Chappyware.Data.DataSources
             _HistoricalStats = historicalGameStats;
         }
 
+        public HockeyReferenceGameStatSource()
+        {
+        }
+
         // Urls
         private const string BaseURL = "http://www.hockey-reference.com";
         private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2018_games.html";
@@ -36,6 +40,26 @@ namespace Chappyware.Data.DataSources
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, GameStat> UpdateHistoricalStats()
+        {
+
+            // only update if the stats from last night are all finalized
+            //if (DateTime.UtcNow.Hour >= 15
+            //    &&
+            //    DateTime.UtcNow.Hour < 20
+            //    )
+            //{
+            //    UpdateGameStats();
+
+            //}
+
+            UpdateGameStats();
+
+
+            return _HistoricalStats;
+
+        }
+
+        private void UpdateGameStats()
         {
             // get game urls
             List<string> allGameUrls = GetGameUrls();
@@ -49,7 +73,7 @@ namespace Chappyware.Data.DataSources
             foreach (string gameUrl in newGameUrls)
             {
                 GameStat gameStat = null;
-                
+
                 // has this game already been recorded
                 if (_HistoricalStats.ContainsKey(gameUrl))
                 {
@@ -69,9 +93,11 @@ namespace Chappyware.Data.DataSources
                     //throw new Exce
                 }
             }
+        }
 
-            return _HistoricalStats;
-
+        public GameStat ReprocessGame(string gameUrl)
+        {
+            return GetGameStats(gameUrl);
         }
 
         private List<string> FilterOutAlreadyStoredGames(List<string> allGameUrls)

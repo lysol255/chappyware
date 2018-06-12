@@ -47,6 +47,14 @@ namespace Chappyware.Data.Storage
             return _Storage.LoadGameStats();
         }
 
+        public void SavePersistedGameStats(Dictionary<string, GameStat> gameStats)
+        {
+            GameStatStore gameStatStore = new GameStatStore();
+            gameStatStore.HistoricalGames = gameStats;
+            gameStatStore.Save();
+
+        }
+
         public void UpdateFantasyTeams(List<FantasyLeague> leagues)
         {
             _Storage.SaveFantasyLeagues(leagues);

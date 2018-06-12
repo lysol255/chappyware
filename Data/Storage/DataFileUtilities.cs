@@ -20,11 +20,16 @@ namespace Chappyware.Data.Storage
         private string _StatFileName = string.Empty;
         private string _LeagueFileName = string.Empty;
 
-        public static string GetStatFileName()
+        public static string GetLeagueStatFileName()
         {
             string currentDirectory = GetCurrentDirectory();
 
             currentDirectory = Path.Combine(currentDirectory, "..", _DefaultStatFileName);
+
+            if (!File.Exists(currentDirectory))
+            {
+                File.CreateText(currentDirectory);
+            }
 
             return currentDirectory;
 

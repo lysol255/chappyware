@@ -1,5 +1,4 @@
 ﻿using Chappyware.Data.DataObjects;
-using Chappyware.Data.DataSources;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +14,11 @@ namespace Chappyware.Data.Storage
         {
             if (HistoricalGames == null)
             {
+                if (!File.Exists(DataFileUtilities.GetGameStatFileName()))
+                {
+                    File.WriteAllText(DataFileUtilities.GetGameStatFileName(),"");
+                }
+
                 string historicalGameStats = File.ReadAllText(DataFileUtilities.GetGameStatFileName());
                 HistoricalGames = JsonConvert.DeserializeObject<Dictionary<string, GameStat>>(historicalGameStats);
             }

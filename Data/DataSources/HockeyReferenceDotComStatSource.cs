@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -21,7 +22,7 @@ namespace Chappyware.Data
                 _Players = new List<Player>();
 
                 // read the html as a string
-                string responseText = HockeyReferenceRequest.MakeRequest("http://www.hockey-reference.com/leagues/NHL_2017_skaters.html");
+                string responseText = HockeyReferenceRequest.MakeRequest("http://www.hockey-reference.com/leagues/NHL_2018_skaters.html");
 
                 // find the player table
                 Regex dataTableSearch = new Regex("<table class=\"sortable stats_table\" id=\"stats\".*</table>");
@@ -96,6 +97,23 @@ namespace Chappyware.Data
         public List<Player> LoadPlayers()
         {
             return _Players;
+        }
+
+        public Dictionary<string,Statistic> LoadLeagueStats()
+        {
+            Dictionary<string, Statistic> leagueStats = new Dictionary<string, Statistic>();
+
+            foreach(Player player in _Players)
+            {
+                string playerKey = player.Name + "_" + player.Team;
+                if(!leagueStats.ContainsKey(playerKey))
+                {
+                    leagueStats.Add(playerKey, player.Stats.Last());
+                }
+            }
+
+            return leagueStats;
+
         }
 
         public List<Team> LoadTeams()

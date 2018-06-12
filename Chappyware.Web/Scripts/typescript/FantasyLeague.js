@@ -110,14 +110,14 @@ var FantasyPoolApp;
             };
             bannerActions.push(updateAction);
             // games
-            var gamesAction = {
-                Name: 'Games',
-                Selector: 'gameslistview',
-                Action: function () {
-                    _this.banner.ShowGamesEditorView();
-                }
-            };
-            bannerActions.push(gamesAction);
+            //var gamesAction: IBannerAction = {
+            //    Name: 'Games',
+            //    Selector: 'gameslistview',
+            //    Action: () => {
+            //        this.banner.ShowGamesEditorView();
+            //    }
+            //}
+            //bannerActions.push(gamesAction);
             return bannerActions;
         };
         return League;

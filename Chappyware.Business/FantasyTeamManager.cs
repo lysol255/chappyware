@@ -112,14 +112,14 @@ namespace Chappyware.Business
                 // assign the start date to the start of the season if not defiend
                 if (string.IsNullOrEmpty(ownedStartDate))
                 {
-                    ownedStartDate = Season.GetSeasonStartDate("2016").ToString();
+                    ownedStartDate = Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR).ToString();
                 }
                 fantasyPlayer.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
 
                 // assign the end date to the end of the season if not defined
                 if (string.IsNullOrEmpty(ownedEndDate))
                 {
-                    ownedEndDate = Season.GetSeasonEndDate("2017").ToString();
+                    ownedEndDate = Season.GetSeasonEndDate(Season.CURRENT_SEASON_YEAR).ToString();
                 }
                 fantasyPlayer.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 

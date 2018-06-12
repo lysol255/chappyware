@@ -172,16 +172,16 @@
             bannerActions.push(updateAction);
 
             // games
-            var gamesAction: IBannerAction = {
-                Name: 'Games',
-                Selector: 'gameslistview',
-                Action: () => {
+            //var gamesAction: IBannerAction = {
+            //    Name: 'Games',
+            //    Selector: 'gameslistview',
+            //    Action: () => {
 
-                    this.banner.ShowGamesEditorView();
+            //        this.banner.ShowGamesEditorView();
 
-                }
-            }
-            bannerActions.push(gamesAction);
+            //    }
+            //}
+            //bannerActions.push(gamesAction);
 
             return bannerActions;
         }

@@ -1,7 +1,10 @@
 ﻿using Chappyware.Data.DataObjects;
+using Chappyware.Data.DataSources;
 using Chappyware.Data.Storage;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using Chappyware.Data.Factories;
 
 namespace Chappyware.Data
 {
@@ -55,6 +58,59 @@ namespace Chappyware.Data
                     ||
                     g.HomeTeamCode == teamCode);
             return games.ToList();
+        }
+
+        public void ReprocessGamesForPlayer(string playerName, string teamCode)
+        {
+            List<GameStat> playerGames = FindGamesForPlayer(NormalizePlayerName(playerName));
+
+            HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
+
+            Dictionary<string, GameStat> playerGameStats = StorageFactory.Instance.LoadPersistedGameStats();
+
+            GameStat correctedGameStat = null;
+
+            // reprocess the games
+            foreach (GameStat game in playerGames)
+            {
+                correctedGameStat = statSource.ReprocessGame(game.GameUrl);
+
+                if (playerGameStats.ContainsKey(game.GameUrl))
+                {
+                    playerGameStats[game.GameUrl] = correctedGameStat;
+                }
+
+                //stop reprocessing if the player stats are now correct
+                if(ArePlayerStatsCorrect(playerName, teamCode))
+                {
+                    break;
+                }
+            }
+
+            // save back the corrections
+
+            StorageFactory.Instance.SavePersistedGameStats(playerGameStats);
+
+        }
+
+        private bool ArePlayerStatsCorrect(string playerName, string teamCode)
+        {
+            bool statsAreValid = false;
+
+            PlayerFactory factory = PlayerFactory.Instance;
+            Player thePlayer = factory.GetPlayer(playerName, teamCode);
+
+            int goals = thePlayer.GetGoals(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+            int assists = thePlayer.GetAssists(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+
+            if (goals == thePlayer.Stats.Last().Goals
+                &&
+                assists == thePlayer.Stats.Last().Assists)
+            {
+                statsAreValid = true;    
+            }
+
+            return statsAreValid;
         }
 
         public List<GameStat> FindGamesForPlayer(string playerName)

@@ -30,7 +30,7 @@ namespace Chappyware.Data.Storage
         {
             if (_PlayerStats == null)
             {
-                string seralizedPlayerStats = File.ReadAllText(DataFileUtilities.GetStatFileName());
+                string seralizedPlayerStats = File.ReadAllText(DataFileUtilities.GetLeagueStatFileName());
                 _PlayerStats = JsonConvert.DeserializeObject<List<Player>>(seralizedPlayerStats);
             }
             return _PlayerStats;
@@ -45,7 +45,7 @@ namespace Chappyware.Data.Storage
         public void SavePlayers(List<Player> players)
         {
             string seralizedPlayers = JsonConvert.SerializeObject(players);
-            File.WriteAllText(DataFileUtilities.GetStatFileName(), seralizedPlayers);
+            File.WriteAllText(DataFileUtilities.GetLeagueStatFileName(), seralizedPlayers);
         }
 
         public Dictionary<string, GameStat> LoadGameStats()
