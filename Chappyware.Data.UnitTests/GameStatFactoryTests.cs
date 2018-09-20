@@ -1,5 +1,4 @@
-﻿using Chappyware.Data;
-using System.Linq;
+﻿using System.Linq;
 using Chappyware.Data.DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;

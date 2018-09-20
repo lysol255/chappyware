@@ -5,8 +5,6 @@ using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Business
 {
@@ -104,7 +102,7 @@ namespace Chappyware.Business
                     player = new Player();
                     player.Name = playerName;
                     player.Stats = new List<Statistic>();
-                    player.Team = teamCode;
+                    player.CurrentTeam = teamCode;
                 }
 
                 FantasyPlayer fantasyPlayer = new FantasyPlayer(player);
@@ -112,14 +110,14 @@ namespace Chappyware.Business
                 // assign the start date to the start of the season if not defiend
                 if (string.IsNullOrEmpty(ownedStartDate))
                 {
-                    ownedStartDate = Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR).ToString();
+                    ownedStartDate = Season.GetSeasonStartDate("2016").ToString();
                 }
                 fantasyPlayer.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
 
                 // assign the end date to the end of the season if not defined
                 if (string.IsNullOrEmpty(ownedEndDate))
                 {
-                    ownedEndDate = Season.GetSeasonEndDate(Season.CURRENT_SEASON_YEAR).ToString();
+                    ownedEndDate = Season.GetSeasonEndDate("2017").ToString();
                 }
                 fantasyPlayer.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 
