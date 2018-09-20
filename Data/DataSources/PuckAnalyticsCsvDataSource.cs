@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
@@ -53,7 +50,7 @@ namespace Chappyware.Data
             Player player = new Player();
 
             player.Name = fields[NAME_INDEX];
-            player.Team = fields[TEAM_INDEX];
+            player.CurrentTeam = fields[TEAM_INDEX];
             //player.GamesPlayed = Convert.ToInt32(fields[GP_INDEX]);
             //player.GoalsFor = Convert.ToInt32(fields[GF_INDEX]);
             //player.Goals = Convert.ToInt32(fields[GOALS_INDEX]);

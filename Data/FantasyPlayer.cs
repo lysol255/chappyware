@@ -1,10 +1,6 @@
-﻿using Chappyware.Data;
-using Chappyware.Data.Factories;
+﻿using Chappyware.Data.Factories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
@@ -16,7 +12,7 @@ namespace Chappyware.Data
         public FantasyPlayer(Player player)
         {
             _PlayerName = player.Name;
-            _TeamName = player.Team;
+            _TeamName = player.CurrentTeam;
         }
 
         /// <summary>

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Web", "Chappywar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Data.UnitTests", "Chappyware.Data.UnitTests\Chappyware.Data.UnitTests.csproj", "{EB8EDB7B-4219-4EBB-A9C4-956426236341}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Logging", "Chappyware.Logging\Chappyware.Logging.csproj", "{0FD8FB49-F60D-40AC-BC69-C432F0D7260F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EB8EDB7B-4219-4EBB-A9C4-956426236341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB8EDB7B-4219-4EBB-A9C4-956426236341}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB8EDB7B-4219-4EBB-A9C4-956426236341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD8FB49-F60D-40AC-BC69-C432F0D7260F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD8FB49-F60D-40AC-BC69-C432F0D7260F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD8FB49-F60D-40AC-BC69-C432F0D7260F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD8FB49-F60D-40AC-BC69-C432F0D7260F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

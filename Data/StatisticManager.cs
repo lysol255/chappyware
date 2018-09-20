@@ -3,8 +3,6 @@ using Chappyware.Data.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Business
 {
@@ -52,7 +50,7 @@ namespace Chappyware.Business
 
                 // update the player's name and team
                 currentPlayer.Name = player.Name;
-                currentPlayer.Team = player.Team;
+                currentPlayer.CurrentTeam = player.CurrentTeam;
 
                 // add the new statistics to the player, the new stats will only have one entry
                 // TODO only add the stat if the record isn't from the same day

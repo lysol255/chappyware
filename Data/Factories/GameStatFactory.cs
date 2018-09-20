@@ -1,5 +1,6 @@
 ﻿using Chappyware.Data.DataObjects;
 using Chappyware.Data.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,12 +33,6 @@ namespace Chappyware.Data
             _AllGameStats = allGames;
         }
         
-        public PlayerGameStatCollection GetPlayerStatCollection(string playerName, string teamCode)
-        {
-            return _AllGameStats.GetPlayerGameCollection(playerName, teamCode);
-
-        }
-
         public GameStatCollection GetGames()
         {
             return _AllGameStats;

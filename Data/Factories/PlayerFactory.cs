@@ -1,9 +1,5 @@
 ﻿using Chappyware.Data.Storage;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data.Factories
 {
@@ -30,16 +26,27 @@ namespace Chappyware.Data.Factories
 
         public Player GetPlayer(string playerName, string teamCode)
         {
-            GameStatFactory manager = GameStatFactory.Instance;
-
-            //TODO handle duplicates, maybe not an issue
-            Player foundPlayer = new Player();
-            foundPlayer.Name = playerName;
-            foundPlayer.Team = teamCode;
-
-            foundPlayer.GameStats = manager.GetPlayerStatCollection(playerName, teamCode); 
-            return foundPlayer;
+            JsonStorage store = new JsonStorage();
+            Player returnedPlayer = store.Get
         }
 
+        public void CreatePlayer(string playerName, string teamCode, int age)
+        {
+            Player newPlayer = new Player(playerName, teamCode, age);
+
+            if (!Exists(playerName, teamCode, age))
+            {
+                newPlayer.Id = Guid.NewGuid().ToString();
+            }
+
+            JsonStorage store = new JsonStorage();
+            store.CreatePlayer(newPlayer);
+            
+        }
+
+        private bool Exists(string playerName, string teamCode, int age)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
