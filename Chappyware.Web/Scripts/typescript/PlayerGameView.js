@@ -1,6 +1,6 @@
 var FantasyPoolApp;
 (function (FantasyPoolApp) {
-    var PlayerGameView = (function () {
+    var PlayerGameView = /** @class */ (function () {
         function PlayerGameView() {
         }
         PlayerGameView.prototype.render = function (playerName, $container) {

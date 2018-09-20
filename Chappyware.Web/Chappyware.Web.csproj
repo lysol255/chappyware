@@ -25,7 +25,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,6 +116,7 @@
     <Content Include="Content\FantasyTeams.html" />
     <Content Include="GameStats.txt" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\chappyware-hockeypool - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\chappyware-hockeypool.pubxml" />
     <None Include="Scripts\third-party\jQuery\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\third-party\canvasjs\canvasjs.min.js" />

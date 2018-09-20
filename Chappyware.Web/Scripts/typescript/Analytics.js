@@ -2,7 +2,7 @@ var FantasyPoolApp;
 (function (FantasyPoolApp) {
     var Analytics;
     (function (Analytics_1) {
-        var Analytics = (function () {
+        var Analytics = /** @class */ (function () {
             function Analytics($container, team) {
                 var chartOptions = {
                     title: {

@@ -1,6 +1,6 @@
 var FantasyPoolApp;
 (function (FantasyPoolApp) {
-    var FantasyTeam = (function () {
+    var FantasyTeam = /** @class */ (function () {
         function FantasyTeam(team) {
             this.team = team;
         }
@@ -23,7 +23,8 @@ var FantasyPoolApp;
                     player.Points,
                     player.AverageTimeOnIce,
                     player.GamesPlayed,
-                    player.PointsPerGame.toFixed(2)]);
+                    player.PointsPerGame.toFixed(2)
+                ]);
             });
             // create the data table
             var teamDataTable = $teamTable.DataTable({

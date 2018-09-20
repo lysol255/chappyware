@@ -1,6 +1,6 @@
 var FantasyPoolApp;
 (function (FantasyPoolApp) {
-    var FantasyPlayersView = (function () {
+    var FantasyPlayersView = /** @class */ (function () {
         function FantasyPlayersView($container) {
             var _this = this;
             this.FetchFantasyPlayers(function () {

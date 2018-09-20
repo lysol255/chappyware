@@ -1,6 +1,6 @@
 var FantasyPoolApp;
 (function (FantasyPoolApp) {
-    var League = (function () {
+    var League = /** @class */ (function () {
         function League() {
             this.teamTemplate = "/Content/FantasyTeams.html";
         }

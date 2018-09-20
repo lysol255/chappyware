@@ -1,6 +1,6 @@
 var FantasyPoolApp;
 (function (FantasyPoolApp) {
-    var GameEditorView = (function () {
+    var GameEditorView = /** @class */ (function () {
         function GameEditorView() {
         }
         GameEditorView.prototype.initialize = function ($container) {
@@ -19,7 +19,8 @@ var FantasyPoolApp;
                     game.HomeTeam,
                     game.HomeGoals,
                     game.AwayTeam,
-                    game.AwayGoals]);
+                    game.AwayGoals
+                ]);
             });
             // create the data table
             var teamDataTable = $gameContent.DataTable({
