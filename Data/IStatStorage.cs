@@ -1,9 +1,5 @@
 ﻿using Chappyware.Data.DataObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data
 {
@@ -18,5 +14,13 @@ namespace Chappyware.Data
         void SaveFantasyLeagues(List<FantasyLeague> fantasyLeagues);
 
         Dictionary<string, GameStat> LoadGameStats();
+
+        // CRUD operations
+        void CreateGameStat(GameStat gameStat);
+        GameStat ReadGameStat(string url);
+        void UpdateGameStat(GameStat gameStat);
+        void DeleteGameStat(GameStat gameStat);
+
+
     }
 }

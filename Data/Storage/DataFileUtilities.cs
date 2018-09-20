@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Chappyware.Data.Storage
 {
@@ -53,6 +50,36 @@ namespace Chappyware.Data.Storage
 
             return currentDirectory;
 
+        }
+
+        public static string GetGameStatFilePath(string gameUrl)
+        {            
+            string currentDirectory = GetCurrentDirectory();
+
+            currentDirectory = Path.Combine(currentDirectory, "..", GetFileName(gameUrl));
+
+            return currentDirectory;
+        }
+
+        public static string GetPlayerDatabaseFilePath(string playerId)
+        {
+            string currentDirectory = GetCurrentDirectory();
+
+            currentDirectory = Path.Combine(currentDirectory, "..", $"PlayerDatabase.{player.Id}.json");
+
+            return currentDirectory;
+        }
+
+        private static string GetFileName(string gameUrl)
+        {
+            string[] urlParts = gameUrl.Split('/');
+
+            // something like 201710040EDM.html
+            string lastPartOfTheUrl = urlParts.ToList().Last();
+
+            lastPartOfTheUrl = lastPartOfTheUrl.Replace("html", "json");
+
+            return lastPartOfTheUrl;
         }
 
         public static string GetLeagueFileName()

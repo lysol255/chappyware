@@ -5,8 +5,6 @@ using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Business
 {
@@ -104,7 +102,7 @@ namespace Chappyware.Business
                     player = new Player();
                     player.Name = playerName;
                     player.Stats = new List<Statistic>();
-                    player.Team = teamCode;
+                    player.CurrentTeam = teamCode;
                 }
 
                 FantasyPlayer fantasyPlayer = new FantasyPlayer(player);

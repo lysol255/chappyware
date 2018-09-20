@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -89,7 +88,7 @@ namespace Chappyware.Data
                     statistics.AvgTOI = statValue;
                     break;
                 case "team_id":
-                    player.Team = statValue;
+                    player.CurrentTeam = statValue;
                     break;
             }
         }

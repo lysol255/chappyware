@@ -8,10 +8,35 @@ namespace Chappyware.Data
     public class Player
     {
         public string Name { get; set; }
-        public string Team { get; set; }
+        public string CurrentTeam { get; set; }
+        public string Id { get; set; }
+        public int Age { get; set; }
         
         public List<Statistic> Stats { get; set; }
         public PlayerGameStatCollection GameStats { get; set; }
+
+        #region Constructors
+
+        public Player(string name, string currentTeam, int age)
+        {
+            Stats = new List<Statistic>();
+            GameStats = new PlayerGameStatCollection();
+            Name = name;
+            CurrentTeam = currentTeam;
+            Age = age;
+        }
+
+        public Player(string playerName, List<PlayerGameStat> playerGameStats)
+        {
+            Stats = new List<Statistic>();
+            GameStats = new PlayerGameStatCollection();
+            GameStats.PlayerName = Name;
+            GameStats.PlayerStats = playerGameStats;
+        }
+
+        #endregion
+
+        #region Public Methods
 
         public int GetGoals (DateTime startDate, DateTime endDate)
         {
@@ -117,19 +142,7 @@ namespace Chappyware.Data
             return playerStats.Sum(s => s.EvenGoals);
         }
 
-        public Player()
-        {
-            Stats = new List<Statistic>();
-            GameStats = new PlayerGameStatCollection();
-        }
-
-        public Player(string playerName, List<PlayerGameStat> playerGameStats)
-        {
-            Stats = new List<Statistic>();
-            GameStats = new PlayerGameStatCollection();
-            GameStats.PlayerName = Name;
-            GameStats.PlayerStats = playerGameStats;
-        }
+        #endregion
 
         private List<PlayerGameStat> GetPlayerStatsInRange(DateTime startDate, DateTime endDate)
         {
