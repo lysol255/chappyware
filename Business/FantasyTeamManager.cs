@@ -64,74 +64,71 @@ namespace Chappyware.Business
 
         private List<FantasyTeam> ImportTeamFromCsv(string fileToImport)
         {
+            CsvTextFieldParser parser = new CsvTextFieldParser(fileToImport);
+            parser.Delimiters = new string[] { "," };
 
-            throw new NotImplementedException();
+            List<FantasyTeam> teams = new List<FantasyTeam>();
 
-            //CsvTextFieldParser parser = new CsvTextFieldParser(fileToImport);
-            //parser.Delimiters = new string[] { "," };
+            while (!parser.EndOfData)
+            {
+                string[] fields = parser.ReadFields();
+                string owner = fields[0];
+                string playerName = fields[1];
+                string teamCode = fields[2];
+                string ownedStartDate = fields[3];
+                string ownedEndDate = fields[4];
 
-            //List<FantasyTeam> teams = new List<FantasyTeam>();
+                // header marker, skip this row
+                if (owner.Equals("Owner"))
+                {
+                    continue;
+                }
 
-            //while (!parser.EndOfData)
-            //{
-            //    string[] fields = parser.ReadFields();
-            //    string owner = fields[0];
-            //    string playerName = fields[1];
-            //    string teamCode = fields[2];
-            //    string ownedStartDate = fields[3];
-            //    string ownedEndDate = fields[4];
+                // find the fantasy team and create it otherwise
+                FantasyTeam team = teams.SingleOrDefault(t => t.Owner.Name == owner);
+                if (team == null)
+                {
+                    team = new FantasyTeam();
+                    team.Owner = new Owner(owner);
+                    teams.Add(team);
+                }
 
-            //    // header marker, skip this row
-            //    if (owner.Equals("Owner"))
-            //    {
-            //        continue;
-            //    }
+                // find the player
+                Player player = PlayerFactory.Instance.GetPlayer(playerName, teamCode);
 
-            //    // find the fantasy team and create it otherwise
-            //    FantasyTeam team = teams.SingleOrDefault(t => t.Owner.Name == owner);
-            //    if (team == null)
-            //    {
-            //        team = new FantasyTeam();
-            //        team.Owner = new Owner(owner);
-            //        teams.Add(team);
-            //    }
+                // create empty player if the player has no points/can't be found
+                if (player == null)
+                {
+                    player = new Player();
+                    player.Name = playerName;
+                    player.CurrentTeam = teamCode;
+                }
 
-            //    // find the player
-            //    Player player = PlayerFactory.Instance.GetPlayer(playerName, teamCode);
+                FantasyPlayer fantasyPlayer = new FantasyPlayer(player);
 
-            //    // create empty player if the player has no points/can't be found
-            //    if (player == null)
-            //    {
-            //        player = new Player();
-            //        player.Name = playerName;
-            //        player.CurrentTeam = teamCode;
-            //    }
+                // assign the start date to the start of the season if not defiend
+                if (string.IsNullOrEmpty(ownedStartDate))
+                {
+                    ownedStartDate = Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR).ToString();
+                }
+                fantasyPlayer.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
 
-            //    FantasyPlayer fantasyPlayer = new FantasyPlayer(player);
+                // assign the end date to the end of the season if not defined
+                if (string.IsNullOrEmpty(ownedEndDate))
+                {
+                    ownedEndDate = Season.GetSeasonEndDate(Season.CURRENT_SEASON_YEAR).ToString();
+                }
+                fantasyPlayer.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
 
-            //    // assign the start date to the start of the season if not defiend
-            //    if (string.IsNullOrEmpty(ownedStartDate))
-            //    {
-            //        ownedStartDate = Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR).ToString();
-            //    }
-            //    fantasyPlayer.OwnedStartDate = Convert.ToDateTime(ownedStartDate);
+                // assign the draft round
+                fantasyPlayer.DraftRound = team.OwnedPlayers.Count + 1;
 
-            //    // assign the end date to the end of the season if not defined
-            //    if (string.IsNullOrEmpty(ownedEndDate))
-            //    {
-            //        ownedEndDate = Season.GetSeasonEndDate(Season.CURRENT_SEASON_YEAR).ToString();
-            //    }
-            //    fantasyPlayer.OwnedEndDate = Convert.ToDateTime(ownedEndDate);
+                // add it to the list of owned players
+                team.OwnedPlayers.Add(fantasyPlayer);
 
-            //    // assign the draft round
-            //    fantasyPlayer.DraftRound = team.OwnedPlayers.Count + 1;
+            }
 
-            //    // add it to the list of owned players
-            //    team.OwnedPlayers.Add(fantasyPlayer);
-
-            //}
-
-            //return teams;
+            return teams;
         }
     }
 }
