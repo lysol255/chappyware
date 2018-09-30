@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    @Scripts.Render("~/bundles/scripts")
+    @Styles.Render("~/bundles/styles")
+    <title></title>
+</head>
+<body zoom="0">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header banner">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title"></span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Navigation</span>
+            <nav class="mdl-navigation">
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div id="mainContent">
+                    <div class="leagueSummary hidden"></div>
+                    <div class="analytics hidden">
+                        <div id="statchart"></div>
+                    </div>
+                    <div class="playersview hidden">
+                        <div id="playerstable"></div>
+                    </div>
+                    <div class="gameslistview hidden">
+                        <table class="games mdl-data-table mdl-js-data-table mdl-shadow--2dp"></table>
+                    </div>
+                    <div class="loading">
+                        <div class="loader">
+                            <svg class="circular">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div id="hidden" class="hidden">
+                    <table class="owners mdl-data-table mdl-js-data-table mdl-shadow--2dp"></table>
+                    <div class="teamContent">
+                        <div class="teamTitle"></div>
+                        <div class="teamTable">
+                            <table class="team mdl-data-table mdl-js-data-table mdl-shadow--2dp"></table>
+                        </div>
+                    </div>
+                    <a class="mdl-navigation__link navButtonTemplate" href=""></a>
+
+                    <table class="games mdl-data-table mdl-js-data-table mdl-shadow--2dp"></table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    </body>
+</html>

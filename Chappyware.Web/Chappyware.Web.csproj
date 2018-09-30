@@ -169,16 +169,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Chappyware.Business\Chappyware.Business.csproj">
-      <Project>{5606C2F4-CB06-4236-8F27-364476053E43}</Project>
-      <Name>Chappyware.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data\Chappyware.Data.csproj">
-      <Project>{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}</Project>
-      <Name>Chappyware.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <TypeScriptCompile Include="Scripts\typescript\Analytics.ts" />
     <TypeScriptCompile Include="Scripts\typescript\Banner.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />

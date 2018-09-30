@@ -1,0 +1,29 @@
+﻿#mainContent{
+}
+
+.controls {
+    display: block;
+    background-color: #90CAF9;
+}
+
+.control{
+    background-color: white;
+}
+
+.leagueSummary {
+
+}
+
+.teamTable{
+
+}
+
+.teamTitle
+{
+    text-align: center;
+    font-size: 16pt;
+}
+
+.hidden{
+    visibility:hidden;
+}

@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="App_Data\TeamImport.txt" />
+    <None Remove="Chappystats.txt" />
+    <None Remove="Content\FantasyTeams.html" />
+    <None Remove="GameStats.txt" />
+    <None Remove="Scripts\third-party\canvasjs\canvasjs.min.js" />
+    <None Remove="Scripts\third-party\canvasjs\jquery.canvasjs.min.js" />
+    <None Remove="Scripts\third-party\dataTables\jquery.dataTables.js" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.js" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.min.js" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.min.map" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.slim.js" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.js" />
+    <None Remove="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.map" />
+    <None Remove="Scripts\third-party\material\material.js" />
+    <None Remove="Scripts\third-party\underscore\underscore.js" />
+    <None Remove="Scripts\third-party\underscore\underscore.min.js" />
+    <None Remove="Scripts\third-party\underscore\underscore.min.map" />
+    <None Remove="Scripts\typescript\Analytics.ts" />
+    <None Remove="Scripts\typescript\Banner.ts" />
+    <None Remove="Scripts\typescript\FantasyLeague.ts" />
+    <None Remove="Scripts\typescript\FantasyPlayersView.ts" />
+    <None Remove="Scripts\typescript\FantasyTeam.ts" />
+    <None Remove="Scripts\typescript\GameEditorView.ts" />
+    <None Remove="Scripts\typescript\PlayerGameView.ts" />
+    <None Remove="Scripts\typings\canvasjs\canvasjs.d.ts" />
+    <None Remove="Scripts\typings\jquery.d.ts" />
+    <None Remove="Scripts\typings\jquery.dataTables.d.ts" />
+    <None Remove="Scripts\typings\underscore.d.ts" />
+    <None Remove="Styles\Chappyware.css" />
+    <None Remove="Styles\LoadingSpinner.css" />
+    <None Remove="Styles\third-party\dataTables\jquery.dataTables.css" />
+    <None Remove="Styles\third-party\material\material.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App_Data\TeamImport.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Chappystats.txt" />
+    <Content Include="Content\FantasyTeams.html" />
+    <Content Include="GameStats.txt" />
+    <Content Include="Scripts\third-party\canvasjs\canvasjs.min.js" />
+    <Content Include="Scripts\third-party\canvasjs\jquery.canvasjs.min.js" />
+    <Content Include="Scripts\third-party\dataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.js" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\third-party\jQuery\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\third-party\material\material.js" />
+    <Content Include="Scripts\third-party\underscore\underscore.js" />
+    <Content Include="Scripts\third-party\underscore\underscore.min.js" />
+    <Content Include="Scripts\third-party\underscore\underscore.min.map" />
+    <Content Include="Styles\Chappyware.css" />
+    <Content Include="Styles\LoadingSpinner.css" />
+    <Content Include="Styles\third-party\dataTables\jquery.dataTables.css" />
+    <Content Include="Styles\third-party\material\material.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="typings\" />
+    <Folder Include="Views\Game\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0-preview2-35157" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chappyware.Core.Data\Chappyware.Core.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typescript\Analytics.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\Banner.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\FantasyPlayersView.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\FantasyTeam.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\GameEditorView.ts" />
+    <TypeScriptCompile Include="Scripts\typescript\PlayerGameView.ts" />
+    <TypeScriptCompile Include="Scripts\typings\canvasjs\canvasjs.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery.dataTables.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\underscore.d.ts" />
+  </ItemGroup>
+
+</Project>
