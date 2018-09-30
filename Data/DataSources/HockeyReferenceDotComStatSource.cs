@@ -55,7 +55,7 @@ namespace Chappyware.Data
                         ProcessStat(statName, statValue, newPlayer, newStats);
 
                     }
-                    newPlayer.Stats.Add(newStats);
+                    //newPlayer.Stats.Add(newStats);
                     _Players.Add(newPlayer);
                 }
 
@@ -104,11 +104,7 @@ namespace Chappyware.Data
 
             foreach(Player player in _Players)
             {
-                string playerKey = player.Name + "_" + player.Team;
-                if(!leagueStats.ContainsKey(playerKey))
-                {
-                    leagueStats.Add(playerKey, player.Stats.Last());
-                }
+
             }
 
             return leagueStats;

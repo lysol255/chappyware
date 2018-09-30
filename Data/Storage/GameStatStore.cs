@@ -1,34 +1,73 @@
 ﻿using Chappyware.Data.DataObjects;
+using Chappyware.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace Chappyware.Data.Storage
 {
     public class GameStatStore
-    {
-
-        public Dictionary<string, GameStat> HistoricalGames { get; set; }
-
-        public void Load()
+    {        
+     
+        public void CreateGameStat(GameStat gameStat)
         {
-            if (HistoricalGames == null)
+
+            string gameJsonFileName = DataFileUtilities.GetGameStatFilePath(gameStat.GameUrl);
+            string gameJson = JsonConvert.SerializeObject(gameStat);
+
+            try
             {
-                if (!File.Exists(DataFileUtilities.GetGameStatFileName()))
-                {
-                    File.WriteAllText(DataFileUtilities.GetGameStatFileName(),"");
-                }
-
-                string historicalGameStats = File.ReadAllText(DataFileUtilities.GetGameStatFileName());
-                HistoricalGames = JsonConvert.DeserializeObject<Dictionary<string, GameStat>>(historicalGameStats);
+                File.WriteAllText(gameJsonFileName, gameJson);
             }
-
+            catch (Exception e)
+            {
+                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be saved to '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+            }
         }
 
-        public void Save()
+        public GameStat ReadGameStat(string url)
         {
-            string historicalGameStats = JsonConvert.SerializeObject(HistoricalGames);
-            File.WriteAllText(DataFileUtilities.GetGameStatFileName(), historicalGameStats);
+            GameStat readStat = null;
+            string gameJsonFileName = DataFileUtilities.GetGameStatFilePath(url);
+            try
+            {
+                string serializedGameStats = File.ReadAllText(gameJsonFileName);
+                readStat = JsonConvert.DeserializeObject<GameStat>(serializedGameStats);
+            }
+            catch (Exception e)
+            {
+                Log.LogStorageEvent($"Game with url '{url}' could not be loaded from '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+            }
+
+            return readStat;
+        }
+
+        public void UpdateGameStat(GameStat gameStat)
+        {
+            string gameJsonFileName = DataFileUtilities.GetGameStatFilePath(gameStat.GameUrl);
+            try
+            {
+                string gameJson = JsonConvert.SerializeObject(gameStat);
+                File.WriteAllText(gameJsonFileName, gameJson);
+            }
+            catch (Exception e)
+            {
+                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be updated, reverting '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+            }
+        }
+
+        public void DeleteGameStat(GameStat gameStat)
+        {
+            string gameJsonFileName = DataFileUtilities.GetGameStatFilePath(gameStat.GameUrl);
+            try
+            {
+                File.Delete(gameJsonFileName);
+            }
+            catch (Exception e)
+            {
+                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be deleted: '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+            }
         }
     }
 }

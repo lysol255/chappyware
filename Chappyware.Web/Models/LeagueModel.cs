@@ -74,11 +74,7 @@ namespace Chappyware.Web.Models
 
         private void SetHistoricalStatisticsForPlayer(FantasyPlayer fantasyPlayer, PlayerModel playerModel)
         {
-            foreach (Statistic stat in fantasyPlayer.Player.Stats)
-            {
-                HistoricalStatisticModel historicalStat = new HistoricalStatisticModel(stat);
-                playerModel.HistoricalStats.Add(historicalStat);
-            }
+            throw new NotImplementedException();
         }
 
         private void SetMostRecentStatsForPlayer(FantasyPlayer player, PlayerModel newPlayer)

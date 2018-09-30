@@ -65,7 +65,7 @@ namespace Chappyware.Data.Storage
         {
             string currentDirectory = GetCurrentDirectory();
 
-            currentDirectory = Path.Combine(currentDirectory, "..", $"PlayerDatabase.{player.Id}.json");
+            currentDirectory = Path.Combine(currentDirectory, "..", $"PlayerDatabase.{playerId}.json");
 
             return currentDirectory;
         }

@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Collector", "Collector\Chappyware.Collector.csproj", "{30F3F891-F267-4D31-A82D-D5A2A19D0650}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Data", "Data\Chappyware.Data.csproj", "{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chappyware.Business", "Chappyware.Business\Chappyware.Business.csproj", "{5606C2F4-CB06-4236-8F27-364476053E43}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{30F3F891-F267-4D31-A82D-D5A2A19D0650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30F3F891-F267-4D31-A82D-D5A2A19D0650}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30F3F891-F267-4D31-A82D-D5A2A19D0650}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30F3F891-F267-4D31-A82D-D5A2A19D0650}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C3986D3-CF66-45CF-999E-4DD3A6F5500E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,5 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F21EAC3-6B9F-4FCB-A2A3-00BC694EF06A}
 	EndGlobalSection
 EndGlobal

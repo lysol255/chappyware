@@ -32,81 +32,13 @@ namespace Chappyware.Data.DataSources
         // Urls
         private const string BaseURL = "http://www.hockey-reference.com";
         private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2018_games.html";
-
-        /// <summary>
-        /// Updates the internal historical stats that this data source was constructed with.  Returns
-        /// the dictionary with any new entries.
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, GameStat> UpdateHistoricalStats()
+      
+        public GameStat ProcessGame(string gameUrl)
         {
-
-            // only update if the stats from last night are all finalized
-            //if (DateTime.UtcNow.Hour >= 15
-            //    &&
-            //    DateTime.UtcNow.Hour < 20
-            //    )
-            //{
-            //    UpdateGameStats();
-
-            //}
-
-            UpdateGameStats();
-
-
-            return _HistoricalStats;
-
+            return ParseGameStat(gameUrl);
         }
 
-        private void UpdateGameStats()
-        {
-            // get game urls
-            List<string> allGameUrls = GetGameUrls();
-
-            // only process new game Urls
-            List<string> newGameUrls = FilterOutAlreadyStoredGames(allGameUrls);
-
-            //List<string> newGameUrls = new List<string> { "https://www.hockey-reference.com/boxscores/201710040WPG.html"};
-
-
-            foreach (string gameUrl in newGameUrls)
-            {
-                GameStat gameStat = null;
-
-                // has this game already been recorded
-                if (_HistoricalStats.ContainsKey(gameUrl))
-                {
-                    continue;
-                }
-
-                // create game stats
-                gameStat = GetGameStats(gameUrl);
-
-                // add the game if it processed correctly
-                if (gameStat != null)
-                {
-                    _HistoricalStats.Add(gameUrl, gameStat);
-                }
-                else
-                {
-                    //throw new Exce
-                }
-            }
-        }
-
-        public GameStat ReprocessGame(string gameUrl)
-        {
-            return GetGameStats(gameUrl);
-        }
-
-        private List<string> FilterOutAlreadyStoredGames(List<string> allGameUrls)
-        {
-
-            var newGameUrls = allGameUrls.Where(url => !_HistoricalStats.Keys.Any(exitingUrl => exitingUrl.Equals(url)));
-            return newGameUrls.ToList();
-        }
-
-        private GameStat GetGameStats(string gameUrl)
+        private GameStat ParseGameStat(string gameUrl)
         {
             GameStat gameStats = new GameStat();
             gameStats.GameUrl = gameUrl;
@@ -285,7 +217,7 @@ namespace Chappyware.Data.DataSources
             return !string.IsNullOrEmpty(statValue) ? int.Parse(statValue) : 0;
         }
 
-        private List<string> GetGameUrls()
+        public List<string> GetGameUrls()
         {
             List<string> gameUrls = new List<string>();
 

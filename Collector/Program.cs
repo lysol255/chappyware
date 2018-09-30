@@ -13,7 +13,7 @@ namespace Collector
     {
         static void Main(string[] args)
         {
-            GameStatStore store = new GameStatStore();
+            PlayerRecordStore store = new PlayerRecordStore();
             store.Load();
 
             //store.HistoricalGames.Remove("http://www.hockey-reference.com/boxscores/201710050OTT.html");

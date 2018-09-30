@@ -4,29 +4,40 @@ using Chappyware.Data.Storage;
 using System.Collections.Generic;
 using Chappyware.Data.DataSources;
 using Chappyware.Data.DataObjects;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Chappyware.Data.UnitTests
 {
     [TestClass]
     public class GameStatStoreTests
     {
+        private string gameUrl = "http://www.hockey-reference.com/boxscores/201710050OTT.html";
+        
+        [TestInitialize]
+        public void CreateExampleGameStat()
+        {
+            HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
+            
+            // ensure that the example stat file exists for the tests
+            if (!File.Exists(DataFileUtilities.GetGameStatFilePath(gameUrl)))
+            {
+                GameStat exampleStat = statSource.ProcessGame(gameUrl);
+
+                string serializedGameStats = JsonConvert.SerializeObject(exampleStat);
+                File.WriteAllText(DataFileUtilities.GetGameStatFilePath(gameUrl), serializedGameStats);
+            }
+            
+        }
+
         [TestMethod]
-        public void TestUpdatingGameStats()
+        public void TestReadGameStat()
         {
             GameStatStore store = new GameStatStore();
-            store.Load();
-
-            if (store.HistoricalGames == null)
-            {
-                store.HistoricalGames = new Dictionary<string, GameStat>();
-            }
-
-            HockeyReferenceGameStatSource source = new HockeyReferenceGameStatSource(store.HistoricalGames);
-            Dictionary<string, GameStat> stats = source.UpdateHistoricalStats();
-
-            store.HistoricalGames = stats;
-
-            store.Save();
+            GameStat stat = store.ReadGameStat(gameUrl);
+            Assert.IsNotNull(stat);
         }
+
+
     }
 }

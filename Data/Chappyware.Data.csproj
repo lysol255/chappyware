@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObjects\GameStatCollection.cs" />
+    <Compile Include="DataObjects\PlayerRecords.cs" />
     <Compile Include="DataObjects\PlayerGameStatCollection.cs" />
     <Compile Include="DataSources\HockeyReferenceRequest.cs" />
     <Compile Include="DataObjects\GameStat.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="StatisticManager.cs" />
     <Compile Include="Statistic.cs" />
     <Compile Include="Storage\DataFileUtilities.cs" />
+    <Compile Include="Storage\PlayerRecordStore.cs" />
     <Compile Include="Storage\GameStatStore.cs" />
     <Compile Include="Storage\JsonStorage.cs" />
     <Compile Include="Storage\LeagueStatStore.cs" />

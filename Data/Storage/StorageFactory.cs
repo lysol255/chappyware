@@ -24,7 +24,7 @@ namespace Chappyware.Data.Storage
 
         private StorageFactory()
         {
-            _Storage = new JsonStorage();
+            //_Storage = new JsonStorage();
 
         }
 
@@ -46,9 +46,18 @@ namespace Chappyware.Data.Storage
         public void SavePersistedGameStats(Dictionary<string, GameStat> gameStats)
         {
             GameStatStore gameStatStore = new GameStatStore();
-            gameStatStore.HistoricalGames = gameStats;
-            gameStatStore.Save();
-
+            foreach(string gameUrl in gameStats.Keys)
+            {
+                GameStat newGameStat = gameStats[gameUrl];
+                if (gameStatStore.ReadGameStat(gameUrl) != null)
+                {
+                    gameStatStore.CreateGameStat(newGameStat);
+                }
+                else
+                {
+                    gameStatStore.UpdateGameStat(newGameStat);
+                }
+            }
         }
 
         public void UpdateFantasyTeams(List<FantasyLeague> leagues)

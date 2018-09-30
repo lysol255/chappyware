@@ -68,42 +68,13 @@ namespace Chappyware.Data
 
         private Statistic GetMostRecentOwnedStatistic()
         {
-            Statistic mostRecentStat = null;
-            var currentStat = from statistic in Player.Stats
-                              where statistic.RecordDate >= OwnedStartDate && statistic.RecordDate < OwnedEndDate
-                              select statistic;
-            if (currentStat.Count() > 0)
-            {
-                DateTime mostRecent = currentStat.Select(c => c.RecordDate).Max();
-                mostRecentStat = currentStat.SingleOrDefault(c => c.RecordDate == mostRecent);
-            }
-            else
-            {
-                mostRecentStat = new Statistic();
-            }
+            throw new NotImplementedException();
 
-            return mostRecentStat;
         }
 
         private Statistic GetOwnedStartDateStats()
         {
-            var ownedStartDateStats = from statistic in Player.Stats
-                                      where statistic.RecordDate.Subtract(OwnedStartDate).TotalSeconds <= 0
-                                      select statistic;
-
-            // initialize empty stats
-            Statistic firstOwnedStat = new Statistic();
-
-            if (ownedStartDateStats.Count() != 0)
-            {
-                // smallest difference will be the best stat to use
-                DateTime firstOwnedStatDate = ownedStartDateStats.Select(s => s.RecordDate).Max();
-
-                // get the stat where the player is owned
-                firstOwnedStat = Player.Stats.SingleOrDefault(s => s.RecordDate == firstOwnedStatDate);
-            }
-
-            return firstOwnedStat;
+            throw new NotImplementedException();
         }
     }
 }

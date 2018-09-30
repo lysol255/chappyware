@@ -12,23 +12,22 @@ namespace Chappyware.Data
         public string Id { get; set; }
         public int Age { get; set; }
         
-        public List<Statistic> Stats { get; set; }
         public PlayerGameStatCollection GameStats { get; set; }
 
         #region Constructors
 
         public Player(string name, string currentTeam, int age)
         {
-            Stats = new List<Statistic>();
             GameStats = new PlayerGameStatCollection();
             Name = name;
             CurrentTeam = currentTeam;
             Age = age;
         }
 
+        public Player() { }
+
         public Player(string playerName, List<PlayerGameStat> playerGameStats)
         {
-            Stats = new List<Statistic>();
             GameStats = new PlayerGameStatCollection();
             GameStats.PlayerName = Name;
             GameStats.PlayerStats = playerGameStats;

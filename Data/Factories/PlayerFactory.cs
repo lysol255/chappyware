@@ -61,25 +61,15 @@ namespace Chappyware.Data.Factories
         public Player GetPlayer(string playerName, string teamCode)
         {
             JsonStorage store = new JsonStorage();
-            Player returnedPlayer = store.Get
+            //Player returnedPlayer = store.Get
+            return null;
         }
 
         public void CreatePlayer(string playerName, string teamCode, int age)
         {
             Player newPlayer = new Player(playerName, teamCode, age);
 
-            if (!Exists(playerName, teamCode, age))
-            {
-                newPlayer.Id = Guid.NewGuid().ToString();
-            }
 
-            //TODO handle duplicates, maybe not an issue
-            Player foundPlayer = new Player();
-            foundPlayer.Name = playerName;
-            foundPlayer.Team = teamCode;
-
-            foundPlayer.GameStats = manager.GetPlayerStatCollection(playerName, teamCode); 
-            return foundPlayer;
         }
 
     }

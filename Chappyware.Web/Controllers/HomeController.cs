@@ -47,7 +47,7 @@ namespace Chappyware.Web.Controllers
             List<PlayerModel> playerModels = new List<PlayerModel>();
             foreach(Player player in playerStats)
             {
-                PlayerModel newPlayerModel = new PlayerModel(player.Stats);
+                PlayerModel newPlayerModel = new PlayerModel();
                 newPlayerModel.Name = player.Name;
                 playerModels.Add(newPlayerModel);
             }

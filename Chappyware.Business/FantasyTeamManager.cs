@@ -101,7 +101,6 @@ namespace Chappyware.Business
                 {
                     player = new Player();
                     player.Name = playerName;
-                    player.Stats = new List<Statistic>();
                     player.CurrentTeam = teamCode;
                 }
 

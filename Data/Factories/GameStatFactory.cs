@@ -15,7 +15,6 @@ namespace Chappyware.Data
         private static GameStatFactory _Instance;
         private GameStatCollection _AllGameStats;
 
-
         public static GameStatFactory Instance
         {
             get
@@ -41,9 +40,9 @@ namespace Chappyware.Data
             return _AllGameStats;
         }
 
-        public GameStat GetGame(string gameId)
+        public GameStat GetGame(string gameUrl)
         {
-            GameStat gameStats = _AllGameStats.GameStats.SingleOrDefault(g => g.GameUrl == gameId);
+            GameStat gameStats = _AllGameStats.GameStats.SingleOrDefault(g => g.GameUrl == gameUrl);
             return gameStats;
         }
 
@@ -68,7 +67,7 @@ namespace Chappyware.Data
             // reprocess the games
             foreach (GameStat game in playerGames)
             {
-                correctedGameStat = statSource.ReprocessGame(game.GameUrl);
+                correctedGameStat = statSource.ProcessGame(game.GameUrl);
 
                 if (playerGameStats.ContainsKey(game.GameUrl))
                 {
@@ -92,18 +91,18 @@ namespace Chappyware.Data
         {
             bool statsAreValid = false;
 
-            PlayerFactory factory = PlayerFactory.Instance;
-            Player thePlayer = factory.GetPlayer(playerName, teamCode);
+            //PlayerFactory factory = PlayerFactory.Instance;
+            //Player thePlayer = factory.GetPlayer(playerName, teamCode);
 
-            int goals = thePlayer.GetGoals(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
-            int assists = thePlayer.GetAssists(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+            //int goals = thePlayer.GetGoals(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+            //int assists = thePlayer.GetAssists(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
 
-            if (goals == thePlayer.Stats.Last().Goals
-                &&
-                assists == thePlayer.Stats.Last().Assists)
-            {
-                statsAreValid = true;    
-            }
+            //if (goals == thePlayer.Stats.Last().Goals
+            //    &&
+            //    assists == thePlayer.Stats.Last().Assists)
+            //{
+            //    statsAreValid = true;    
+            //}
 
             return statsAreValid;
         }
