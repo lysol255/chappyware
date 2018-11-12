@@ -1,22 +1,29 @@
 ﻿using System.Linq;
-using Chappyware.Data.DataObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Chappyware.Data;
+using Core.Data.DataObjects;
 
-namespace Chappyware.Data.UnitTests
+namespace Data.UnitTests
 {
     [TestClass]
     public class GameStatFactoryTests
     {
+
+        [TestInitialize]
+        public void CreateExampleGameStat()
+        {
+            Shared.CreateGameStat();
+        }
+
         [TestMethod]
         public void GetAllGameTest()
         {
 
             GameStatFactory gameFactory = GameStatFactory.Instance;
 
-            GameStatCollection games = gameFactory.GetGames();
-
-
+            List<GameStat> games = gameFactory.GetGames();
+            
             Assert.IsNotNull(games);
         }
 
@@ -60,9 +67,9 @@ namespace Chappyware.Data.UnitTests
 
             GameStatFactory gameFactory = GameStatFactory.Instance;
 
-            GameStatCollection games = gameFactory.GetGames();
+            List<GameStat> games = gameFactory.GetGames();
 
-            GameStat stat = games.GameStats.First();
+            GameStat stat = games.First();
 
             int homeGoals = stat.HomeTeamPlayerStats.Values.SingleOrDefault(p => p.Name == "TOTAL").Goals;
 

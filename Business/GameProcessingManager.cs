@@ -1,15 +1,17 @@
 ﻿using Chappyware.Data;
-using Chappyware.Data.DataObjects;
 using Chappyware.Data.DataSources;
-using Chappyware.Data.Storage;
+using Chappyware.Data.Factories;
+using Core.Data.DataObjects;
+using Core.Data.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Chappyware.Business
 {
-    class GameProcessingManager
+    public class GameProcessingManager
     {
-        public void ProcessAllNewGames()
+        public void DownloadAndCreateGameFiles()
         {
             HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
             GameStatStore gameStore = new GameStatStore();
@@ -42,12 +44,45 @@ namespace Chappyware.Business
             }
         }
 
+        public void UpdatePlayerStatFiles()
+        {
+            GameStatFactory gameFactory = GameStatFactory.Instance;
+
+            PlayerFactory playerFactory = PlayerFactory.Instance;
+            
+            List<GameStat> allStoredGames = gameFactory.GetGames();
+
+            foreach(GameStat game in allStoredGames)
+            {
+                foreach(string playerName in game.AwayTeamPlayerStats.Keys)
+                {
+                    // skip the 'total' player game stats
+                    if (playerName.Equals("TOTAL", StringComparison.InvariantCultureIgnoreCase)) continue;
+
+                    // get the player
+                    PlayerGameStat playerGameStat = game.AwayTeamPlayerStats[playerName];
+                    Player updatePlayer = playerFactory.GetPlayer(playerName, game.AwayTeamCode);
+
+                    // create the player record if new
+                    if(updatePlayer == null)
+                    {
+                        updatePlayer = playerFactory.CreatePlayer(playerGameStat.Name, playerGameStat.TeamCode);
+                    }
+
+                    // add the game stat and store
+                    updatePlayer.AddPlayerGameStat(playerGameStat);
+                    playerFactory.UpdatePlayer(updatePlayer);
+                }
+
+            }
+        }
+
         private List<string> FilterOutAlreadyStoredGames(List<string> allGameUrls)
         {
             GameStatFactory gameStatFactory = GameStatFactory.Instance;
-            GameStatCollection allStoredGameStats = gameStatFactory.GetGames();
+            List<GameStat> allStoredGameStats = gameStatFactory.GetGames();
 
-            var newGameUrls = allGameUrls.Where(url => !allStoredGameStats.GameStats.Any(exitingUrl => exitingUrl.Equals(url)));
+            var newGameUrls = allGameUrls.Where(url => !allStoredGameStats.Any(exitingUrl => exitingUrl.Equals(url)));
             return newGameUrls.ToList();
         }
     }

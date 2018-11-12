@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chappyware.Data
+namespace Core.Data.DataObjects
 {
     public class PlayerGameStat
     {

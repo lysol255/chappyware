@@ -1,6 +1,6 @@
 ﻿using Chappyware.Data.Factories;
+using Core.Data.DataObjects;
 using System;
-using System.Linq;
 
 namespace Chappyware.Data
 {
@@ -37,14 +37,7 @@ namespace Chappyware.Data
         {
             get
             {
-                var games = from gameStat in Player.GameStats.PlayerStats
-                            where gameStat.GameDate >= OwnedStartDate
-                            &&
-                            gameStat.GameDate < OwnedEndDate
-                            select gameStat;
-
-
-                return games.Count();
+                return 0;
             }
         }
 

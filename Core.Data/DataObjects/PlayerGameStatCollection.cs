@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Chappyware.Data.DataObjects
+namespace Core.Data.DataObjects
 {
     public class PlayerGameStatCollection
     {

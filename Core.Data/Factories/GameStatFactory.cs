@@ -1,11 +1,9 @@
-﻿using Chappyware.Data.DataObjects;
-using Chappyware.Data.DataSources;
-using Chappyware.Data.Storage;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System;
-using Chappyware.Data.Factories;
+using System.IO;
+using Newtonsoft.Json;
+using Core.Data.DataObjects;
+using Core.Data.Storage;
 
 namespace Chappyware.Data
 {
@@ -13,7 +11,7 @@ namespace Chappyware.Data
     {
 
         private static GameStatFactory _Instance;
-        private GameStatCollection _AllGameStats;
+        private List<GameStat> _GameStats;
 
         public static GameStatFactory Instance
         {
@@ -29,63 +27,69 @@ namespace Chappyware.Data
 
         private GameStatFactory()
         {
-            Dictionary<string, GameStat> playerGameStats = StorageFactory.Instance.LoadPersistedGameStats();
-            GameStatCollection allGames = new GameStatCollection(playerGameStats.Values.ToList());
-            
-            _AllGameStats = allGames;
+            _GameStats = new List<GameStat>();
+            List<string> storedGameFiles = DataFileUtilities.GetGameStatFiles();
+            foreach(string fileName in storedGameFiles)
+            {
+                // read all saved gamestats and make gamestat objects
+                string serializedGameStats = File.ReadAllText(fileName);
+                GameStat storedGameStat = JsonConvert.DeserializeObject<GameStat>(serializedGameStats);
+                _GameStats.Add(storedGameStat);
+            }
+
         }
         
-        public GameStatCollection GetGames()
+        public List<GameStat> GetGames()
         {
-            return _AllGameStats;
+            return _GameStats;
         }
 
         public GameStat GetGame(string gameUrl)
         {
-            GameStat gameStats = _AllGameStats.GameStats.SingleOrDefault(g => g.GameUrl == gameUrl);
+            GameStat gameStats = _GameStats.SingleOrDefault(g => g.GameUrl == gameUrl);
             return gameStats;
         }
 
         public List<GameStat> FindGamesForTeam(string teamCode)
         {
-            var games = _AllGameStats.GameStats.Where(g => g.AwayTeamCode == teamCode
+            var games = _GameStats.Where(g => g.AwayTeamCode == teamCode
                     ||
                     g.HomeTeamCode == teamCode);
             return games.ToList();
         }
 
-        public void ReprocessGamesForPlayer(string playerName, string teamCode)
-        {
-            List<GameStat> playerGames = FindGamesForPlayer(NormalizePlayerName(playerName));
+        //public void ReprocessGamesForPlayer(string playerName, string teamCode)
+        //{
+        //    List<GameStat> playerGames = FindGamesForPlayer(NormalizePlayerName(playerName));
 
-            HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
+        //    HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
 
-            Dictionary<string, GameStat> playerGameStats = StorageFactory.Instance.LoadPersistedGameStats();
+        //    Dictionary<string, GameStat> playerGameStats = StorageFactory.Instance.LoadPersistedGameStats();
 
-            GameStat correctedGameStat = null;
+        //    GameStat correctedGameStat = null;
 
-            // reprocess the games
-            foreach (GameStat game in playerGames)
-            {
-                correctedGameStat = statSource.ProcessGame(game.GameUrl);
+        //    // reprocess the games
+        //    foreach (GameStat game in playerGames)
+        //    {
+        //        correctedGameStat = statSource.ProcessGame(game.GameUrl);
 
-                if (playerGameStats.ContainsKey(game.GameUrl))
-                {
-                    playerGameStats[game.GameUrl] = correctedGameStat;
-                }
+        //        if (playerGameStats.ContainsKey(game.GameUrl))
+        //        {
+        //            playerGameStats[game.GameUrl] = correctedGameStat;
+        //        }
 
-                //stop reprocessing if the player stats are now correct
-                if(ArePlayerStatsCorrect(playerName, teamCode))
-                {
-                    break;
-                }
-            }
+        //        //stop reprocessing if the player stats are now correct
+        //        if(ArePlayerStatsCorrect(playerName, teamCode))
+        //        {
+        //            break;
+        //        }
+        //    }
 
-            // save back the corrections
+        //    // save back the corrections
 
-            StorageFactory.Instance.SavePersistedGameStats(playerGameStats);
+        //    StorageFactory.Instance.SavePersistedGameStats(playerGameStats);
 
-        }
+        //}
 
         private bool ArePlayerStatsCorrect(string playerName, string teamCode)
         {
@@ -112,7 +116,7 @@ namespace Chappyware.Data
             List<GameStat> playerGames = new List<GameStat>();
             string normalizedSearchPlayerName = playerName.ToLowerInvariant();
 
-            foreach (GameStat gameStat in _AllGameStats.GameStats)
+            foreach (GameStat gameStat in _GameStats)
             {
 
                 if (gameStat.AwayTeamPlayerStats.Where(g=> NormalizePlayerName(g.Key) == normalizedSearchPlayerName).Count() > 0)

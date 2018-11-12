@@ -1,4 +1,4 @@
-﻿using Chappyware.Data.DataObjects;
+﻿using Core.Data.DataObjects;
 using System.Collections.Generic;
 
 namespace Chappyware.Data

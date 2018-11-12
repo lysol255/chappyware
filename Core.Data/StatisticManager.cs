@@ -1,8 +1,7 @@
 ﻿using Chappyware.Data;
-using Chappyware.Data.Storage;
+using Core.Data.DataObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Chappyware.Business
 {
@@ -10,8 +9,7 @@ namespace Chappyware.Business
     {
         public List<Player> GetHistorialPlayerStatistics()
         {
-            List<Player> currentPlayers = StorageFactory.Instance.LoadPersistedStatSource();
-            return currentPlayers;
+            throw new NotImplementedException();
         }
 
         public static void UpdatePlayerStatistics(List<Player> currentPlayerStats, IStatSource newStats)

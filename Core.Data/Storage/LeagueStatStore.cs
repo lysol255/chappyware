@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Chappyware.Data;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Chappyware.Data.Storage
+namespace Core.Data.Storage
 {
     public class LeagueStatStore
     {

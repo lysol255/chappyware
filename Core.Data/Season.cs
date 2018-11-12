@@ -5,33 +5,24 @@ namespace Chappyware.Data
     public class Season
     {
 
-        public const int CURRENT_SEASON_YEAR = 2017;
+        public const int CURRENT_SEASON_YEAR = 2018;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public static DateTime GetSeasonStartDate(int year)
+        public static DateTime GetSeasonStartDate()
         {
             DateTime seasonStart = DateTime.MinValue;
-            if (year == 2017)
-            {
-                seasonStart = new DateTime(2017, 10, 01);
-            }
-
+            seasonStart = new DateTime(CURRENT_SEASON_YEAR, 10, 01);
             return seasonStart;
         }
 
         public static DateTime GetSeasonEndDate(int year)
         {
-
             DateTime seasonEnd = DateTime.MinValue;
-            if (year == 2017)
-            {
-                seasonEnd = new DateTime(2018, 05, 04);
-            }
-
+            seasonEnd = new DateTime(CURRENT_SEASON_YEAR, 05, 04);
             return seasonEnd;
 
         }

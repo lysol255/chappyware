@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.Linq;
-using Chappyware.Data.DataObjects;
 using System.Threading;
+using Core.Data.DataObjects;
 
 namespace Chappyware.Data.DataSources
 {
@@ -31,7 +30,7 @@ namespace Chappyware.Data.DataSources
 
         // Urls
         private const string BaseURL = "http://www.hockey-reference.com";
-        private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2018_games.html";
+        private const string AllGamesUrl = "http://www.hockey-reference.com/leagues/NHL_2019_games.html";
       
         public GameStat ProcessGame(string gameUrl)
         {

@@ -1,9 +1,7 @@
 ﻿using Chappyware.Data.Storage;
-using System;
+using Core.Data.DataObjects;
+using Core.Data.Storage;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chappyware.Data.Factories
 {
@@ -26,51 +24,32 @@ namespace Chappyware.Data.Factories
 
         private PlayerFactory()
         {
-            LeagueStatStore leagueStatsStore = new LeagueStatStore();
-            leagueStatsStore.Load();
-
-            _LeagueStats = leagueStatsStore.LeagueStats;
-
-            if (_LeagueStats != null)
-            {
-                DateTime newestRecord = _LeagueStats.Values.Max(s => s.RecordDate);
-                
-                // update the newest stat record
-                if (newestRecord < DateTime.Today)
-                {
-                    //UpdateLeagueStore(leagueStatsStore);
-
-                }
-            }
-            else
-            {
-                UpdateLeagueStore(leagueStatsStore);
-            }
 
         }
 
         private void UpdateLeagueStore(LeagueStatStore leagueStatsStore)
         {
-            HockeyReferenceDotComStatSource leagueStats = new HockeyReferenceDotComStatSource();
-            leagueStats.Initialize();
-            _LeagueStats = leagueStats.LoadLeagueStats();
-            leagueStatsStore.LeagueStats = _LeagueStats;
-            leagueStatsStore.Save();
+
         }
 
         public Player GetPlayer(string playerName, string teamCode)
         {
-            JsonStorage store = new JsonStorage();
-            //Player returnedPlayer = store.Get
-            return null;
+            PlayerStore playerStore = new PlayerStore();
+            Player searchPlayer = new Player(playerName, teamCode);
+            searchPlayer = playerStore.ReadPlayerRecord(searchPlayer.Id);
+            return searchPlayer;
         }
 
-        public void CreatePlayer(string playerName, string teamCode, int age)
+        public void UpdatePlayer(Player player)
         {
-            Player newPlayer = new Player(playerName, teamCode, age);
-
-
+            PlayerStore playerStore = new PlayerStore();
+            playerStore.UpdatePlayerRecord(player);
         }
 
+        public Player CreatePlayer(string name, string teamCode)
+        {
+            Player p = new Player(name, teamCode);
+            return p;
+        }
     }
 }

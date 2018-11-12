@@ -1,26 +1,17 @@
-﻿using Chappyware.Data.DataObjects;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using Core.Data.DataObjects;
+using Chappyware.Data;
 
-namespace Chappyware.Data.Storage
+namespace Core.Data.Storage
 {
     public class JsonStorage
     {
         private List<Player> _PlayerStats;
         private Dictionary<string, GameStat> _GameStats;
         private List<FantasyLeague> _Leagues;
-
-        public List<FantasyLeague> LoadFantasyLeagues()
-        {
-            if (_Leagues == null)
-            {
-                string seralizedleagues = File.ReadAllText(DataFileUtilities.GetLeagueFileName());
-                _Leagues = JsonConvert.DeserializeObject<List<FantasyLeague>>(seralizedleagues);
-            }
-            return _Leagues;
-        }
 
         public List<Player> LoadPlayers()
         {
@@ -31,13 +22,7 @@ namespace Chappyware.Data.Storage
             }
             return _PlayerStats;
         }
-
-        public void SaveFantasyLeagues(List<FantasyLeague> fantasyLeagues)
-        {
-            string serializedLeagues = JsonConvert.SerializeObject(fantasyLeagues);
-            File.WriteAllText(DataFileUtilities.GetLeagueFileName(), serializedLeagues);
-        }
-        
+       
         public void SavePlayers(List<Player> players)
         {
             string seralizedPlayers = JsonConvert.SerializeObject(players);

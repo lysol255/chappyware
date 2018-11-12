@@ -1,11 +1,10 @@
-﻿using Chappyware.Data.DataObjects;
-using Chappyware.Logging;
+﻿using Chappyware.Logging;
+using Core.Data.DataObjects;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
-namespace Chappyware.Data.Storage
+namespace Core.Data.Storage
 {
     public class GameStatStore
     {        
@@ -22,7 +21,7 @@ namespace Chappyware.Data.Storage
             }
             catch (Exception e)
             {
-                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be saved to '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+                Log.LogEvent($"Game with url '{gameStat.GameUrl}' could not be saved to '{gameJsonFileName}'.  Exception: {e.StackTrace}");
             }
         }
 
@@ -37,7 +36,7 @@ namespace Chappyware.Data.Storage
             }
             catch (Exception e)
             {
-                Log.LogStorageEvent($"Game with url '{url}' could not be loaded from '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+                Log.LogEvent($"Game with url '{url}' could not be loaded from '{gameJsonFileName}'.  Exception: {e.StackTrace}");
             }
 
             return readStat;
@@ -53,7 +52,7 @@ namespace Chappyware.Data.Storage
             }
             catch (Exception e)
             {
-                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be updated, reverting '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+                Log.LogEvent($"Game with url '{gameStat.GameUrl}' could not be updated, reverting '{gameJsonFileName}'.  Exception: {e.StackTrace}");
             }
         }
 
@@ -66,7 +65,7 @@ namespace Chappyware.Data.Storage
             }
             catch (Exception e)
             {
-                Log.LogStorageEvent($"Game with url '{gameStat.GameUrl}' could not be deleted: '{gameJsonFileName}'.  Exception: {e.StackTrace}");
+                Log.LogEvent($"Game with url '{gameStat.GameUrl}' could not be deleted: '{gameJsonFileName}'.  Exception: {e.StackTrace}");
             }
         }
     }

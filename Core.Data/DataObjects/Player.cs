@@ -1,41 +1,68 @@
-﻿using Chappyware.Data.DataObjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chappyware.Data
+namespace Core.Data.DataObjects
 {
     public class Player
     {
         public string Name { get; set; }
         public string CurrentTeam { get; set; }
-        public string Id { get; set; }
-        public int Age { get; set; }
         
-        public PlayerGameStatCollection GameStats { get; set; }
+        public int Age { get; set; }
+
+        public string Id
+        {
+            get
+            {
+                string hash = $"{Name.Trim().Replace(" ","")}_{CurrentTeam}";
+                return hash;
+            }
+        }
+
+        public PlayerGameStatCollection PlayerGameStats { get; set; }
 
         #region Constructors
 
-        public Player(string name, string currentTeam, int age)
+        public Player(string name, string currentTeam)
         {
-            GameStats = new PlayerGameStatCollection();
+            PlayerGameStats = new PlayerGameStatCollection();
             Name = name;
             CurrentTeam = currentTeam;
-            Age = age;
         }
 
-        public Player() { }
+        public Player()
+        {
+
+        }
 
         public Player(string playerName, List<PlayerGameStat> playerGameStats)
         {
-            GameStats = new PlayerGameStatCollection();
-            GameStats.PlayerName = Name;
-            GameStats.PlayerStats = playerGameStats;
+            PlayerGameStats = new PlayerGameStatCollection();
+            PlayerGameStats.PlayerName = Name;
+            PlayerGameStats.PlayerStats = playerGameStats;
         }
 
         #endregion
 
         #region Public Methods
+
+        public void AddPlayerGameStat(PlayerGameStat playerGameStat)
+        {
+            PlayerGameStats.PlayerStats.Add(playerGameStat);
+        }
+        
+        public int GetGamesPlayed(DateTime startDate, DateTime endTime)
+        {
+            var games = from gameStat in PlayerGameStats.PlayerStats
+                        where gameStat.GameDate >= startDate
+                        &&
+                        gameStat.GameDate < endTime
+                        select gameStat;
+
+
+            return games.Count();
+        }
 
         public int GetGoals (DateTime startDate, DateTime endDate)
         {
@@ -56,9 +83,9 @@ namespace Chappyware.Data
             {
                 // need to fix
                 string timeOnIce = "0:00";
-                if (GameStats.PlayerStats.Count > 0)
+                if (PlayerGameStats.PlayerStats.Count > 0)
                 {
-                    timeOnIce = GameStats.PlayerStats.Last().TOI;
+                    timeOnIce = PlayerGameStats.PlayerStats.Last().TOI;
                 }
                 return timeOnIce;
             }
@@ -145,7 +172,7 @@ namespace Chappyware.Data
 
         private List<PlayerGameStat> GetPlayerStatsInRange(DateTime startDate, DateTime endDate)
         {
-            var playerStats = from playerStat in GameStats.PlayerStats
+            var playerStats = from playerStat in PlayerGameStats.PlayerStats
                               where playerStat.GameDate >= startDate
                                   &&
                                   playerStat.GameDate < endDate

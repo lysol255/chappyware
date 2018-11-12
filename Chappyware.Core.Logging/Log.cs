@@ -9,7 +9,7 @@ namespace Chappyware.Logging
     public class Log
     {
 
-        public static void LogStorageEvent(string message)
+        public static void LogEvent(string message)
         {
 
         }

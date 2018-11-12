@@ -1,13 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Linq;
+using System.Collections.Generic;
 
-namespace Chappyware.Data.Storage
+namespace Core.Data.Storage
 {
     public class DataFileUtilities
     {
-
+        private const string GameFileSuffix = "game.json";
+        private const string PlayerFileSuffix = ".player.json";
         private static string _DefaultStatFileName = "Chappystats.txt";
         private static string _DefaultLeagueFileName = "TeamImport.txt";
         private static string _DefaultGameStats = "GameStats.txt";
@@ -53,19 +54,44 @@ namespace Chappyware.Data.Storage
         }
 
         public static string GetGameStatFilePath(string gameUrl)
-        {            
-            string currentDirectory = GetCurrentDirectory();
-
-            currentDirectory = Path.Combine(currentDirectory, "..", GetFileName(gameUrl));
+        {
+            string currentDirectory = Path.Combine(GetDataFileDirectory(), GetFileName(gameUrl));
 
             return currentDirectory;
+        }
+
+        private static string GetDataFileDirectory()
+        {
+            string currentDirectory = GetCurrentDirectory();
+
+            currentDirectory = Path.Combine(currentDirectory, "..");
+
+            return currentDirectory;
+        }
+
+        public static List<string> GetGameStatFiles()
+        {
+            string currentDirectory = GetDataFileDirectory();
+
+            DirectoryInfo currDirectory = new DirectoryInfo(currentDirectory);
+            FileInfo[] gameStatFiles = currDirectory.GetFiles("*"+ GameFileSuffix);
+            return gameStatFiles.Select(f => f.FullName).ToList();
         }
 
         public static string GetPlayerDatabaseFilePath(string playerId)
         {
             string currentDirectory = GetCurrentDirectory();
 
-            currentDirectory = Path.Combine(currentDirectory, "..", $"PlayerDatabase.{playerId}.json");
+            currentDirectory = Path.Combine(currentDirectory, "..", $"PlayerDatabase.{playerId}{PlayerFileSuffix}");
+
+            return currentDirectory;
+        }
+
+        public static string GetLeagueFilePath(string leagueName)
+        {
+            string currentDirectory = GetCurrentDirectory();
+
+            currentDirectory = Path.Combine(currentDirectory, "..", $"League.{leagueName}.json");
 
             return currentDirectory;
         }
@@ -77,17 +103,9 @@ namespace Chappyware.Data.Storage
             // something like 201710040EDM.html
             string lastPartOfTheUrl = urlParts.ToList().Last();
 
-            lastPartOfTheUrl = lastPartOfTheUrl.Replace("html", "json");
+            lastPartOfTheUrl = lastPartOfTheUrl.Replace("html", GameFileSuffix);
 
             return lastPartOfTheUrl;
-        }
-
-        public static string GetLeagueFileName()
-        {
-            string currentDirectory = GetCurrentDirectory();
-
-            return Path.Combine(currentDirectory, "..\\App_Data", _DefaultLeagueFileName);
-
         }
 
         private static string GetCurrentDirectory()

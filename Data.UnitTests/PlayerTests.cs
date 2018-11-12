@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Chappyware.Data.Factories;
-using System.Linq;
+using Chappyware.Data;
+using Core.Data.DataObjects;
 
-namespace Chappyware.Data.UnitTests
+namespace Data.UnitTests
 {
     [TestClass]
     public class PlayerTests
@@ -16,8 +17,8 @@ namespace Chappyware.Data.UnitTests
 
             Player p = factory.GetPlayer("Duncan Keith", "CHI");
 
-            int goals = p.GetGoals(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
-            int assists = p.GetAssists(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+            int goals = p.GetGoals(Season.GetSeasonStartDate(), DateTime.Today);
+            int assists = p.GetAssists(Season.GetSeasonStartDate(), DateTime.Today);
 
 
         }
@@ -30,8 +31,8 @@ namespace Chappyware.Data.UnitTests
 
             Player p = factory.GetPlayer("Mathew Barzal", "NYI");
 
-            int goals = p.GetGoals(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
-            int assists = p.GetAssists(Season.GetSeasonStartDate(Season.CURRENT_SEASON_YEAR), DateTime.Today);
+            int goals = p.GetGoals(Season.GetSeasonStartDate(), DateTime.Today);
+            int assists = p.GetAssists(Season.GetSeasonStartDate(), DateTime.Today);
 
             int goalsFromTrade = p.GetGoals(new DateTime(2017,11,30), DateTime.Today);
             int assistsFromTrade = p.GetAssists(new DateTime(2017, 11, 30), DateTime.Today);
@@ -68,7 +69,7 @@ namespace Chappyware.Data.UnitTests
             Player p = factory.GetPlayer("Duncan Keith", "CHI");
 
             GameStatFactory gameStatFactory = GameStatFactory.Instance;
-            gameStatFactory.ReprocessGamesForPlayer(p.Name, p.CurrentTeam);
+            //gameStatFactory.ReprocessGamesForPlayer(p.Name, p.CurrentTeam);
 
         }
     }

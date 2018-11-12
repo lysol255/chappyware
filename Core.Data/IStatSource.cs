@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Data.DataObjects;
+using System.Collections.Generic;
 
 namespace Chappyware.Data
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Chappyware.Data.DataObjects
+namespace Core.Data.DataObjects
 {
     public class GameStatCollection
     {        

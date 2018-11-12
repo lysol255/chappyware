@@ -1,39 +1,47 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 using Newtonsoft.Json;
-using Chappyware.Data.Storage;
-using Chappyware.Data.DataObjects;
-using Chappyware.Data.DataSources;
+using Core.Data.Storage;
+using Core.Data.DataObjects;
 
-namespace Chappyware.Data.UnitTests
+namespace Data.UnitTests
 {
     [TestClass]
     public class GameStatStoreTests
     {
-        private string gameUrl = "http://www.hockey-reference.com/boxscores/201710050OTT.html";
         
         [TestInitialize]
         public void CreateExampleGameStat()
         {
-            HockeyReferenceGameStatSource statSource = new HockeyReferenceGameStatSource();
-            
-            // ensure that the example stat file exists for the tests
-            if (!File.Exists(DataFileUtilities.GetGameStatFilePath(gameUrl)))
-            {
-                GameStat exampleStat = statSource.ProcessGame(gameUrl);
-
-                string serializedGameStats = JsonConvert.SerializeObject(exampleStat);
-                File.WriteAllText(DataFileUtilities.GetGameStatFilePath(gameUrl), serializedGameStats);
-            }
-            
+            Shared.CreateGameStat();
         }
 
         [TestMethod]
         public void TestReadGameStat()
         {
             GameStatStore store = new GameStatStore();
-            GameStat stat = store.ReadGameStat(gameUrl);
+            GameStat stat = store.ReadGameStat(Shared.GAME_URL);
             Assert.IsNotNull(stat);
+        }
+
+        [TestMethod]
+        public void TestUpdateStat()
+        {
+            GameStatStore store = new GameStatStore();
+            GameStat stat = store.ReadGameStat(Shared.GAME_URL);
+
+            string backupJson = JsonConvert.SerializeObject(stat);
+            GameStat backup = JsonConvert.DeserializeObject<GameStat>(backupJson);
+
+            stat.AwayTeamCode = "TEST";
+
+            store.UpdateGameStat(stat);
+            stat = null;
+            stat = store.ReadGameStat(Shared.GAME_URL);
+
+            Assert.IsTrue(stat.AwayTeamCode.Equals("TEST"));
+
+            // reset back to original state
+            store.UpdateGameStat(backup);
         }
 
 

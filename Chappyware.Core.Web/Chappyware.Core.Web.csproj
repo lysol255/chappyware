@@ -79,6 +79,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core.Data\Core.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="Scripts\typescript\Analytics.ts" />
     <TypeScriptCompile Include="Scripts\typescript\Banner.ts" />
     <TypeScriptCompile Include="Scripts\typescript\FantasyLeague.ts" />
