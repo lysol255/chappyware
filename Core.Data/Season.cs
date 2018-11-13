@@ -22,7 +22,7 @@ namespace Chappyware.Data
         public static DateTime GetSeasonEndDate(int year)
         {
             DateTime seasonEnd = DateTime.MinValue;
-            seasonEnd = new DateTime(CURRENT_SEASON_YEAR, 05, 04);
+            seasonEnd = new DateTime(CURRENT_SEASON_YEAR+1, 06, 04);
             return seasonEnd;
 
         }

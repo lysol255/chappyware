@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Chappyware.Logging;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Chappyware.Data
+namespace Core.Data
 {
     public class FantasyTeam
     {
@@ -13,5 +15,23 @@ namespace Chappyware.Data
             OwnedPlayers = new List<FantasyPlayer>();
         }
     
+        public int GetTotalPoints()
+        {
+            int totalPoints = 0;
+            
+            foreach(FantasyPlayer fantasyPlayer in OwnedPlayers)
+            {
+                if (fantasyPlayer.Player == null)
+                {
+                    Log.LogEvent($"Could not find a player for fantasy player {fantasyPlayer.PlayerName}");
+                    continue;
+                }
+
+                totalPoints += fantasyPlayer.Player.GetAssists(fantasyPlayer.OwnedStartDate, fantasyPlayer.OwnedEndDate);
+                totalPoints += fantasyPlayer.Player.GetGoals(fantasyPlayer.OwnedStartDate, fantasyPlayer.OwnedEndDate);
+            }
+
+            return totalPoints;
+        }
     }
 }

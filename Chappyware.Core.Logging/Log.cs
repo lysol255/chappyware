@@ -11,7 +11,7 @@ namespace Chappyware.Logging
 
         public static void LogEvent(string message)
         {
-
+            System.Diagnostics.Debug.WriteLine("Logger: "  + message);
         }
 
     }

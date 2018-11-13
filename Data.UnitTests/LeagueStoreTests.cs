@@ -1,9 +1,6 @@
-﻿using Chappyware.Data;
-using Chappyware.Data.Storage;
-using Core.Data.DataObjects;
+﻿using Core.Data;
 using Core.Data.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.IO;
 

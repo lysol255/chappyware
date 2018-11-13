@@ -1,13 +1,14 @@
 ﻿using Chappyware.Data;
 using Chappyware.Data.Factories;
 using Chappyware.Logging;
+using Core.Data.DataObjects;
 using NotVisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Core.Data.DataObjects
+namespace Core.Data
 {
     public class League
     {

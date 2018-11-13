@@ -1,12 +1,9 @@
-﻿using Chappyware.Data;
-using Chappyware.Data.Factories;
-using Chappyware.Data.Storage;
-using NotVisualBasic.FileIO;
-using System;
+﻿using Chappyware.Logging;
+using Core.Data.Storage;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chappyware.Business
+namespace Core.Data
 {
     public class FantasyTeamManager
     {
@@ -29,37 +26,24 @@ namespace Chappyware.Business
 
         public List<FantasyTeam> GetTeamsForLeague(string leagueName)
         {
-            throw new NotImplementedException();
+            LeagueStore store = new LeagueStore();
+            League loadedLeague = store.ReadLeague(leagueName);
+
+            if (loadedLeague == null)
+            {
+                Log.LogEvent($"League {leagueName} could not be loaded.  Returning an empty league.");
+                loadedLeague = new League();
+                loadedLeague.Name = "unset";
+            }
+
+            return loadedLeague.GetTeams();
         }
 
         private FantasyTeamManager()
         {
             _LeagueCache = new List<FantasyLeague>();
         }
-
-        private FantasyLeague CreateLeague(string name)
-        {
-            FantasyLeague league = new FantasyLeague();
-            league.Name = name;
-            return league;
-        }
-
-        public FantasyLeague GetLeague(string leagueName)
-        {
-            FantasyLeague league = _LeagueCache.SingleOrDefault(l=>l.Name == leagueName);
-
-            if (league == null)
-            {
-                league = CreateLeague(leagueName);
-                _LeagueCache.Add(league);
-            }
-            return league;
-        }
-
-        public void ResetLeagueCache(string leagueName)
-        {
-            _LeagueCache.RemoveAll(l => l.Name == leagueName);
-        }
+               
        
     }
 }

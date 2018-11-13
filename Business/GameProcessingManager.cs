@@ -43,7 +43,7 @@ namespace Chappyware.Business
                 }
             }
         }
-
+        
         public void UpdatePlayerStatFiles()
         {
             GameStatFactory gameFactory = GameStatFactory.Instance;
@@ -58,23 +58,36 @@ namespace Chappyware.Business
                 {
                     // skip the 'total' player game stats
                     if (playerName.Equals("TOTAL", StringComparison.InvariantCultureIgnoreCase)) continue;
-
-                    // get the player
                     PlayerGameStat playerGameStat = game.AwayTeamPlayerStats[playerName];
-                    Player updatePlayer = playerFactory.GetPlayer(playerName, game.AwayTeamCode);
 
-                    // create the player record if new
-                    if(updatePlayer == null)
-                    {
-                        updatePlayer = playerFactory.CreatePlayer(playerGameStat.Name, playerGameStat.TeamCode);
-                    }
-
-                    // add the game stat and store
-                    updatePlayer.AddPlayerGameStat(playerGameStat);
-                    playerFactory.UpdatePlayer(updatePlayer);
+                    AddPlayerStat(playerName, game.AwayTeamCode, playerFactory, playerGameStat);
                 }
 
+                foreach (string playerName in game.HomeTeamPlayerStats.Keys)
+                {
+                    // skip the 'total' player game stats
+                    if (playerName.Equals("TOTAL", StringComparison.InvariantCultureIgnoreCase)) continue;
+                    PlayerGameStat playerGameStat = game.HomeTeamPlayerStats[playerName];
+                    
+                    AddPlayerStat(playerName, game.HomeTeamCode, playerFactory, playerGameStat);
+                }
             }
+        }
+
+        private void AddPlayerStat(string playerName, string teamCode, PlayerFactory playerFactory, PlayerGameStat playerGameStat)
+        {            
+            // get the player
+            Player updatePlayer = playerFactory.GetPlayer(playerName, teamCode);
+
+            // create the player record if new
+            if (updatePlayer == null)
+            {
+                updatePlayer = playerFactory.CreatePlayer(playerGameStat.Name, playerGameStat.TeamCode);
+            }
+
+            updatePlayer.PlayerGameStats.SetGameStat(playerGameStat);
+
+            playerFactory.UpdatePlayer(updatePlayer);
         }
 
         private List<string> FilterOutAlreadyStoredGames(List<string> allGameUrls)
@@ -82,7 +95,7 @@ namespace Chappyware.Business
             GameStatFactory gameStatFactory = GameStatFactory.Instance;
             List<GameStat> allStoredGameStats = gameStatFactory.GetGames();
 
-            var newGameUrls = allGameUrls.Where(url => !allStoredGameStats.Any(exitingUrl => exitingUrl.Equals(url)));
+            var newGameUrls = allGameUrls.Where(url => !allStoredGameStats.Any(existingGame => existingGame.GameUrl.Equals(url,StringComparison.InvariantCultureIgnoreCase)));
             return newGameUrls.ToList();
         }
     }

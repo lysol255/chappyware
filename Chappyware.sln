@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chappyware.Core.Logging", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chappyware.Core.Web", "Chappyware.Core.Web\Chappyware.Core.Web.csproj", "{298FB061-BA76-47EA-87DE-6DA736BE29C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{7CDA0A2B-B14D-4AE8-8F4F-9A45D179AEF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chappyware.Business", "Business\Chappyware.Business.csproj", "{7CDA0A2B-B14D-4AE8-8F4F-9A45D179AEF3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Data", "Core.Data\Core.Data.csproj", "{A8976778-F300-45B9-A023-5DFB7DB17CDD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.UnitTests", "Data.UnitTests\Data.UnitTests.csproj", "{BD07F0E8-6C1A-4B69-8CBD-BF9F1D664CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Tests", "Business.Tests\Business.Tests.csproj", "{07624C02-5224-4555-9FB2-EEF9C4AD4FC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Tests", "Business.Tests\Business.Tests.csproj", "{07624C02-5224-4555-9FB2-EEF9C4AD4FC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

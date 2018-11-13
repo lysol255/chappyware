@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Data.DataObjects
 {
@@ -14,5 +16,19 @@ namespace Core.Data.DataObjects
             PlayerStats = new List<PlayerGameStat>();
         }
 
+        public void SetGameStat(PlayerGameStat playerGameStat)
+        {
+            // find by day
+            PlayerGameStat foundExistingPlayerGameStat = PlayerStats.SingleOrDefault(pg => pg.GameDate.CompareTo(playerGameStat.GameDate) == 0);
+            if (foundExistingPlayerGameStat != null)
+            {
+                // replace
+                foundExistingPlayerGameStat = playerGameStat;
+            }
+            else
+            {
+                PlayerStats.Add(playerGameStat);
+            }
+        }
     }
 }

@@ -1,8 +1,9 @@
-﻿using Chappyware.Data.Factories;
+﻿using Chappyware.Data;
+using Chappyware.Data.Factories;
 using Core.Data.DataObjects;
 using System;
 
-namespace Chappyware.Data
+namespace Core.Data
 {
     public class FantasyPlayer
     {
@@ -13,6 +14,14 @@ namespace Chappyware.Data
         {
             _PlayerName = player.Name;
             _TeamName = player.CurrentTeam;
+        }
+
+        public string PlayerName
+        {
+            get
+            {
+                return _PlayerName;
+            }
         }
 
         /// <summary>
@@ -32,12 +41,11 @@ namespace Chappyware.Data
 
         public int DraftRound { get; set; }
 
-        // Must fix this later and make it relative to draft dates
         public int GamesPlayed
         {
             get
             {
-                return 0;
+                return Player.PlayerGameStats.PlayerStats.Count;
             }
         }
 

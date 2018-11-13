@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Chappyware.Data
+namespace Core.Data
 {
     public class FantasyLeague
     {

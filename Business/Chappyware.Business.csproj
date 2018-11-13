@@ -5,11 +5,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <AssemblyName>Chappyware.Business</AssemblyName>
+    <RootNamespace>Chappyware.Business</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CsvTextFieldParser" Version="1.1.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Data\Core.Data.csproj" />

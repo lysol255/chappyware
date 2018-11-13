@@ -7,7 +7,9 @@ namespace Core.Data.DataObjects
     {
         //public const string https://www.hockey-reference.com/boxscores/201710040EDM.html;
 
-        public const string UrlToRemove = @"http://www.hockey-reference.com/boxscores/";
+        public const string UrlToRemoveHttp = @"http://www.hockey-reference.com/boxscores/";
+        public const string UrlToRemoveHttps = @"https://www.hockey-reference.com/boxscores/";
+
 
         public string GameUrl { get; set; }
 
@@ -52,7 +54,8 @@ namespace Core.Data.DataObjects
 
         public DateTime GetGameDate()
         {
-            string gameDate = GameUrl.Replace(UrlToRemove,"");
+            string gameDate = GameUrl.Replace(UrlToRemoveHttp,"");
+            gameDate = gameDate.Replace(UrlToRemoveHttps, "");
             gameDate = gameDate.Replace(".html", "");
 
             string year = gameDate.Substring(0, 4);

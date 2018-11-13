@@ -1,4 +1,4 @@
-﻿namespace Chappyware.Data
+﻿namespace Core.Data
 {
     public class Owner
     {

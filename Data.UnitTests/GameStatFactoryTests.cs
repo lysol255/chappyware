@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using Chappyware.Data;
 using Core.Data.DataObjects;
+using Core.Data.Storage;
 
 namespace Data.UnitTests
 {

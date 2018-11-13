@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Threading;
 using Core.Data.DataObjects;
+using System;
 
 namespace Chappyware.Data.DataSources
 {
@@ -52,7 +53,9 @@ namespace Chappyware.Data.DataSources
             // get team code (3 letters, eg. CHI) 
             gameStats.HomeTeamCode = GetHomeTeamCode(gameUrl);
             gameStats.AwayTeamCode = GetAwayTeamCode(teamTableColelction, gameStats.HomeTeamCode);
-             
+
+            DateTime gameDate = gameStats.GetGameDate();
+            
             // iterate over each team table
             foreach(Match teamTable in teamTableColelction)
             {
@@ -60,12 +63,13 @@ namespace Chappyware.Data.DataSources
                 MatchCollection playerRows = playerRowRegex.Matches(teamTable.Value);
 
                 string teamCode = GetTeamCode(teamTable.Value);
-
+                
                 foreach(Match playerStat in playerRows)
                 {
 
                     PlayerGameStat playerGameStats = new PlayerGameStat();
                     playerGameStats.TeamCode = teamCode;
+                    playerGameStats.GameDate = gameDate;
 
                     // read out the stats
                     Regex statLineRegex = new Regex(StatLineRegex);
