@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Core.Data.DataObjects
 {
@@ -15,7 +16,7 @@ namespace Core.Data.DataObjects
         {
             get
             {
-                string hash = $"{Name.Trim().Replace(" ","")}_{CurrentTeam}";
+                string hash = $"{Regex.Replace(Name, @"\p{Z}", "")}_{CurrentTeam}";
                 return hash;
             }
         }
